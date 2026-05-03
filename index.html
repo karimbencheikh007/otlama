@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Otla.ma — Découvrez le Maroc autrement</title>
+<meta name="description" content="La plateforme du tourisme marocain. Hébergement, activités, guides, packs et plus.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════
+   OTLA.MA — Design System
+═══════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --teal:#1A7A7A;
+  --teal-d:#0D5C5C;
+  --teal-l:#E8F5F5;
+  --teal-m:#B2DFDF;
+  --gold:#F5A623;
+  --gold-d:#C4822A;
+  --navy:#1D3557;
+  --text:#111827;
+  --muted:#6B7280;
+  --border:#E5E7EB;
+  --bg:#F9FAFB;
+  --white:#FFFFFF;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.08);
+  --shadow:0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg:0 12px 40px rgba(0,0,0,0.12);
+  --radius:12px;
+  --radius-lg:16px;
+  --nav-h:64px;
+  --font:'Plus Jakarta Sans',-apple-system,sans-serif;
+}
+html[lang="ar"]{--font:'Cairo',sans-serif;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font);color:var(--text);background:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+/* ── UTILITAIRES ── */
+.container{max-width:1200px;margin:0 auto;padding:0 24px;}
+.hide{display:none!important;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--radius);font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;text-decoration:none;}
+.btn-primary{background:var(--teal);color:#fff;}
+.btn-primary:hover{background:var(--teal-d);}
+.btn-outline{background:transparent;color:var(--teal);border:1.5px solid var(--teal);}
+.btn-outline:hover{background:var(--teal-l);}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.badge-teal{background:var(--teal);color:#fff;}
+.badge-gold{background:var(--gold);color:#7A4A00;}
+.badge-verified{background:var(--teal-l);color:var(--teal-d);}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:var(--nav-h);
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+}
+.nav-inner{
+  width:100%;max-width:1400px;margin:0 auto;
+  padding:0 28px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+}
+.nav-logo{
+  font-size:22px;font-weight:800;color:var(--teal);
+  text-decoration:none;letter-spacing:-0.5px;flex-shrink:0;
+}
+.nav-logo span{color:var(--gold);}
+.nav-cats{display:flex;align-items:center;gap:2px;flex:1;justify-content:center;}
+.nav-cat{
+  padding:8px 14px;border-radius:var(--radius);
+  font-size:13.5px;font-weight:500;color:var(--muted);
+  cursor:pointer;border:none;background:none;
+  font-family:var(--font);transition:all .18s;white-space:nowrap;
+}
+.nav-cat:hover,.nav-cat.active{color:var(--teal);background:var(--teal-l);}
+.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.lang-btn{
+  display:flex;align-items:center;gap:5px;
+  padding:7px 12px;border:1px solid var(--border);
+  border-radius:var(--radius);font-size:13px;
+  cursor:pointer;background:none;font-family:var(--font);
+  color:var(--text);transition:border-color .18s;
+}
+.lang-btn:hover{border-color:var(--teal);}
+.nav-login{
+  padding:8px 16px;border:1.5px solid var(--border);
+  border-radius:var(--radius);font-size:13.5px;font-weight:600;
+  cursor:pointer;background:none;font-family:var(--font);
+  color:var(--text);transition:all .18s;
+}
+.nav-login:hover{border-color:var(--teal);color:var(--teal);}
+.nav-pro{
+  padding:8px 16px;background:var(--teal);
+  border-radius:var(--radius);font-size:13.5px;font-weight:700;
+  cursor:pointer;border:none;font-family:var(--font);
+  color:#fff;transition:background .18s;
+}
+.nav-pro:hover{background:var(--teal-d);}
+.hamburger{
+  display:none;flex-direction:column;gap:5px;
+  width:40px;height:40px;border:none;background:none;
+  cursor:pointer;align-items:center;justify-content:center;
+  border-radius:var(--radius);
+}
+.hamburger:hover{background:var(--bg);}
+.hamburger span{display:block;width:20px;height:1.5px;background:var(--text);border-radius:2px;}
+
+/* ── MOBILE MENU ── */
+.mobile-menu{
+  position:fixed;top:0;right:0;bottom:0;width:320px;
+  background:#fff;z-index:2000;
+  transform:translateX(100%);
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+  box-shadow:-8px 0 40px rgba(0,0,0,0.15);
+}
+.mobile-menu.open{transform:translateX(0);}
+.menu-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.4);z-index:1999;
+}
+.menu-overlay.open{display:block;}
+.menu-header{
+  background:var(--teal);padding:20px 22px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.menu-logo{font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.5px;}
+.menu-logo span{color:var(--gold);}
+.menu-close{
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,0.15);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:18px;
+}
+.menu-section-label{
+  font-size:10px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--teal);
+  padding:16px 20px 6px;
+}
+.menu-item{
+  display:flex;align-items:center;gap:14px;
+  padding:13px 20px;cursor:pointer;
+  border-bottom:1px solid #f5f5f5;
+  transition:background .13s;
+}
+.menu-item:hover{background:var(--teal-l);}
+.menu-icon{
+  width:38px;height:38px;border-radius:11px;
+  background:var(--teal-l);display:flex;
+  align-items:center;justify-content:center;flex-shrink:0;
+}
+.menu-icon svg{width:18px;height:18px;stroke:var(--teal);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.menu-item-text strong{display:block;font-size:14px;font-weight:600;color:var(--text);}
+.menu-item-text span{display:block;font-size:12px;color:var(--muted);margin-top:1px;}
+.menu-item-arrow{margin-left:auto;color:var(--muted);}
+.menu-pro-btn{
+  margin:16px 20px;background:var(--teal);
+  border-radius:var(--radius);padding:12px 16px;
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+  border:none;width:calc(100% - 40px);font-family:var(--font);
+}
+.menu-pro-btn svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;}
+.menu-pro-btn span{font-size:14px;font-weight:700;color:#fff;}
+.menu-lang{display:flex;gap:8px;padding:12px 20px 20px;}
+.menu-lang-btn{
+  flex:1;padding:8px;border-radius:9px;border:1.5px solid var(--border);
+  font-size:13px;font-weight:600;cursor:pointer;
+  background:none;font-family:var(--font);color:var(--muted);
+  text-align:center;transition:all .15s;
+}
+.menu-lang-btn.active{border-color:var(--teal);background:var(--teal-l);color:var(--teal);}
+
+/* ── HERO ── */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;
+  padding-top:var(--nav-h);overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=1800&q=85') center/cover no-repeat;
+  z-index:0;
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(13,92,92,0.92) 0%,rgba(26,122,122,0.75) 50%,rgba(0,0,0,0.3) 100%);
+  z-index:1;
+}
+.hero-content{
+  position:relative;z-index:2;
+  width:100%;padding:60px 24px;
+  max-width:1200px;margin:0 auto;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.25);
+  border-radius:20px;padding:6px 16px;margin-bottom:22px;
+  backdrop-filter:blur(8px);
+}
+.hero-tag span{font-size:12.5px;color:rgba(255,255,255,0.9);font-weight:500;}
+.hero-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.hero-title{
+  font-size:clamp(36px,5vw,68px);font-weight:800;
+  color:#fff;line-height:1.1;letter-spacing:-1.5px;
+  margin-bottom:18px;
+}
+.hero-title em{color:var(--gold);font-style:normal;}
+.hero-sub{
+  font-size:clamp(15px,2vw,18px);color:rgba(255,255,255,0.8);
+  margin-bottom:36px;line-height:1.65;max-width:520px;font-weight:400;
+}
+
+/* ── SEARCH BOX ── */
+.search-box{
+  background:#fff;border-radius:var(--radius-lg);
+  padding:8px 8px 8px 8px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.25);
+  max-width:720px;
+}
+.search-tabs{
+  display:flex;gap:4px;padding:4px 4px 10px;
+  border-bottom:1px solid var(--border);margin-bottom:8px;
+}
+.search-tab{
+  padding:7px 16px;border-radius:var(--radius);
+  font-size:13px;font-weight:600;cursor:pointer;
+  border:none;background:none;font-family:var(--font);
+  color:var(--muted);transition:all .18s;
+}
+.search-tab.active{background:var(--teal);color:#fff;}
+.search-tab:hover:not(.active){background:var(--teal-l);color:var(--teal);}
+.search-fields{
+  display:grid;grid-template-columns:1fr 1fr 1fr auto;
+  gap:8px;align-items:end;padding:0 4px 4px;
+}
+.search-field{display:flex;flex-direction:column;gap:4px;}
+.search-field label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);padding:0 4px;}
+.search-field input,.search-field select{
+  padding:10px 14px;border:1.5px solid var(--border);
+  border-radius:var(--radius);font-family:var(--font);
+  font-size:14px;color:var(--text);outline:none;
+  transition:border-color .18s;background:#fafafa;
+}
+.search-field input:focus,.search-field select:focus{border-color:var(--teal);background:#fff;}
+.search-field input::placeholder{color:#bbb;}
+.search-btn{
+  padding:12px 22px;background:var(--teal);color:#fff;
+  border:none;border-radius:var(--radius);cursor:pointer;
+  font-family:var(--font);font-weight:700;font-size:14px;
+  display:flex;align-items:center;gap:8px;
+  transition:background .2s;white-space:nowrap;height:46px;
+}
+.search-btn:hover{background:var(--teal-d);}
+.search-btn svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;}
+
+/* ── HERO STATS ── */
+.hero-stats{
+  display:flex;gap:32px;margin-top:28px;
+}
+.hero-stat{}
+.hero-stat-n{font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.5px;}
+.hero-stat-l{font-size:12px;color:rgba(255,255,255,0.65);margin-top:2px;}
+
+/* ── SECTIONS ── */
+.section{padding:72px 0;}
+.section-header{margin-bottom:32px;}
+.section-label{
+  font-size:11px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:8px;
+}
+.section-title{
+  font-size:clamp(24px,3vw,34px);font-weight:800;
+  color:var(--text);letter-spacing:-0.5px;line-height:1.2;
+}
+.section-sub{font-size:16px;color:var(--muted);margin-top:8px;line-height:1.6;}
+.section-header-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;}
+.see-all{
+  font-size:13.5px;font-weight:600;color:var(--teal);
+  text-decoration:none;white-space:nowrap;
+  display:flex;align-items:center;gap:4px;
+}
+.see-all:hover{text-decoration:underline;}
+
+/* ── CATEGORIES GRID ── */
+.cats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.cat-card{
+  border-radius:var(--radius-lg);overflow:hidden;
+  border:1px solid var(--border);cursor:pointer;
+  transition:transform .22s,box-shadow .22s;
+  background:#fff;
+}
+.cat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+.cat-img{width:100%;height:100px;object-fit:cover;display:block;}
+.cat-body{padding:12px;text-align:center;}
+.cat-icon-wrap{
+  width:44px;height:44px;border-radius:12px;
+  background:var(--teal-l);display:flex;
+  align-items:center;justify-content:center;margin:0 auto 8px;
+}
+.cat-icon-wrap svg{width:22px;height:22px;stroke:var(--teal);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.cat-name{font-size:13px;font-weight:700;color:var(--text);}
+.cat-count{font-size:11.5px;color:var(--muted);margin-top:2px;}
+
+/* ── CARDS GRID ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+.card{
+  background:#fff;border-radius:var(--radius-lg);
+  overflow:hidden;border:1px solid var(--border);
+  transition:transform .22s,box-shadow .22s;
+  display:flex;flex-direction:column;
+}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+.card-img-wrap{position:relative;overflow:hidden;}
+.card-img{width:100%;height:200px;object-fit:cover;display:block;transition:transform .35s;}
+.card:hover .card-img{transform:scale(1.04);}
+.card-badge{position:absolute;top:12px;left:12px;}
+.card-fav{
+  position:absolute;top:10px;right:10px;
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,0.92);border:none;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .18s;
+}
+.card-fav:hover{background:#fff;transform:scale(1.1);}
+.card-fav svg{width:15px;height:15px;stroke:var(--teal);fill:none;stroke-width:2;stroke-linecap:round;}
+.card-fav.liked svg{fill:var(--teal);}
+.card-body{padding:16px 18px 18px;flex:1;display:flex;flex-direction:column;}
+.card-name{font-size:15.5px;font-weight:700;color:var(--text);margin-bottom:4px;letter-spacing:-.02em;}
+.card-loc{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:4px;margin-bottom:8px;}
+.card-loc svg{width:12px;height:12px;stroke:var(--muted);fill:none;stroke-width:2;}
+.card-rating{display:flex;align-items:center;gap:5px;margin-bottom:10px;}
+.stars{color:var(--gold);font-size:12px;letter-spacing:1px;}
+.rating-n{font-size:13px;font-weight:600;color:var(--text);}
+.rating-c{font-size:12px;color:var(--muted);}
+.card-desc{font-size:13px;color:var(--muted);line-height:1.6;flex:1;margin-bottom:14px;}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto;}
+.card-price{}
+.price-amount{font-size:20px;font-weight:800;color:var(--teal);}
+.price-unit{font-size:12px;color:var(--muted);}
+.card-btn{
+  padding:9px 18px;background:var(--teal);color:#fff;
+  border:none;border-radius:var(--radius);font-family:var(--font);
+  font-size:13px;font-weight:700;cursor:pointer;
+  transition:background .2s;
+}
+.card-btn:hover{background:var(--teal-d);}
+
+/* ── DESTINATIONS ── */
+.dest-mosaic{
+  display:grid;
+  grid-template-columns:1.6fr 1fr 1fr;
+  grid-template-rows:230px 230px;
+  gap:12px;
+}
+.dest-card{
+  border-radius:var(--radius-lg);overflow:hidden;
+  position:relative;cursor:pointer;
+  transition:transform .22s,box-shadow .22s;
+}
+.dest-card:hover{transform:scale(1.015);box-shadow:var(--shadow-lg);}
+.dest-card:first-child{grid-row:1/3;}
+.dest-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.dest-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 55%);}
+.dest-info{position:absolute;bottom:0;left:0;right:0;padding:18px;}
+.dest-info h3{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:3px;}
+.dest-info span{font-size:12px;color:rgba(255,255,255,0.75);}
+
+/* ── PROMO BAND ── */
+.promo-band{
+  background:linear-gradient(135deg,var(--teal-d),var(--teal));
+  border-radius:var(--radius-lg);padding:48px;
+  display:flex;align-items:center;justify-content:space-between;gap:32px;
+  position:relative;overflow:hidden;
+}
+.promo-band::before{
+  content:'';position:absolute;right:-60px;top:-60px;
+  width:280px;height:280px;border-radius:50%;
+  background:rgba(255,255,255,0.05);
+}
+.promo-band::after{
+  content:'';position:absolute;right:60px;bottom:-80px;
+  width:180px;height:180px;border-radius:50%;
+  background:rgba(255,255,255,0.04);
+}
+.promo-content{position:relative;z-index:1;}
+.promo-tag{
+  display:inline-flex;background:rgba(255,255,255,0.15);
+  border-radius:20px;padding:4px 14px;
+  font-size:11.5px;color:#fff;font-weight:600;margin-bottom:12px;
+}
+.promo-title{font-size:clamp(22px,3vw,32px);font-weight:800;color:#fff;line-height:1.2;margin-bottom:10px;letter-spacing:-.5px;}
+.promo-sub{font-size:15px;color:rgba(255,255,255,0.78);line-height:1.6;}
+.promo-actions{display:flex;gap:12px;flex-shrink:0;position:relative;z-index:1;}
+.promo-btn-white{
+  padding:13px 24px;background:#fff;color:var(--teal);
+  border-radius:var(--radius);font-family:var(--font);
+  font-size:14px;font-weight:700;border:none;cursor:pointer;
+  transition:all .2s;
+}
+.promo-btn-white:hover{background:var(--teal-l);}
+.promo-btn-outline{
+  padding:13px 24px;background:transparent;color:#fff;
+  border:1.5px solid rgba(255,255,255,0.4);
+  border-radius:var(--radius);font-family:var(--font);
+  font-size:14px;font-weight:600;cursor:pointer;
+  transition:all .2s;
+}
+.promo-btn-outline:hover{background:rgba(255,255,255,0.1);border-color:#fff;}
+
+/* ── STATS BAND ── */
+.stats-band{
+  background:var(--teal-l);border-radius:var(--radius-lg);
+  padding:36px;display:grid;
+  grid-template-columns:repeat(4,1fr);gap:24px;
+  border:1px solid var(--teal-m);
+}
+.stat-item{text-align:center;}
+.stat-n{font-size:32px;font-weight:800;color:var(--teal);letter-spacing:-1px;}
+.stat-l{font-size:13px;color:var(--teal-d);margin-top:4px;font-weight:500;}
+
+/* ── AUTRES SERVICES ── */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.service-card{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 18px;background:#fff;
+  border:1px solid var(--border);border-radius:var(--radius);
+  cursor:pointer;transition:all .18s;text-decoration:none;
+}
+.service-card:hover{border-color:var(--teal);background:var(--teal-l);transform:translateY(-2px);}
+.service-icon{width:40px;height:40px;border-radius:10px;background:var(--teal-l);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.service-icon svg{width:20px;height:20px;stroke:var(--teal);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.service-name{font-size:13.5px;font-weight:600;color:var(--text);}
+.service-desc{font-size:11.5px;color:var(--muted);margin-top:2px;}
+
+/* ── FOOTER ── */
+footer{background:#0D1117;padding:64px 0 0;}
+.footer-main{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr 1fr;gap:40px;padding-bottom:48px;}
+.footer-brand{}
+.footer-logo{font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.5px;margin-bottom:14px;}
+.footer-logo span{color:var(--gold);}
+.footer-tagline{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.75;max-width:240px;}
+.footer-social{display:flex;gap:10px;margin-top:18px;}
+.social-btn{
+  width:34px;height:34px;border-radius:50%;
+  border:1px solid rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .18s;
+}
+.social-btn:hover{border-color:var(--teal);background:var(--teal);}
+.social-btn svg{width:15px;height:15px;stroke:rgba(255,255,255,0.6);fill:none;stroke-width:1.7;stroke-linecap:round;}
+.footer-col h5{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;margin-bottom:16px;}
+.footer-col ul{list-style:none;}
+.footer-col li{margin-bottom:10px;}
+.footer-col a{font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;cursor:pointer;transition:color .15s;}
+.footer-col a:hover{color:rgba(255,255,255,0.9);}
+.footer-newsletter{border-top:1px solid rgba(255,255,255,0.07);border-bottom:1px solid rgba(255,255,255,0.07);padding:24px 0;display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:0;}
+.newsletter-text h4{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px;}
+.newsletter-text p{font-size:13px;color:rgba(255,255,255,0.5);}
+.newsletter-form{display:flex;gap:0;border-radius:var(--radius);overflow:hidden;}
+.newsletter-input{
+  padding:11px 16px;background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.12);border-right:none;
+  font-family:var(--font);font-size:13.5px;color:#fff;
+  outline:none;width:260px;
+}
+.newsletter-input::placeholder{color:rgba(255,255,255,0.3);}
+.newsletter-btn{
+  padding:11px 20px;background:var(--gold);color:#7A4A00;
+  font-family:var(--font);font-size:13.5px;font-weight:700;
+  border:none;cursor:pointer;transition:background .2s;white-space:nowrap;
+}
+.newsletter-btn:hover{background:#e09620;}
+.footer-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 0;border-top:1px solid rgba(255,255,255,0.07);
+}
+.footer-copy{font-size:12.5px;color:rgba(255,255,255,0.3);}
+.footer-legal{display:flex;gap:20px;}
+.footer-legal a{font-size:12.5px;color:rgba(255,255,255,0.35);text-decoration:none;}
+.footer-legal a:hover{color:rgba(255,255,255,0.7);}
+.footer-payments{display:flex;gap:8px;align-items:center;}
+.pay-badge{background:rgba(255,255,255,0.08);border-radius:5px;padding:4px 9px;font-size:11px;font-weight:700;color:#fff;}
+
+/* ── LOADER ── */
+.loader-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:var(--radius-lg);}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.skeleton-card{height:340px;}
+
+/* ── MODAL AUTH ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);z-index:3000;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:20px;width:100%;max-width:460px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.22);animation:modalIn .25s ease;}
+@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.modal-head{padding:24px 28px 0;display:flex;justify-content:space-between;align-items:flex-start;}
+.modal-head h2{font-size:22px;font-weight:800;color:var(--text);}
+.modal-head p{font-size:13.5px;color:var(--muted);margin-top:4px;}
+.modal-x{width:32px;height:32px;border:none;background:var(--bg);border-radius:50%;cursor:pointer;font-size:16px;color:var(--muted);}
+.modal-tabs{display:flex;border-bottom:1px solid var(--border);margin:0 28px;}
+.modal-tab{flex:1;padding:14px 0;border:none;background:none;font-family:var(--font);font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;}
+.modal-tab.active{color:var(--teal);border-bottom-color:var(--teal);}
+.modal-body{padding:24px 28px 28px;}
+.social-login{display:flex;gap:10px;margin-bottom:18px;}
+.social-btn-login{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border:1.5px solid var(--border);border-radius:var(--radius);background:#fff;cursor:pointer;font-family:var(--font);font-size:13.5px;font-weight:600;color:var(--text);transition:all .15s;}
+.social-btn-login:hover{border-color:var(--teal);}
+.social-btn-login svg{width:18px;height:18px;}
+.or-sep{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.or-sep::before,.or-sep::after{content:'';flex:1;height:1px;background:var(--border);}
+.or-sep span{font-size:12.5px;color:var(--muted);}
+.form-field{margin-bottom:14px;}
+.form-field label{display:block;font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:5px;}
+.form-field input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius);font-family:var(--font);font-size:14px;color:var(--text);outline:none;transition:border-color .2s;}
+.form-field input:focus{border-color:var(--teal);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.submit-btn{width:100%;padding:13px;background:var(--teal);color:#fff;border:none;border-radius:var(--radius);font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;margin-top:4px;}
+.submit-btn:hover{background:var(--teal-d);}
+.toggle-auth{text-align:center;font-size:13px;color:var(--muted);margin-top:14px;}
+.toggle-auth a{color:var(--teal);font-weight:600;cursor:pointer;}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:24px;right:24px;z-index:9999;
+  background:#fff;border-radius:var(--radius);
+  padding:14px 18px;box-shadow:var(--shadow-lg);
+  border-left:4px solid var(--teal);
+  transform:translateX(120%);transition:transform .3s;
+  display:flex;align-items:center;gap:10px;max-width:320px;
+}
+.toast.show{transform:translateX(0);}
+.toast-icon{font-size:18px;}
+.toast-text{font-size:13.5px;font-weight:500;color:var(--text);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .cats-grid{grid-template-columns:repeat(3,1fr);}
+  .footer-main{grid-template-columns:1fr 1fr;gap:28px;}
+  .stats-band{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:768px){
+  .nav-cats{display:none;}
+  .nav-login,.nav-pro,.lang-btn{display:none;}
+  .hamburger{display:flex;}
+  .hero-title{font-size:32px;}
+  .search-fields{grid-template-columns:1fr;}
+  .search-btn{width:100%;}
+  .cats-grid{grid-template-columns:repeat(2,1fr);}
+  .dest-mosaic{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+  .dest-card:first-child{grid-row:auto;}
+  .promo-band{flex-direction:column;padding:28px;}
+  .promo-actions{width:100%;flex-direction:column;}
+  .footer-main{grid-template-columns:1fr;}
+  .footer-newsletter{flex-direction:column;}
+  .newsletter-input{width:100%;}
+  .stats-band{grid-template-columns:1fr 1fr;}
+  .services-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:480px){
+  .cats-grid{grid-template-columns:repeat(2,1fr);}
+  .cards-grid{grid-template-columns:1fr;}
+  .dest-mosaic{grid-template-columns:1fr;}
+  .services-grid{grid-template-columns:1fr;}
+  .hero-stats{gap:20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ TOAST ═══ -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toast-icon">✓</span>
+  <span class="toast-text" id="toast-text">Message</span>
+</div>
+
+<!-- ═══ MENU OVERLAY ═══ -->
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+
+<!-- ═══ MOBILE MENU ═══ -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="menu-header">
+    <div class="menu-logo">Otla<span>.ma</span></div>
+    <button class="menu-close" onclick="closeMenu()">✕</button>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;">
+    <div class="menu-section-label" data-t="menu_services">Services</div>
+
+    <div class="menu-item" onclick="filterCategory('hebergement');closeMenu();">
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div class="menu-item-text">
+        <strong data-t="cat_hebergement">Hébergement</strong>
+        <span data-t="cat_hebergement_sub">Hôtels, riads, villas...</span>
+      </div>
+      <svg class="menu-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
+    <div class="menu-item" onclick="filterCategory('activite');closeMenu();">
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+      </div>
+      <div class="menu-item-text">
+        <strong data-t="cat_activite">Activités</strong>
+        <span data-t="cat_activite_sub">Surf, quad, hammam...</span>
+      </div>
+      <svg class="menu-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
+    <div class="menu-item" onclick="filterCategory('pack');closeMenu();">
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+      </div>
+      <div class="menu-item-text">
+        <strong data-t="cat_pack">Packs & Séjours</strong>
+        <span data-t="cat_pack_sub">Circuits organisés</span>
+      </div>
+      <svg class="menu-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
+    <div class="menu-item" onclick="filterCategory('guide');closeMenu();">
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+      <div class="menu-item-text">
+        <strong data-t="cat_guide">Guides</strong>
+        <span data-t="cat_guide_sub">Guides agréés</span>
+      </div>
+      <svg class="menu-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
+    <div class="menu-item" onclick="filterCategory('location');closeMenu();">
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24"><rect x="1" y="9" width="22" height="12" rx="2"/><path d="M16 9V7a2 2 0 00-2-2H10a2 2 0 00-2 2v2"/><circle cx="8.5" cy="15" r="1.5"/><circle cx="15.5" cy="15" r="1.5"/></svg>
+      </div>
+      <div class="menu-item-text">
+        <strong data-t="cat_location">Location</strong>
+        <span data-t="cat_location_sub">Voitures, motos...</span>
+      </div>
+      <svg class="menu-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
+    <div class="menu-item" onclick="filterCategory('restaurant');closeMenu();">
+      <div class="menu-icon">
+        <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+      </div>
+      <div class="menu-item-text">
+        <strong data-t="cat_restaurant">Restaurants</strong>
+        <span data-t="cat_restaurant_sub">Réservation de tables</span>
+      </div>
+      <svg class="menu-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
+    <div class="menu-section-label" data-t="menu_account">Mon compte</div>
+    <div class="menu-item" onclick="openModal('client');closeMenu();">
+      <div class="menu-icon" style="background:#f0f0f5;">
+        <svg viewBox="0 0 24 24" style="stroke:#666;"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+      <div class="menu-item-text">
+        <strong data-t="menu_login">Connexion / Inscription</strong>
+        <span data-t="menu_login_sub">Espace voyageurs</span>
+      </div>
+    </div>
+
+    <button class="menu-pro-btn" onclick="openModal('pro');closeMenu();">
+      <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      <span data-t="menu_pro">Espace Professionnel</span>
+    </button>
+
+    <div class="menu-lang">
+      <button class="menu-lang-btn active" onclick="setLang('fr',this)">FR</button>
+      <button class="menu-lang-btn" onclick="setLang('en',this)">EN</button>
+      <button class="menu-lang-btn" onclick="setLang('ar',this)">عر</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">Otla<span>.ma</span></a>
+
+    <div class="nav-cats">
+      <button class="nav-cat active" onclick="filterCategory('hebergement',this)" data-t="cat_hebergement">Hébergement</button>
+      <button class="nav-cat" onclick="filterCategory('activite',this)" data-t="cat_activite">Activités</button>
+      <button class="nav-cat" onclick="filterCategory('pack',this)" data-t="cat_pack">Packs & Séjours</button>
+      <button class="nav-cat" onclick="filterCategory('guide',this)" data-t="cat_guide">Guides</button>
+      <button class="nav-cat" onclick="filterCategory('location',this)" data-t="cat_location">Location</button>
+      <button class="nav-cat" onclick="filterCategory('restaurant',this)" data-t="cat_restaurant">Restaurants</button>
+    </div>
+
+    <div class="nav-right">
+      <div style="position:relative;">
+        <button class="lang-btn" onclick="toggleLangMenu()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>
+          <span id="currentLang">FR</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div id="langMenu" style="display:none;position:absolute;top:calc(100% + 8px);right:0;background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;min-width:150px;z-index:100;">
+          <div onclick="setLang('fr')" style="padding:10px 16px;cursor:pointer;font-size:13.5px;font-weight:500;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--teal-l)'" onmouseout="this.style.background=''">🇫🇷 Français</div>
+          <div onclick="setLang('en')" style="padding:10px 16px;cursor:pointer;font-size:13.5px;font-weight:500;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--teal-l)'" onmouseout="this.style.background=''">🇬🇧 English</div>
+          <div onclick="setLang('ar')" style="padding:10px 16px;cursor:pointer;font-size:13.5px;font-weight:500;display:flex;align-items:center;gap:8px;" onmouseover="this.style.background='var(--teal-l)'" onmouseout="this.style.background=''">🇲🇦 العربية</div>
+        </div>
+      </div>
+      <button class="nav-login" onclick="openModal('client')" data-t="nav_login">Connexion</button>
+      <button class="nav-pro" onclick="openModal('pro')" data-t="nav_pro">Espace Pro</button>
+      <button class="hamburger" onclick="openMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-tag">
+      <span class="hero-dot"></span>
+      <span data-t="hero_tag">La plateforme du tourisme marocain</span>
+    </div>
+    <h1 class="hero-title" data-t-html="hero_title">Découvrez le Maroc<br><em>autrement</em></h1>
+    <p class="hero-sub" data-t="hero_sub">Hébergement, activités, guides et plus — tout pour planifier votre séjour parfait au Maroc.</p>
+
+    <!-- SEARCH BOX -->
+    <div class="search-box">
+      <div class="search-tabs">
+        <button class="search-tab active" onclick="setSearchTab(this,'hebergement')" data-t="tab_hebergement">Hébergement</button>
+        <button class="search-tab" onclick="setSearchTab(this,'activite')" data-t="tab_activite">Activités</button>
+        <button class="search-tab" onclick="setSearchTab(this,'guide')" data-t="tab_guide">Guides</button>
+        <button class="search-tab" onclick="setSearchTab(this,'pack')" data-t="tab_pack">Packs</button>
+      </div>
+      <div class="search-fields">
+        <div class="search-field">
+          <label data-t="search_dest">Destination</label>
+          <input type="text" id="searchDest" data-t-ph="search_dest_ph" placeholder="Marrakech, Fès, Agadir...">
+        </div>
+        <div class="search-field" id="searchDateField">
+          <label data-t="search_date">Arrivée</label>
+          <input type="date" id="searchDate">
+        </div>
+        <div class="search-field" id="searchGuestsField">
+          <label data-t="search_guests">Voyageurs</label>
+          <select id="searchGuests">
+            <option value="1">1 voyageur</option>
+            <option value="2" selected>2 voyageurs</option>
+            <option value="3">3 voyageurs</option>
+            <option value="4">4 voyageurs</option>
+            <option value="5">5+ voyageurs</option>
+          </select>
+        </div>
+        <button class="search-btn" onclick="doSearch()">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+          <span data-t="btn_search">Rechercher</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-n">5 000+</div>
+        <div class="hero-stat-l" data-t="stat_prestataires">Prestataires vérifiés</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-n">12</div>
+        <div class="hero-stat-l" data-t="stat_regions">Régions du Maroc</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-n">50K+</div>
+        <div class="hero-stat-l" data-t="stat_voyageurs">Voyageurs satisfaits</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-n">4.8★</div>
+        <div class="hero-stat-l" data-t="stat_note">Note moyenne</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CATEGORIES ═══ -->
+<section class="section" style="padding-bottom:40px;">
+  <div class="container">
+    <div class="section-header-row">
+      <div class="section-header">
+        <div class="section-label" data-t="section_explore_label">Explorer</div>
+        <h2 class="section-title" data-t="section_explore_title">Toutes les catégories</h2>
+      </div>
+    </div>
+    <div class="cats-grid">
+      <div class="cat-card" onclick="filterCategory('hebergement')">
+        <img class="cat-img" src="https://images.unsplash.com/photo-1539278670307-a69d04dc8a75?w=300&q=75" loading="lazy" alt="Hébergement">
+        <div class="cat-body">
+          <div class="cat-icon-wrap"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div class="cat-name" data-t="cat_hebergement">Hébergement</div>
+          <div class="cat-count" data-t="cat_hebergement_count">Hôtels, riads, villas</div>
+        </div>
+      </div>
+      <div class="cat-card" onclick="filterCategory('activite')">
+        <img class="cat-img" src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=300&q=75" loading="lazy" alt="Activités">
+        <div class="cat-body">
+          <div class="cat-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg></div>
+          <div class="cat-name" data-t="cat_activite">Activités</div>
+          <div class="cat-count" data-t="cat_activite_count">Surf, quad, hammam</div>
+        </div>
+      </div>
+      <div class="cat-card" onclick="filterCategory('pack')">
+        <img class="cat-img" src="https://images.unsplash.com/photo-1548013146-72479768bada?w=300&q=75" loading="lazy" alt="Packs">
+        <div class="cat-body">
+          <div class="cat-icon-wrap"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
+          <div class="cat-name" data-t="cat_pack">Packs & Séjours</div>
+          <div class="cat-count" data-t="cat_pack_count">Circuits organisés</div>
+        </div>
+      </div>
+      <div class="cat-card" onclick="filterCategory('guide')">
+        <img class="cat-img" src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=300&q=75" loading="lazy" alt="Guides">
+        <div class="cat-body">
+          <div class="cat-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+          <div class="cat-name" data-t="cat_guide">Guides</div>
+          <div class="cat-count" data-t="cat_guide_count">Guides agréés locaux</div>
+        </div>
+      </div>
+      <div class="cat-card" onclick="filterCategory('location')">
+        <img class="cat-img" src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=300&q=75" loading="lazy" alt="Location">
+        <div class="cat-body">
+          <div class="cat-icon-wrap"><svg viewBox="0 0 24 24"><rect x="1" y="9" width="22" height="12" rx="2"/><path d="M16 9V7a2 2 0 00-2-2H10a2 2 0 00-2 2v2"/><circle cx="8.5" cy="15" r="1.5"/><circle cx="15.5" cy="15" r="1.5"/></svg></div>
+          <div class="cat-name" data-t="cat_location">Location</div>
+          <div class="cat-count" data-t="cat_location_count">Voitures, motos, vélos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LISTINGS DYNAMIQUES ═══ -->
+<section class="section" id="listings-section">
+  <div class="container">
+    <div class="section-header-row" style="margin-bottom:28px;">
+      <div class="section-header" style="margin-bottom:0;">
+        <div class="section-label" id="listings-label">Populaires</div>
+        <h2 class="section-title" id="listings-title" data-t="listings_title">Hébergements populaires</h2>
+        <p class="section-sub" id="listings-sub" data-t="listings_sub">Les meilleures adresses vérifiées par notre équipe</p>
+      </div>
+      <a class="see-all" href="#" data-t="see_all">Voir tout →</a>
+    </div>
+
+    <!-- Loading skeletons -->
+    <div class="loader-grid" id="skeletons">
+      <div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="cards-grid hide" id="cards-grid"></div>
+
+    <!-- Empty state -->
+    <div class="hide" id="empty-state" style="text-align:center;padding:60px 20px;">
+      <div style="font-size:48px;margin-bottom:16px;">🔍</div>
+      <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;" data-t="empty_title">Aucun résultat</h3>
+      <p style="color:var(--muted);" data-t="empty_sub">Essayez une autre destination ou catégorie</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DESTINATIONS ═══ -->
+<section class="section" style="background:var(--bg);padding:72px 0;">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label" data-t="dest_label">Destinations</div>
+      <h2 class="section-title" data-t="dest_title">Top destinations</h2>
+      <p class="section-sub" data-t="dest_sub">Les villes les plus visitées du Maroc</p>
+    </div>
+    <div class="dest-mosaic">
+      <div class="dest-card" onclick="searchByCity('Marrakech')">
+        <img class="dest-photo" src="https://images.unsplash.com/photo-1489493887464-892be6d1daae?w=700&q=80" loading="lazy" alt="Marrakech">
+        <div class="dest-overlay"></div>
+        <div class="dest-info"><h3>Marrakech</h3><span data-t="dest_mk">La Ville Rouge · 240+ expériences</span></div>
+      </div>
+      <div class="dest-card" onclick="searchByCity('Fès')">
+        <img class="dest-photo" src="https://images.unsplash.com/photo-1577083552431-6e5fd01988ec?w=500&q=80" loading="lazy" alt="Fès">
+        <div class="dest-overlay"></div>
+        <div class="dest-info"><h3>Fès</h3><span data-t="dest_fes">Médina ancestrale · 130+ expériences</span></div>
+      </div>
+      <div class="dest-card" onclick="searchByCity('Chefchaouen')">
+        <img class="dest-photo" src="https://images.unsplash.com/photo-1553179459-4514c0f52f40?w=500&q=80" loading="lazy" alt="Chefchaouen">
+        <div class="dest-overlay"></div>
+        <div class="dest-info"><h3>Chefchaouen</h3><span data-t="dest_chef">Perle Bleue · 80+ expériences</span></div>
+      </div>
+      <div class="dest-card" onclick="searchByCity('Merzouga')">
+        <img class="dest-photo" src="https://images.unsplash.com/photo-1548013146-72479768bada?w=500&q=80" loading="lazy" alt="Sahara">
+        <div class="dest-overlay"></div>
+        <div class="dest-info"><h3>Sahara</h3><span data-t="dest_sahara">Merzouga · 60+ expériences</span></div>
+      </div>
+      <div class="dest-card" onclick="searchByCity('Essaouira')">
+        <img class="dest-photo" src="https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=500&q=80" loading="lazy" alt="Essaouira">
+        <div class="dest-overlay"></div>
+        <div class="dest-info"><h3>Essaouira</h3><span data-t="dest_essa">Côte Atlantique · 90+ expériences</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROMO PRO ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="promo-band">
+      <div class="promo-content">
+        <div class="promo-tag" data-t="promo_tag">Professionnels du tourisme</div>
+        <h2 class="promo-title" data-t="promo_title">Rejoignez la plateforme<br>de référence au Maroc</h2>
+        <p class="promo-sub" data-t="promo_sub">Créez votre profil gratuitement pendant 3 mois. 5 000+ prestataires nous font déjà confiance.</p>
+      </div>
+      <div class="promo-actions">
+        <button class="promo-btn-white" onclick="openModal('pro')" data-t="promo_btn_pro">Rejoindre en Pro</button>
+        <button class="promo-btn-outline" data-t="promo_btn_learn">En savoir plus</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AUTRES SERVICES ═══ -->
+<section class="section" style="background:var(--bg);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label" data-t="services_label">Liens utiles</div>
+      <h2 class="section-title" data-t="services_title">Autres services</h2>
+    </div>
+    <div class="services-grid">
+      <a class="service-card" href="https://www.markoub.ma" target="_blank">
+        <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        <div><div class="service-name">Markoub.ma</div><div class="service-desc">Transport inter-villes</div></div>
+      </a>
+      <a class="service-card" href="https://www.oncf.ma" target="_blank">
+        <div class="service-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 4v4M16 4v4M2 12h20"/></svg></div>
+        <div><div class="service-name">ONCF</div><div class="service-desc">Train au Maroc</div></div>
+      </a>
+      <a class="service-card" href="https://www.royalairmaroc.com" target="_blank">
+        <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+        <div><div class="service-name">Royal Air Maroc</div><div class="service-desc">Vols intérieurs & internationaux</div></div>
+      </a>
+      <a class="service-card" href="https://www.ryanair.com" target="_blank">
+        <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+        <div><div class="service-name">Ryanair</div><div class="service-desc">Vols low cost</div></div>
+      </a>
+      <a class="service-card" href="https://www.airarabia.com" target="_blank">
+        <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+        <div><div class="service-name">Air Arabia</div><div class="service-desc">Vols depuis le Maroc</div></div>
+      </a>
+      <a class="service-card" href="#" target="_blank">
+        <div class="service-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg></div>
+        <div><div class="service-name">eSIM Maroc</div><div class="service-desc">Connexion pour visiteurs</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="stats-band">
+      <div class="stat-item"><div class="stat-n" id="stat-prest">—</div><div class="stat-l" data-t="stat_prestataires">Prestataires vérifiés</div></div>
+      <div class="stat-item"><div class="stat-n">12</div><div class="stat-l" data-t="stat_regions">Régions couvertes</div></div>
+      <div class="stat-item"><div class="stat-n">50 000+</div><div class="stat-l" data-t="stat_voyageurs">Voyageurs satisfaits</div></div>
+      <div class="stat-item"><div class="stat-n">4.8★</div><div class="stat-l" data-t="stat_note">Note moyenne</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="container">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <div class="footer-logo">Otla<span>.ma</span></div>
+        <p class="footer-tagline" data-t="footer_tagline">Votre portail vers les expériences marocaines authentiques. De l'Atlas au Sahara.</p>
+        <div class="footer-social">
+          <div class="social-btn"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
+          <div class="social-btn"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></div>
+          <div class="social-btn"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg></div>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-t="footer_explore">Explorer</h5>
+        <ul>
+          <li><a onclick="filterCategory('hebergement')" data-t="cat_hebergement">Hébergement</a></li>
+          <li><a onclick="filterCategory('activite')" data-t="cat_activite">Activités</a></li>
+          <li><a onclick="filterCategory('pack')" data-t="cat_pack">Packs & Séjours</a></li>
+          <li><a onclick="filterCategory('guide')" data-t="cat_guide">Guides</a></li>
+          <li><a onclick="filterCategory('location')" data-t="cat_location">Location</a></li>
+          <li><a onclick="filterCategory('restaurant')" data-t="cat_restaurant">Restaurants</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-t="footer_company">Société</h5>
+        <ul>
+          <li><a data-t="footer_about">À propos d'Otla.ma</a></li>
+          <li><a data-t="footer_team">Notre équipe</a></li>
+          <li><a data-t="footer_careers">Carrières</a></li>
+          <li><a data-t="footer_press">Presse & Médias</a></li>
+          <li><a data-t="footer_blog">Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-t="footer_partners">Partenaires</h5>
+        <ul>
+          <li><a onclick="openModal('pro')" data-t="footer_pro">Espace Pro</a></li>
+          <li><a data-t="footer_agencies">Agences de voyage</a></li>
+          <li><a data-t="footer_hotels">Hôtels & Riads</a></li>
+          <li><a data-t="footer_become_guide">Devenir guide</a></li>
+          <li><a data-t="footer_affiliate">Programme affilié</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-t="footer_support">Support</h5>
+        <ul>
+          <li><a data-t="footer_faq">FAQ</a></li>
+          <li><a data-t="footer_contact">Contactez-nous</a></li>
+          <li><a data-t="footer_safety">Centre de sécurité</a></li>
+          <li><a data-t="footer_privacy">Confidentialité</a></li>
+          <li><a data-t="footer_terms">Conditions</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-newsletter">
+      <div class="newsletter-text">
+        <h4 data-t="newsletter_title">Recevez nos meilleures offres</h4>
+        <p data-t="newsletter_sub">Inspirations voyage et promotions exclusives</p>
+      </div>
+      <div class="newsletter-form">
+        <input class="newsletter-input" type="email" data-t-ph="newsletter_ph" placeholder="votre@email.com">
+        <button class="newsletter-btn" data-t="newsletter_btn">S'abonner</button>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Otla.ma — Tous droits réservés 🇲🇦</div>
+      <div class="footer-legal">
+        <a data-t="footer_privacy">Confidentialité</a>
+        <a data-t="footer_terms">Conditions</a>
+        <a>Cookies</a>
+      </div>
+      <div class="footer-payments">
+        <span style="font-size:12px;color:rgba(255,255,255,0.3);" data-t="footer_payment">Paiement sécurisé</span>
+        <span class="pay-badge">VISA</span>
+        <span class="pay-badge">MC</span>
+        <span class="pay-badge">CMI</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ MODAL CLIENT ═══ -->
+<div class="modal-overlay" id="modal-client" onclick="if(event.target===this)closeModal('client')">
+<div class="modal">
+  <div class="modal-head">
+    <div>
+      <h2 data-t="modal_client_title">Mon Compte</h2>
+      <p data-t="modal_client_sub">Espace voyageurs Otla.ma</p>
+    </div>
+    <button class="modal-x" onclick="closeModal('client')">✕</button>
+  </div>
+  <div class="modal-tabs" style="margin-top:16px;">
+    <button class="modal-tab active" id="tab-login" onclick="switchAuthTab('login')" data-t="tab_signin">Se connecter</button>
+    <button class="modal-tab" id="tab-register" onclick="switchAuthTab('register')" data-t="tab_register">S'inscrire</button>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="modal-body" id="login-body">
+    <div class="social-login">
+      <button class="social-btn-login" onclick="signInWithGoogle()">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        <span data-t="btn_google">Continuer avec Google</span>
+      </button>
+    </div>
+    <div class="or-sep"><span data-t="or">ou</span></div>
+    <div class="form-field">
+      <label data-t="email_lbl">Email</label>
+      <input type="email" id="login-email" data-t-ph="email_ph" placeholder="vous@exemple.com">
+    </div>
+    <div class="form-field">
+      <label data-t="pwd_lbl">Mot de passe</label>
+      <input type="password" id="login-pwd" placeholder="••••••••">
+    </div>
+    <div style="text-align:right;margin-bottom:16px;"><a style="font-size:13px;color:var(--teal);cursor:pointer;" data-t="forgot_pwd">Mot de passe oublié ?</a></div>
+    <button class="submit-btn" onclick="signIn()" data-t="btn_signin">Se connecter</button>
+    <div class="toggle-auth"><span data-t="no_account">Pas de compte ?</span> <a onclick="switchAuthTab('register')" data-t="do_register">S'inscrire</a></div>
+  </div>
+
+  <!-- REGISTER -->
+  <div class="modal-body hide" id="register-body">
+    <div class="social-login">
+      <button class="social-btn-login" onclick="signInWithGoogle()">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        <span data-t="btn_google">Continuer avec Google</span>
+      </button>
+    </div>
+    <div class="or-sep"><span data-t="or">ou</span></div>
+    <div class="form-row">
+      <div class="form-field">
+        <label data-t="firstname_lbl">Prénom</label>
+        <input type="text" id="reg-firstname" data-t-ph="firstname_ph" placeholder="Karim">
+      </div>
+      <div class="form-field">
+        <label data-t="lastname_lbl">Nom</label>
+        <input type="text" id="reg-lastname" data-t-ph="lastname_ph" placeholder="Alaoui">
+      </div>
+    </div>
+    <div class="form-field">
+      <label data-t="email_lbl">Email</label>
+      <input type="email" id="reg-email" data-t-ph="email_ph" placeholder="vous@exemple.com">
+    </div>
+    <div class="form-field">
+      <label data-t="pwd_lbl">Mot de passe</label>
+      <input type="password" id="reg-pwd" placeholder="Min. 8 caractères">
+    </div>
+    <button class="submit-btn" onclick="signUp()" data-t="btn_create">Créer mon compte</button>
+    <div class="toggle-auth"><span data-t="already_member">Déjà inscrit ?</span> <a onclick="switchAuthTab('login')" data-t="do_signin">Se connecter</a></div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ MODAL PRO ═══ -->
+<div class="modal-overlay" id="modal-pro" onclick="if(event.target===this)closeModal('pro')">
+<div class="modal">
+  <div class="modal-head">
+    <div>
+      <div style="display:inline-flex;background:var(--teal-l);color:var(--teal-d);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:6px;">Espace Professionnel</div>
+      <h2 data-t="modal_pro_title">Rejoindre Otla.ma Pro</h2>
+      <p data-t="modal_pro_sub">Prestataires, agences & guides</p>
+    </div>
+    <button class="modal-x" onclick="closeModal('pro')">✕</button>
+  </div>
+  <div class="modal-body">
+    <div style="background:var(--teal-l);border-radius:var(--radius);padding:14px 16px;margin-bottom:18px;font-size:13.5px;color:var(--teal-d);line-height:1.6;" data-t="pro_info">
+      Inscrivez-vous gratuitement pendant 3 mois. Notre équipe vous contactera sous 48h.
+    </div>
+    <div class="form-row">
+      <div class="form-field"><label data-t="firstname_lbl">Prénom</label><input type="text" placeholder="Mohammed"></div>
+      <div class="form-field"><label data-t="lastname_lbl">Nom</label><input type="text" placeholder="Alaoui"></div>
+    </div>
+    <div class="form-field"><label data-t="pro_business">Établissement</label><input type="text" placeholder="Riad Al Baroudi"></div>
+    <div class="form-field">
+      <label data-t="pro_category">Catégorie</label>
+      <select style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius);font-family:var(--font);font-size:14px;color:var(--text);outline:none;background:#fafafa;">
+        <option value="">— Choisir —</option>
+        <option value="hebergement" data-t="cat_hebergement">Hébergement</option>
+        <option value="activite" data-t="cat_activite">Activité</option>
+        <option value="guide" data-t="cat_guide">Guide touristique</option>
+        <option value="pack" data-t="cat_pack">Agence de voyage</option>
+        <option value="location" data-t="cat_location">Location</option>
+        <option value="restaurant" data-t="cat_restaurant">Restaurant</option>
+      </select>
+    </div>
+    <div class="form-field"><label data-t="pro_city">Ville</label><input type="text" placeholder="Marrakech"></div>
+    <div class="form-field"><label data-t="email_lbl">Email professionnel</label><input type="email" placeholder="contact@monriad.ma"></div>
+    <div class="form-field"><label data-t="phone_lbl">Téléphone</label><input type="tel" placeholder="+212 6XX XXX XXX"></div>
+    <button class="submit-btn" onclick="submitPro()" data-t="btn_submit_pro">Soumettre ma demande</button>
+  </div>
+</div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// OTLA.MA — JavaScript
+// ═══════════════════════════════════════════════
+
+// ── SUPABASE ──
+const { createClient } = supabase;
+const sb = createClient(
+  'https://aclcwftbpemnflglocey.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFjbGN3ZnRicGVtbmZsZ2xvY2V5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3NTMxNzcsImV4cCI6MjA5MzMyOTE3N30.Pr2TouelsMJY_NRhSqwpkz72FYiPyXVkbTPDsQjd2Nc'
+);
+
+// ── STATE ──
+let currentCategory = 'hebergement';
+let currentLang = 'fr';
+let currentUser = null;
+let favorites = new Set();
+
+// ── TRANSLATIONS ──
+const T = {
+  fr: {
+    hero_tag:'La plateforme du tourisme marocain',
+    hero_title:'Découvrez le Maroc<br><em>autrement</em>',
+    hero_sub:'Hébergement, activités, guides et plus — tout pour planifier votre séjour parfait au Maroc.',
+    tab_hebergement:'Hébergement', tab_activite:'Activités', tab_guide:'Guides', tab_pack:'Packs',
+    search_dest:'Destination', search_dest_ph:'Marrakech, Fès, Agadir...',
+    search_date:'Arrivée', search_guests:'Voyageurs',
+    btn_search:'Rechercher',
+    stat_prestataires:'Prestataires vérifiés', stat_regions:'Régions du Maroc',
+    stat_voyageurs:'Voyageurs satisfaits', stat_note:'Note moyenne',
+    cat_hebergement:'Hébergement', cat_hebergement_sub:'Hôtels, riads, villas...', cat_hebergement_count:'Hôtels, riads, villas',
+    cat_activite:'Activités', cat_activite_sub:'Surf, quad, hammam...', cat_activite_count:'Surf, quad, hammam',
+    cat_pack:'Packs & Séjours', cat_pack_sub:'Circuits organisés', cat_pack_count:'Circuits organisés',
+    cat_guide:'Guides', cat_guide_sub:'Guides agréés', cat_guide_count:'Guides agréés locaux',
+    cat_location:'Location', cat_location_sub:'Voitures, motos...', cat_location_count:'Voitures, motos, vélos',
+    cat_restaurant:'Restaurants', cat_restaurant_sub:'Réservation de tables', cat_restaurant_count:'Réservation de tables',
+    section_explore_label:'Explorer', section_explore_title:'Toutes les catégories',
+    listings_title:'Hébergements populaires', listings_sub:'Les meilleures adresses vérifiées par notre équipe',
+    see_all:'Voir tout →', empty_title:'Aucun résultat', empty_sub:'Essayez une autre destination ou catégorie',
+    dest_label:'Destinations', dest_title:'Top destinations', dest_sub:'Les villes les plus visitées du Maroc',
+    dest_mk:'La Ville Rouge · 240+ expériences', dest_fes:'Médina ancestrale · 130+ expériences',
+    dest_chef:'Perle Bleue · 80+ expériences', dest_sahara:'Merzouga · 60+ expériences',
+    dest_essa:'Côte Atlantique · 90+ expériences',
+    promo_tag:'Professionnels du tourisme', promo_title:'Rejoignez la plateforme<br>de référence au Maroc',
+    promo_sub:'Créez votre profil gratuitement pendant 3 mois. 5 000+ prestataires nous font déjà confiance.',
+    promo_btn_pro:'Rejoindre en Pro', promo_btn_learn:'En savoir plus',
+    services_label:'Liens utiles', services_title:'Autres services',
+    footer_tagline:'Votre portail vers les expériences marocaines authentiques. De l\'Atlas au Sahara.',
+    footer_explore:'Explorer', footer_company:'Société', footer_partners:'Partenaires', footer_support:'Support',
+    footer_about:'À propos d\'Otla.ma', footer_team:'Notre équipe', footer_careers:'Carrières',
+    footer_press:'Presse & Médias', footer_blog:'Blog', footer_pro:'Espace Pro',
+    footer_agencies:'Agences de voyage', footer_hotels:'Hôtels & Riads',
+    footer_become_guide:'Devenir guide', footer_affiliate:'Programme affilié',
+    footer_faq:'FAQ', footer_contact:'Contactez-nous', footer_safety:'Centre de sécurité',
+    footer_privacy:'Confidentialité', footer_terms:'Conditions',
+    footer_payment:'Paiement sécurisé',
+    newsletter_title:'Recevez nos meilleures offres', newsletter_sub:'Inspirations voyage et promotions exclusives',
+    newsletter_ph:'votre@email.com', newsletter_btn:'S\'abonner',
+    nav_login:'Connexion', nav_pro:'Espace Pro',
+    modal_client_title:'Mon Compte', modal_client_sub:'Espace voyageurs Otla.ma',
+    tab_signin:'Se connecter', tab_register:'S\'inscrire',
+    btn_google:'Continuer avec Google', or:'ou',
+    email_lbl:'Email', email_ph:'vous@exemple.com',
+    pwd_lbl:'Mot de passe', forgot_pwd:'Mot de passe oublié ?',
+    btn_signin:'Se connecter', no_account:'Pas de compte ?', do_register:'S\'inscrire',
+    firstname_lbl:'Prénom', firstname_ph:'Karim', lastname_lbl:'Nom', lastname_ph:'Alaoui',
+    btn_create:'Créer mon compte', already_member:'Déjà inscrit ?', do_signin:'Se connecter',
+    modal_pro_title:'Rejoindre Otla.ma Pro', modal_pro_sub:'Prestataires, agences & guides',
+    pro_info:'Inscrivez-vous gratuitement pendant 3 mois. Notre équipe vous contactera sous 48h.',
+    pro_business:'Établissement', pro_category:'Catégorie', pro_city:'Ville',
+    phone_lbl:'Téléphone', btn_submit_pro:'Soumettre ma demande',
+    menu_services:'Services', menu_account:'Mon compte',
+    menu_login:'Connexion / Inscription', menu_login_sub:'Espace voyageurs',
+    menu_pro:'Espace Professionnel',
+    per_night:'/ nuit', per_person:'/ personne', per_day:'/ jour', book_btn:'Réserver',
+    verified_badge:'Vérifié', top_badge:'Top choix', premium_badge:'Premium',
+  },
+  en: {
+    hero_tag:'Morocco\'s tourism platform',
+    hero_title:'Discover Morocco<br><em>differently</em>',
+    hero_sub:'Accommodation, activities, guides and more — everything for your perfect stay in Morocco.',
+    tab_hebergement:'Stay', tab_activite:'Activities', tab_guide:'Guides', tab_pack:'Packages',
+    search_dest:'Destination', search_dest_ph:'Marrakech, Fès, Agadir...',
+    search_date:'Check-in', search_guests:'Guests',
+    btn_search:'Search',
+    stat_prestataires:'Verified providers', stat_regions:'Regions covered',
+    stat_voyageurs:'Happy travelers', stat_note:'Average rating',
+    cat_hebergement:'Accommodation', cat_hebergement_sub:'Hotels, riads, villas...', cat_hebergement_count:'Hotels, riads, villas',
+    cat_activite:'Activities', cat_activite_sub:'Surf, quad, hammam...', cat_activite_count:'Surf, quad, hammam',
+    cat_pack:'Packs & Stays', cat_pack_sub:'Organized trips', cat_pack_count:'Organized trips',
+    cat_guide:'Guides', cat_guide_sub:'Licensed guides', cat_guide_count:'Local licensed guides',
+    cat_location:'Car Rental', cat_location_sub:'Cars, motos...', cat_location_count:'Cars, motos, bikes',
+    cat_restaurant:'Restaurants', cat_restaurant_sub:'Table reservation', cat_restaurant_count:'Table reservation',
+    section_explore_label:'Explore', section_explore_title:'All categories',
+    listings_title:'Popular stays', listings_sub:'The best addresses verified by our team',
+    see_all:'See all →', empty_title:'No results', empty_sub:'Try another destination or category',
+    dest_label:'Destinations', dest_title:'Top destinations', dest_sub:'Morocco\'s most visited cities',
+    dest_mk:'The Red City · 240+ experiences', dest_fes:'Ancient Medina · 130+ experiences',
+    dest_chef:'Blue Pearl · 80+ experiences', dest_sahara:'Merzouga · 60+ experiences',
+    dest_essa:'Atlantic Coast · 90+ experiences',
+    promo_tag:'Tourism professionals', promo_title:'Join Morocco\'s<br>reference platform',
+    promo_sub:'Create your profile free for 3 months. 5,000+ providers already trust us.',
+    promo_btn_pro:'Join as Pro', promo_btn_learn:'Learn more',
+    services_label:'Useful links', services_title:'Other services',
+    footer_tagline:'Your gateway to authentic Moroccan experiences. From Atlas to Sahara.',
+    footer_explore:'Explore', footer_company:'Company', footer_partners:'Partners', footer_support:'Support',
+    footer_about:'About Otla.ma', footer_team:'Our team', footer_careers:'Careers',
+    footer_press:'Press & Media', footer_blog:'Blog', footer_pro:'Pro Space',
+    footer_agencies:'Travel agencies', footer_hotels:'Hotels & Riads',
+    footer_become_guide:'Become a guide', footer_affiliate:'Affiliate program',
+    footer_faq:'FAQ', footer_contact:'Contact us', footer_safety:'Safety center',
+    footer_privacy:'Privacy', footer_terms:'Terms',
+    footer_payment:'Secure payment',
+    newsletter_title:'Get our best deals', newsletter_sub:'Travel inspiration & exclusive promotions',
+    newsletter_ph:'your@email.com', newsletter_btn:'Subscribe',
+    nav_login:'Login', nav_pro:'Pro Space',
+    modal_client_title:'My Account', modal_client_sub:'Otla.ma traveler space',
+    tab_signin:'Sign In', tab_register:'Register',
+    btn_google:'Continue with Google', or:'or',
+    email_lbl:'Email', email_ph:'you@example.com',
+    pwd_lbl:'Password', forgot_pwd:'Forgot password?',
+    btn_signin:'Sign In', no_account:'No account?', do_register:'Register',
+    firstname_lbl:'First name', firstname_ph:'John', lastname_lbl:'Last name', lastname_ph:'Smith',
+    btn_create:'Create account', already_member:'Already registered?', do_signin:'Sign in',
+    modal_pro_title:'Join Otla.ma Pro', modal_pro_sub:'Providers, agencies & guides',
+    pro_info:'Register for free for 3 months. Our team will contact you within 48h.',
+    pro_business:'Business name', pro_category:'Category', pro_city:'City',
+    phone_lbl:'Phone', btn_submit_pro:'Submit my application',
+    menu_services:'Services', menu_account:'My account',
+    menu_login:'Login / Register', menu_login_sub:'Traveler space',
+    menu_pro:'Professional Space',
+    per_night:'/ night', per_person:'/ person', per_day:'/ day', book_btn:'Book',
+    verified_badge:'Verified', top_badge:'Top pick', premium_badge:'Premium',
+  },
+  ar: {
+    hero_tag:'منصة السياحة المغربية',
+    hero_title:'اكتشف المغرب<br><em>بطريقة مختلفة</em>',
+    hero_sub:'إقامة، أنشطة، مرشدون والمزيد — كل ما تحتاجه لرحلة مثالية في المغرب.',
+    tab_hebergement:'الإقامة', tab_activite:'الأنشطة', tab_guide:'المرشدون', tab_pack:'الباقات',
+    search_dest:'الوجهة', search_dest_ph:'مراكش، فاس، أكادير...',
+    search_date:'تاريخ الوصول', search_guests:'المسافرون',
+    btn_search:'بحث',
+    stat_prestataires:'مزود خدمة موثق', stat_regions:'مناطق مغطاة',
+    stat_voyageurs:'مسافر راضٍ', stat_note:'متوسط التقييم',
+    cat_hebergement:'الإقامة', cat_hebergement_sub:'فنادق، رياض، فيلات...', cat_hebergement_count:'فنادق، رياض، فيلات',
+    cat_activite:'الأنشطة', cat_activite_sub:'سرف، رباعي، حمام...', cat_activite_count:'سرف، رباعي، حمام',
+    cat_pack:'الباقات والإجازات', cat_pack_sub:'رحلات منظمة', cat_pack_count:'رحلات منظمة',
+    cat_guide:'المرشدون', cat_guide_sub:'مرشدون معتمدون', cat_guide_count:'مرشدون محليون معتمدون',
+    cat_location:'تأجير السيارات', cat_location_sub:'سيارات، دراجات...', cat_location_count:'سيارات، دراجات، دراجات هوائية',
+    cat_restaurant:'المطاعم', cat_restaurant_sub:'حجز طاولات', cat_restaurant_count:'حجز طاولات',
+    section_explore_label:'استكشف', section_explore_title:'جميع الفئات',
+    listings_title:'الإقامات الشعبية', listings_sub:'أفضل العناوين التي تحققت منها فرقتنا',
+    see_all:'عرض الكل →', empty_title:'لا توجد نتائج', empty_sub:'جرب وجهة أو فئة أخرى',
+    dest_label:'الوجهات', dest_title:'أفضل الوجهات', dest_sub:'أكثر المدن زيارة في المغرب',
+    dest_mk:'المدينة الحمراء · 240+ تجربة', dest_fes:'المدينة العتيقة · 130+ تجربة',
+    dest_chef:'اللؤلؤة الزرقاء · 80+ تجربة', dest_sahara:'مرزوكة · 60+ تجربة',
+    dest_essa:'الساحل الأطلسي · 90+ تجربة',
+    promo_tag:'محترفو السياحة', promo_title:'انضم إلى منصة<br>المرجع في المغرب',
+    promo_sub:'أنشئ ملفك الشخصي مجانًا لمدة 3 أشهر. أكثر من 5000 مزود خدمة يثق بنا.',
+    promo_btn_pro:'الانضمام كمحترف', promo_btn_learn:'معرفة المزيد',
+    services_label:'روابط مفيدة', services_title:'خدمات أخرى',
+    footer_tagline:'بوابتك إلى التجارب المغربية الأصيلة. من الأطلس إلى الصحراء.',
+    footer_explore:'استكشف', footer_company:'الشركة', footer_partners:'الشركاء', footer_support:'الدعم',
+    footer_about:'حول Otla.ma', footer_team:'فريقنا', footer_careers:'الوظائف',
+    footer_press:'الصحافة والإعلام', footer_blog:'المدونة', footer_pro:'الفضاء المهني',
+    footer_agencies:'وكالات السفر', footer_hotels:'الفنادق والرياض',
+    footer_become_guide:'كن مرشدًا', footer_affiliate:'برنامج الإحالة',
+    footer_faq:'الأسئلة الشائعة', footer_contact:'اتصل بنا', footer_safety:'مركز الأمان',
+    footer_privacy:'الخصوصية', footer_terms:'الشروط',
+    footer_payment:'دفع آمن',
+    newsletter_title:'احصل على أفضل عروضنا', newsletter_sub:'إلهام السفر والعروض الحصرية',
+    newsletter_ph:'بريدك@الإلكتروني.com', newsletter_btn:'اشتراك',
+    nav_login:'تسجيل الدخول', nav_pro:'الفضاء المهني',
+    modal_client_title:'حسابي', modal_client_sub:'فضاء المسافرين في Otla.ma',
+    tab_signin:'تسجيل الدخول', tab_register:'التسجيل',
+    btn_google:'المتابعة مع Google', or:'أو',
+    email_lbl:'البريد الإلكتروني', email_ph:'أنت@مثال.com',
+    pwd_lbl:'كلمة المرور', forgot_pwd:'نسيت كلمة المرور؟',
+    btn_signin:'تسجيل الدخول', no_account:'ليس لديك حساب؟', do_register:'التسجيل',
+    firstname_lbl:'الاسم الأول', firstname_ph:'كريم', lastname_lbl:'اسم العائلة', lastname_ph:'العلوي',
+    btn_create:'إنشاء حسابي', already_member:'مسجل بالفعل؟', do_signin:'تسجيل الدخول',
+    modal_pro_title:'انضم إلى Otla.ma Pro', modal_pro_sub:'مزودو الخدمات، الوكالات والمرشدون',
+    pro_info:'سجل مجانًا لمدة 3 أشهر. سيتصل بك فريقنا خلال 48 ساعة.',
+    pro_business:'اسم المؤسسة', pro_category:'الفئة', pro_city:'المدينة',
+    phone_lbl:'الهاتف', btn_submit_pro:'تقديم طلبي',
+    menu_services:'الخدمات', menu_account:'حسابي',
+    menu_login:'تسجيل الدخول / التسجيل', menu_login_sub:'فضاء المسافرين',
+    menu_pro:'الفضاء المهني',
+    per_night:'/ ليلة', per_person:'/ شخص', per_day:'/ يوم', book_btn:'احجز',
+    verified_badge:'موثق', top_badge:'أفضل اختيار', premium_badge:'مميز',
+  }
+};
+
+// ── APPLY LANG ──
+function applyLang(lang) {
+  currentLang = lang;
+  const t = T[lang];
+  if (!t) return;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.getElementById('currentLang').textContent = lang.toUpperCase();
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const k = el.getAttribute('data-t');
+    if (t[k] !== undefined) el.textContent = t[k];
+  });
+  document.querySelectorAll('[data-t-html]').forEach(el => {
+    const k = el.getAttribute('data-t-html');
+    if (t[k] !== undefined) el.innerHTML = t[k];
+  });
+  document.querySelectorAll('[data-t-ph]').forEach(el => {
+    const k = el.getAttribute('data-t-ph');
+    if (t[k] !== undefined) el.placeholder = t[k];
+  });
+}
+
+function setLang(lang, btn) {
+  applyLang(lang);
+  closeLangMenu();
+  document.querySelectorAll('.menu-lang-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  loadListings(currentCategory);
+}
+
+// ── LOAD LISTINGS FROM SUPABASE ──
+async function loadListings(category) {
+  showSkeletons();
+  const t = T[currentLang];
+  currentCategory = category;
+
+  const catTitles = {
+    hebergement: { title: t.listings_title || 'Hébergements populaires', sub: t.listings_sub || '' },
+    activite:    { title: 'Activités & Expériences', sub: 'Les meilleures activités au Maroc' },
+    pack:        { title: 'Packs & Séjours', sub: 'Voyages organisés tout compris' },
+    guide:       { title: 'Guides touristiques', sub: 'Guides agréés et passionnés' },
+    location:    { title: 'Location de véhicules', sub: 'Voitures, motos et plus' },
+    restaurant:  { title: 'Restaurants', sub: 'Les meilleures tables du Maroc' },
+  };
+
+  const ct = catTitles[category] || catTitles.hebergement;
+  document.getElementById('listings-title').textContent = ct.title;
+  document.getElementById('listings-sub').textContent = ct.sub;
+
+  try {
+    let query = sb.from('prestataires')
+      .select('*')
+      .eq('category', category)
+      .eq('is_active', true)
+      .order('rating_avg', { ascending: false })
+      .limit(6);
+
+    const dest = document.getElementById('searchDest').value.trim();
+    if (dest) {
+      query = query.ilike('city', `%${dest}%`);
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+
+    // Count total for stats
+    const { count } = await sb.from('prestataires').select('*', { count: 'exact', head: true });
+    const statEl = document.getElementById('stat-prest');
+    if (statEl) statEl.textContent = count ? count + '+' : '5 000+';
+
+    renderCards(data || []);
+  } catch (err) {
+    console.error('Erreur chargement:', err);
+    renderCards([]);
+  }
+}
+
+// ── RENDER CARDS ──
+function renderCards(items) {
+  const grid = document.getElementById('cards-grid');
+  const empty = document.getElementById('empty-state');
+  const t = T[currentLang];
+
+  hideSkeletons();
+
+  if (!items || items.length === 0) {
+    grid.classList.add('hide');
+    empty.classList.remove('hide');
+    return;
+  }
+
+  empty.classList.add('hide');
+  grid.classList.remove('hide');
+
+  grid.innerHTML = items.map(item => {
+    const stars = '★'.repeat(Math.round(item.rating_avg || 4)) + '☆'.repeat(5 - Math.round(item.rating_avg || 4));
+    const priceLabel = currentCategory === 'hebergement' ? (t.per_night || '/ nuit') :
+                       currentCategory === 'location' ? (t.per_day || '/ jour') : (t.per_person || '/ personne');
+    const price = item.price_per_night || item.price_per_person || item.price_per_day || '—';
+    const badge = item.is_premium ? t.premium_badge : item.is_verified ? t.top_badge : '';
+    const badgeColor = item.is_premium ? 'badge-gold' : 'badge-teal';
+    const isFav = favorites.has(item.id);
+
+    return `
+    <div class="card" data-id="${item.id}">
+      <div class="card-img-wrap">
+        <img class="card-img" src="${item.cover_image || 'https://images.unsplash.com/photo-1539278670307-a69d04dc8a75?w=600&q=80'}" 
+             loading="lazy" alt="${item.business_name}"
+             onerror="this.src='https://images.unsplash.com/photo-1539278670307-a69d04dc8a75?w=600&q=80'">
+        ${badge ? `<div class="card-badge"><span class="badge ${badgeColor}">${badge}</span></div>` : ''}
+        <button class="card-fav ${isFav ? 'liked' : ''}" onclick="toggleFav('${item.id}',this)">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </button>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${item.business_name}</div>
+        <div class="card-loc">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          ${item.city}${item.region ? ' · ' + item.region : ''}
+        </div>
+        <div class="card-rating">
+          <span class="stars">${'★'.repeat(Math.round(item.rating_avg || 4))}</span>
+          <span class="rating-n">${(item.rating_avg || 4.5).toFixed(1)}</span>
+          <span class="rating-c">(${item.rating_count || 0} avis)</span>
+        </div>
+        <p class="card-desc">${(item.description_fr || item.description || '').slice(0, 100)}${(item.description_fr || '').length > 100 ? '...' : ''}</p>
+        <div class="card-footer">
+          <div class="card-price">
+            <span class="price-amount">${price}</span>
+            <span class="price-unit"> MAD ${priceLabel}</span>
+          </div>
+          <button class="card-btn" onclick="openBooking('${item.id}')">${t.book_btn || 'Réserver'}</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showSkeletons() {
+  document.getElementById('skeletons').classList.remove('hide');
+  document.getElementById('cards-grid').classList.add('hide');
+  document.getElementById('empty-state').classList.add('hide');
+}
+function hideSkeletons() {
+  document.getElementById('skeletons').classList.add('hide');
+}
+
+// ── CATEGORY FILTER ──
+function filterCategory(cat, btn) {
+  currentCategory = cat;
+  document.querySelectorAll('.nav-cat').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else {
+    document.querySelectorAll('.nav-cat').forEach(b => {
+      if (b.onclick && b.onclick.toString().includes(cat)) b.classList.add('active');
+    });
+  }
+  document.getElementById('listings-section').scrollIntoView({ behavior: 'smooth' });
+  loadListings(cat);
+}
+
+// ── SEARCH ──
+function doSearch() {
+  const dest = document.getElementById('searchDest').value.trim();
+  if (dest) {
+    document.getElementById('listings-section').scrollIntoView({ behavior: 'smooth' });
+    loadListings(currentCategory);
+  }
+}
+function searchByCity(city) {
+  document.getElementById('searchDest').value = city;
+  filterCategory('hebergement');
+}
+function setSearchTab(btn, cat) {
+  document.querySelectorAll('.search-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentCategory = cat;
+}
+
+// ── FAVORITES ──
+function toggleFav(id, btn) {
+  if (!currentUser) { openModal('client'); return; }
+  if (favorites.has(id)) {
+    favorites.delete(id);
+    btn.classList.remove('liked');
+    showToast('Retiré des favoris', '♡');
+  } else {
+    favorites.add(id);
+    btn.classList.add('liked');
+    showToast('Ajouté aux favoris !', '♥');
+  }
+}
+
+// ── BOOKING ──
+function openBooking(id) {
+  if (!currentUser) {
+    openModal('client');
+    showToast('Connectez-vous pour réserver', '🔑');
+    return;
+  }
+  showToast('Ouverture de la réservation...', '📅');
+}
+
+// ── MOBILE MENU ──
+function openMenu() {
+  document.getElementById('mobileMenu').classList.add('open');
+  document.getElementById('menuOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('menuOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── LANG MENU ──
+function toggleLangMenu() {
+  const m = document.getElementById('langMenu');
+  m.style.display = m.style.display === 'none' ? 'block' : 'none';
+}
+function closeLangMenu() {
+  document.getElementById('langMenu').style.display = 'none';
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.nav-drop') && !e.target.closest('.lang-btn')) closeLangMenu();
+});
+
+// ── MODALS ──
+function openModal(type) {
+  document.getElementById('modal-' + type).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(type) {
+  document.getElementById('modal-' + type).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function switchAuthTab(tab) {
+  const tabs = ['login', 'register'];
+  tabs.forEach(t => {
+    document.getElementById(t + '-body').classList.toggle('hide', t !== tab);
+    document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+  });
+}
+
+// ── AUTH ──
+async function signIn() {
+  const email = document.getElementById('login-email').value;
+  const pwd = document.getElementById('login-pwd').value;
+  if (!email || !pwd) { showToast('Remplissez tous les champs', '⚠️'); return; }
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pwd });
+  if (error) { showToast('Erreur: ' + error.message, '❌'); return; }
+  currentUser = data.user;
+  closeModal('client');
+  showToast('Bienvenue sur Otla.ma !', '✓');
+}
+async function signUp() {
+  const email = document.getElementById('reg-email').value;
+  const pwd = document.getElementById('reg-pwd').value;
+  const fn = document.getElementById('reg-firstname').value;
+  const ln = document.getElementById('reg-lastname').value;
+  if (!email || !pwd || !fn || !ln) { showToast('Remplissez tous les champs', '⚠️'); return; }
+  const { data, error } = await sb.auth.signUp({
+    email, password: pwd,
+    options: { data: { first_name: fn, last_name: ln } }
+  });
+  if (error) { showToast('Erreur: ' + error.message, '❌'); return; }
+  closeModal('client');
+  showToast('Compte créé ! Vérifiez votre email.', '✓');
+}
+async function signInWithGoogle() {
+  await sb.auth.signInWithOAuth({ provider: 'google' });
+}
+async function submitPro() {
+  showToast('Demande envoyée ! Nous vous contactons sous 48h.', '✓');
+  closeModal('pro');
+}
+
+// ── TOAST ──
+function showToast(msg, icon='✓') {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-text').textContent = msg;
+  document.getElementById('toast-icon').textContent = icon;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ── AUTH STATE ──
+sb.auth.onAuthStateChange((event, session) => {
+  currentUser = session?.user || null;
+});
+
+// ── ENTER KEY SEARCH ──
+document.getElementById('searchDest').addEventListener('keypress', e => {
+  if (e.key === 'Enter') doSearch();
+});
+
+// ── INIT ──
+applyLang('fr');
+loadListings('hebergement');
+</script>
+</body>
+</html>

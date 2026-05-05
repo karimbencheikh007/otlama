@@ -591,7 +591,7 @@ footer{background:#0D1117;padding:64px 0 0;}
   <div style="flex:1;overflow-y:auto;">
     <div class="menu-section-label" data-t="menu_services">Services</div>
 
-    <div class="menu-item" onclick="filterCategory('hebergement');closeMenu();">
+    <div class="menu-item" onclick="window.location.href='hebergement.html'">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       </div>
@@ -602,7 +602,7 @@ footer{background:#0D1117;padding:64px 0 0;}
       <svg class="menu-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
     </div>
 
-    <div class="menu-item" onclick="filterCategory('activite');closeMenu();">
+    <div class="menu-item" onclick="window.location.href='activites.html'">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
       </div>
@@ -613,7 +613,7 @@ footer{background:#0D1117;padding:64px 0 0;}
       <svg class="menu-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
     </div>
 
-    <div class="menu-item" onclick="filterCategory('pack');closeMenu();">
+    <div class="menu-item" onclick="window.location.href='packs.html'">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
       </div>
@@ -624,7 +624,7 @@ footer{background:#0D1117;padding:64px 0 0;}
       <svg class="menu-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
     </div>
 
-    <div class="menu-item" onclick="filterCategory('guide');closeMenu();">
+    <div class="menu-item" onclick="window.location.href='guides.html'">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
       </div>
@@ -635,7 +635,7 @@ footer{background:#0D1117;padding:64px 0 0;}
       <svg class="menu-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
     </div>
 
-    <div class="menu-item" onclick="filterCategory('location');closeMenu();">
+    <div class="menu-item" onclick="window.location.href='location.html'">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24"><rect x="1" y="9" width="22" height="12" rx="2"/><path d="M16 9V7a2 2 0 00-2-2H10a2 2 0 00-2 2v2"/><circle cx="8.5" cy="15" r="1.5"/><circle cx="15.5" cy="15" r="1.5"/></svg>
       </div>
@@ -646,7 +646,7 @@ footer{background:#0D1117;padding:64px 0 0;}
       <svg class="menu-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
     </div>
 
-    <div class="menu-item" onclick="filterCategory('restaurant');closeMenu();">
+    <div class="menu-item" onclick="window.location.href='restaurants.html'">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
       </div>
@@ -668,7 +668,7 @@ footer{background:#0D1117;padding:64px 0 0;}
       </div>
     </div>
 
-    <button class="menu-pro-btn" onclick="openModal('pro');closeMenu();">
+    <button class="menu-pro-btn" onclick="window.location.href='espace-pro.html'">
       <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
       <span data-t="menu_pro">Espace Professionnel</span>
     </button>
@@ -684,15 +684,15 @@ footer{background:#0D1117;padding:64px 0 0;}
 <!-- ═══ NAV ═══ -->
 <nav>
   <div class="nav-inner">
-    <a class="nav-logo" href="#">Otla<span>.ma</span></a>
+    <a class="nav-logo" href="index.html">Otla<span>.ma</span></a>
 
     <div class="nav-cats">
-      <button class="nav-cat active" onclick="filterCategory('hebergement',this)" data-t="cat_hebergement">Hébergement</button>
-      <button class="nav-cat" onclick="filterCategory('activite',this)" data-t="cat_activite">Activités</button>
-      <button class="nav-cat" onclick="filterCategory('pack',this)" data-t="cat_pack">Packs & Séjours</button>
-      <button class="nav-cat" onclick="filterCategory('guide',this)" data-t="cat_guide">Guides</button>
-      <button class="nav-cat" onclick="filterCategory('location',this)" data-t="cat_location">Location</button>
-      <button class="nav-cat" onclick="filterCategory('restaurant',this)" data-t="cat_restaurant">Restaurants</button>
+      <button class="nav-cat active" onclick="window.location.href='hebergement.html'" data-t="cat_hebergement">Hébergement</button>
+      <button class="nav-cat" onclick="window.location.href='activites.html'" data-t="cat_activite">Activités</button>
+      <button class="nav-cat" onclick="window.location.href='packs.html'" data-t="cat_pack">Packs & Séjours</button>
+      <button class="nav-cat" onclick="window.location.href='guides.html'" data-t="cat_guide">Guides</button>
+      <button class="nav-cat" onclick="window.location.href='location.html'" data-t="cat_location">Location</button>
+      <button class="nav-cat" onclick="window.location.href='restaurants.html'" data-t="cat_restaurant">Restaurants</button>
     </div>
 
     <div class="nav-right">
@@ -709,7 +709,7 @@ footer{background:#0D1117;padding:64px 0 0;}
         </div>
       </div>
       <button class="nav-login" onclick="openModal('client')" data-t="nav_login">Connexion</button>
-      <button class="nav-pro" onclick="openModal('pro')" data-t="nav_pro">Espace Pro</button>
+      <button class="nav-pro" onclick="window.location.href='espace-pro.html'" data-t="nav_pro">Espace Pro</button>
       <button class="hamburger" onclick="openMenu()">
         <span></span><span></span><span></span>
       </button>
@@ -732,10 +732,10 @@ footer{background:#0D1117;padding:64px 0 0;}
     <!-- SEARCH BOX -->
     <div class="search-box">
       <div class="search-tabs">
-        <button class="search-tab active" onclick="setSearchTab(this,'hebergement')" data-t="tab_hebergement">Hébergement</button>
-        <button class="search-tab" onclick="setSearchTab(this,'activite')" data-t="tab_activite">Activités</button>
-        <button class="search-tab" onclick="setSearchTab(this,'guide')" data-t="tab_guide">Guides</button>
-        <button class="search-tab" onclick="setSearchTab(this,'pack')" data-t="tab_pack">Packs</button>
+        <button class="search-tab active" onclick="setSearchTab(this,'hebergement');currentCategory='hebergement';" data-t="tab_hebergement">Hébergement</button>
+        <button class="search-tab" onclick="setSearchTab(this,'activite');currentCategory='activite';" data-t="tab_activite">Activités</button>
+        <button class="search-tab" onclick="setSearchTab(this,'guide');currentCategory='guide';" data-t="tab_guide">Guides</button>
+        <button class="search-tab" onclick="setSearchTab(this,'pack');currentCategory='pack';" data-t="tab_pack">Packs</button>
       </div>
       <div class="search-fields">
         <div class="search-field">
@@ -795,7 +795,7 @@ footer{background:#0D1117;padding:64px 0 0;}
       </div>
     </div>
     <div class="cats-grid">
-      <div class="cat-card" onclick="filterCategory('hebergement')">
+      <div class="cat-card" onclick="window.location.href='hebergement.html'">
         <img class="cat-img" src="https://images.unsplash.com/photo-1539278670307-a69d04dc8a75?w=300&q=75" loading="lazy" alt="Hébergement">
         <div class="cat-body">
           <div class="cat-icon-wrap"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
@@ -803,7 +803,7 @@ footer{background:#0D1117;padding:64px 0 0;}
           <div class="cat-count" data-t="cat_hebergement_count">Hôtels, riads, villas</div>
         </div>
       </div>
-      <div class="cat-card" onclick="filterCategory('activite')">
+      <div class="cat-card" onclick="window.location.href='activites.html'">
         <img class="cat-img" src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=300&q=75" loading="lazy" alt="Activités">
         <div class="cat-body">
           <div class="cat-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg></div>
@@ -811,7 +811,7 @@ footer{background:#0D1117;padding:64px 0 0;}
           <div class="cat-count" data-t="cat_activite_count">Surf, quad, hammam</div>
         </div>
       </div>
-      <div class="cat-card" onclick="filterCategory('pack')">
+      <div class="cat-card" onclick="window.location.href='packs.html'">
         <img class="cat-img" src="https://images.unsplash.com/photo-1548013146-72479768bada?w=300&q=75" loading="lazy" alt="Packs">
         <div class="cat-body">
           <div class="cat-icon-wrap"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
@@ -819,7 +819,7 @@ footer{background:#0D1117;padding:64px 0 0;}
           <div class="cat-count" data-t="cat_pack_count">Circuits organisés</div>
         </div>
       </div>
-      <div class="cat-card" onclick="filterCategory('guide')">
+      <div class="cat-card" onclick="window.location.href='guides.html'">
         <img class="cat-img" src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=300&q=75" loading="lazy" alt="Guides">
         <div class="cat-body">
           <div class="cat-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
@@ -827,7 +827,7 @@ footer{background:#0D1117;padding:64px 0 0;}
           <div class="cat-count" data-t="cat_guide_count">Guides agréés locaux</div>
         </div>
       </div>
-      <div class="cat-card" onclick="filterCategory('location')">
+      <div class="cat-card" onclick="window.location.href='location.html'">
         <img class="cat-img" src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=300&q=75" loading="lazy" alt="Location">
         <div class="cat-body">
           <div class="cat-icon-wrap"><svg viewBox="0 0 24 24"><rect x="1" y="9" width="22" height="12" rx="2"/><path d="M16 9V7a2 2 0 00-2-2H10a2 2 0 00-2 2v2"/><circle cx="8.5" cy="15" r="1.5"/><circle cx="15.5" cy="15" r="1.5"/></svg></div>
@@ -848,7 +848,7 @@ footer{background:#0D1117;padding:64px 0 0;}
         <h2 class="section-title" id="listings-title" data-t="listings_title">Hébergements populaires</h2>
         <p class="section-sub" id="listings-sub" data-t="listings_sub">Les meilleures adresses vérifiées par notre équipe</p>
       </div>
-      <a class="see-all" href="#" data-t="see_all">Voir tout →</a>
+      <a class="see-all" href="hebergement.html" data-t="see_all">Voir tout →</a>
     </div>
 
     <!-- Loading skeletons -->
@@ -918,7 +918,7 @@ footer{background:#0D1117;padding:64px 0 0;}
         <p class="promo-sub" data-t="promo_sub">Créez votre profil gratuitement pendant 3 mois. 5 000+ prestataires nous font déjà confiance.</p>
       </div>
       <div class="promo-actions">
-        <button class="promo-btn-white" onclick="openModal('pro')" data-t="promo_btn_pro">Rejoindre en Pro</button>
+        <button class="promo-btn-white" onclick="window.location.href='espace-pro.html'">Rejoindre en Pro</button>
         <button class="promo-btn-outline" data-t="promo_btn_learn">En savoir plus</button>
       </div>
     </div>
@@ -990,12 +990,12 @@ footer{background:#0D1117;padding:64px 0 0;}
       <div class="footer-col">
         <h5 data-t="footer_explore">Explorer</h5>
         <ul>
-          <li><a onclick="filterCategory('hebergement')" data-t="cat_hebergement">Hébergement</a></li>
-          <li><a onclick="filterCategory('activite')" data-t="cat_activite">Activités</a></li>
-          <li><a onclick="filterCategory('pack')" data-t="cat_pack">Packs & Séjours</a></li>
-          <li><a onclick="filterCategory('guide')" data-t="cat_guide">Guides</a></li>
-          <li><a onclick="filterCategory('location')" data-t="cat_location">Location</a></li>
-          <li><a onclick="filterCategory('restaurant')" data-t="cat_restaurant">Restaurants</a></li>
+          <li><a onclick="window.location.href='hebergement.html'" data-t="cat_hebergement">Hébergement</a></li>
+          <li><a onclick="window.location.href='activites.html'" data-t="cat_activite">Activités</a></li>
+          <li><a onclick="window.location.href='packs.html'" data-t="cat_pack">Packs & Séjours</a></li>
+          <li><a onclick="window.location.href='guides.html'" data-t="cat_guide">Guides</a></li>
+          <li><a onclick="window.location.href='location.html'" data-t="cat_location">Location</a></li>
+          <li><a onclick="window.location.href='restaurants.html'" data-t="cat_restaurant">Restaurants</a></li>
         </ul>
       </div>
 
@@ -1513,6 +1513,9 @@ function hideSkeletons() {
 
 // ── CATEGORY FILTER ──
 function filterCategory(cat, btn) {
+  const pages = {hebergement:'hebergement.html',activite:'activites.html',pack:'packs.html',guide:'guides.html',location:'location.html',restaurant:'restaurants.html'};
+  if (pages[cat]) { window.location.href = pages[cat]; return; }
+
   currentCategory = cat;
   document.querySelectorAll('.nav-cat').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
@@ -1528,14 +1531,22 @@ function filterCategory(cat, btn) {
 // ── SEARCH ──
 function doSearch() {
   const dest = document.getElementById('searchDest').value.trim();
+  const pages = {hebergement:'hebergement.html',activite:'activites.html',pack:'packs.html',guide:'guides.html',location:'location.html',restaurant:'restaurants.html'};
+  const page = pages[currentCategory] || 'hebergement.html';
+  const url = dest ? `${page}?dest=${encodeURIComponent(dest)}` : page;
+  window.location.href = url;
+  return;
+  // original below
+
+  const dest = document.getElementById('searchDest').value.trim();
   if (dest) {
     document.getElementById('listings-section').scrollIntoView({ behavior: 'smooth' });
     loadListings(currentCategory);
   }
 }
+}
 function searchByCity(city) {
-  document.getElementById('searchDest').value = city;
-  filterCategory('hebergement');
+  window.location.href = 'hebergement.html?dest=' + encodeURIComponent(city);
 }
 function setSearchTab(btn, cat) {
   document.querySelectorAll('.search-tab').forEach(b => b.classList.remove('active'));
@@ -1559,6 +1570,9 @@ function toggleFav(id, btn) {
 
 // ── BOOKING ──
 function openBooking(id) {
+  window.location.href = 'hebergement.html';
+  return;
+
   if (!currentUser) {
     openModal('client');
     showToast('Connectez-vous pour réserver', '🔑');

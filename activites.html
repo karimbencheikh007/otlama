@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activités au Maroc — Otla.ma</title>
+<meta name="description" content="Surf, quad, hammam, montgolfière, trekking... Les meilleures activités au Maroc sur Otla.ma">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --teal:#1A7A7A;--teal-d:#0D5C5C;--teal-l:#E8F5F5;--teal-m:#B2DFDF;
+  --gold:#F5A623;--gold-d:#C4822A;
+  --text:#111827;--muted:#6B7280;--border:#E5E7EB;--bg:#F9FAFB;
+  --white:#FFFFFF;
+  --shadow:0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg:0 12px 40px rgba(0,0,0,0.14);
+  --radius:12px;--radius-lg:16px;--nav-h:64px;
+  --font:'Plus Jakarta Sans',-apple-system,sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+.hide{display:none!important;}
+input,select,button,textarea{font-family:var(--font);}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:var(--nav-h);background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-inner{max-width:1400px;margin:0 auto;padding:0 24px;height:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-logo{font-size:22px;font-weight:800;color:var(--teal);text-decoration:none;letter-spacing:-0.5px;flex-shrink:0;}
+.nav-logo span{color:var(--gold);}
+.nav-back{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted);text-decoration:none;cursor:pointer;padding:7px 14px;border-radius:var(--radius);transition:all .18s;border:1px solid var(--border);}
+.nav-back:hover{border-color:var(--teal);color:var(--teal);}
+.nav-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+.nav-title{font-size:16px;font-weight:700;color:var(--text);}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.nav-btn{padding:8px 16px;border-radius:var(--radius);font-size:13.5px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:none;color:var(--text);transition:all .18s;}
+.nav-btn:hover{border-color:var(--teal);color:var(--teal);}
+.nav-btn-primary{background:var(--teal);color:#fff;border-color:var(--teal);}
+.nav-btn-primary:hover{background:var(--teal-d);}
+
+/* ── HERO MINI ── */
+.hero-mini{
+  margin-top:var(--nav-h);
+  background:linear-gradient(135deg,var(--teal-d) 0%,var(--teal) 60%,#24998F 100%);
+  padding:40px 24px 32px;position:relative;overflow:hidden;
+}
+.hero-mini::before{content:'';position:absolute;right:-40px;top:-40px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.04);}
+.hero-mini::after{content:'';position:absolute;right:80px;bottom:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.03);}
+.hero-mini-inner{max-width:1400px;margin:0 auto;position:relative;z-index:2;}
+.hero-mini-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:5px 14px;margin-bottom:14px;}
+.hero-mini-tag span{font-size:12px;color:rgba(255,255,255,0.9);font-weight:600;}
+.hero-mini-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);}
+.hero-mini h1{font-size:clamp(26px,4vw,42px);font-weight:800;color:#fff;letter-spacing:-.03em;margin-bottom:8px;}
+.hero-mini h1 em{color:var(--gold);font-style:normal;}
+.hero-mini p{font-size:15px;color:rgba(255,255,255,0.75);max-width:560px;line-height:1.65;}
+
+/* ── SEARCH BAR ── */
+.search-bar{
+  background:#fff;border-bottom:1px solid var(--border);
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+  padding:12px 0;position:sticky;top:var(--nav-h);z-index:400;
+}
+.search-bar-inner{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.sb-field{display:flex;flex-direction:column;gap:3px;}
+.sb-label{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--teal);}
+.sb-input,.sb-select{padding:8px 12px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:13.5px;color:var(--text);outline:none;background:#fafafa;height:40px;transition:border-color .18s;}
+.sb-input:focus,.sb-select:focus{border-color:var(--teal);background:#fff;}
+.sb-input::placeholder{color:#bbb;}
+.sb-divider{width:1px;height:32px;background:var(--border);flex-shrink:0;}
+.sb-search-btn{padding:0 20px;height:40px;background:var(--teal);color:#fff;border:none;border-radius:var(--radius);font-weight:700;font-size:13.5px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:background .2s;white-space:nowrap;flex-shrink:0;}
+.sb-search-btn:hover{background:var(--teal-d);}
+.sb-search-btn svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;}
+
+/* Niveau difficulté */
+.diff-filter{display:flex;gap:4px;}
+.diff-btn{padding:0 12px;height:40px;border:1.5px solid var(--border);border-radius:var(--radius);background:#fafafa;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--muted);transition:all .15s;white-space:nowrap;}
+.diff-btn:hover,.diff-btn.active{border-color:var(--teal);background:var(--teal-l);color:var(--teal);}
+
+/* ── CATEGORY TABS ── */
+.cat-tabs{background:#fff;border-bottom:1px solid var(--border);padding:0;position:sticky;top:calc(var(--nav-h) + 65px);z-index:399;overflow-x:auto;scrollbar-width:none;}
+.cat-tabs::-webkit-scrollbar{display:none;}
+.cat-tabs-inner{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;gap:0;}
+.cat-tab{
+  display:flex;align-items:center;gap:8px;
+  padding:14px 20px;font-size:13.5px;font-weight:600;
+  color:var(--muted);cursor:pointer;border:none;background:none;
+  border-bottom:2.5px solid transparent;transition:all .18s;
+  white-space:nowrap;font-family:var(--font);
+}
+.cat-tab:hover{color:var(--text);}
+.cat-tab.active{color:var(--teal);border-bottom-color:var(--teal);}
+.cat-tab-icon{width:32px;height:32px;border-radius:9px;background:var(--bg);display:flex;align-items:center;justify-content:center;}
+.cat-tab.active .cat-tab-icon{background:var(--teal-l);}
+.cat-tab-icon svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ── MAIN ── */
+.main{max-width:1400px;margin:0 auto;padding:28px 24px 80px;}
+.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.results-count{font-size:15px;color:var(--muted);}
+.results-count strong{color:var(--text);font-weight:700;}
+.results-controls{display:flex;align-items:center;gap:10px;}
+.sort-select{padding:8px 14px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:13.5px;color:var(--text);background:#fff;outline:none;cursor:pointer;}
+.view-toggle{display:flex;border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff;}
+.view-btn{width:38px;height:36px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.view-btn svg{width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:1.8;}
+.view-btn.active{background:var(--teal);}
+.view-btn.active svg{stroke:#fff;}
+
+/* ── CARDS ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
+.cards-grid.list-view{grid-template-columns:1fr;}
+
+.a-card{background:#fff;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);transition:transform .22s,box-shadow .22s;cursor:pointer;display:flex;flex-direction:column;}
+.a-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+.a-card.list-card{flex-direction:row;height:190px;}
+.a-card-img-wrap{position:relative;overflow:hidden;flex-shrink:0;}
+.a-card-img{width:100%;height:195px;object-fit:cover;display:block;transition:transform .35s;}
+.a-card:hover .a-card-img{transform:scale(1.04);}
+.a-card.list-card .a-card-img{width:260px;height:100%;}
+.a-badges{position:absolute;top:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap;}
+.a-badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.badge-teal{background:var(--teal);color:#fff;}
+.badge-gold{background:var(--gold);color:#7A4A00;}
+.badge-green{background:#10B981;color:#fff;}
+.badge-red{background:#EF4444;color:#fff;}
+.badge-purple{background:#8B5CF6;color:#fff;}
+.a-fav{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.92);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .18s;}
+.a-fav:hover{background:#fff;transform:scale(1.1);}
+.a-fav svg{width:15px;height:15px;stroke:var(--teal);fill:none;stroke-width:2;}
+.a-fav.liked svg{fill:var(--teal);}
+.a-duration-badge{position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,0.55);color:#fff;font-size:11.5px;font-weight:600;border-radius:20px;padding:4px 10px;display:flex;align-items:center;gap:5px;}
+.a-duration-badge svg{width:11px;height:11px;stroke:#fff;fill:none;stroke-width:2;}
+
+.a-card-body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1;}
+.a-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px;}
+.a-card-name{font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.02em;line-height:1.3;}
+.a-card-price-wrap{text-align:right;flex-shrink:0;}
+.a-card-price{font-size:18px;font-weight:800;color:var(--teal);line-height:1;}
+.a-card-price-unit{font-size:11px;color:var(--muted);margin-top:2px;}
+.a-card-loc{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px;margin-bottom:7px;}
+.a-card-loc svg{width:12px;height:12px;stroke:var(--muted);fill:none;stroke-width:2;flex-shrink:0;}
+.a-rating{display:flex;align-items:center;gap:5px;margin-bottom:8px;}
+.a-stars{color:var(--gold);font-size:12px;}
+.a-rating-n{font-size:13px;font-weight:700;color:var(--text);}
+.a-rating-c{font-size:12px;color:var(--muted);}
+.a-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
+.a-tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:var(--teal-l);color:var(--teal);}
+.a-desc{font-size:13px;color:var(--muted);line-height:1.6;flex:1;margin-bottom:12px;}
+.a-card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto;gap:8px;}
+.a-info{display:flex;align-items:center;gap:12px;}
+.a-info-item{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--muted);}
+.a-info-item svg{width:12px;height:12px;stroke:var(--muted);fill:none;stroke-width:2;flex-shrink:0;}
+.a-book-btn{padding:9px 18px;background:var(--teal);color:#fff;border:none;border-radius:var(--radius);font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;flex-shrink:0;}
+.a-book-btn:hover{background:var(--teal-d);}
+
+/* Skeleton */
+.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:var(--radius-lg);}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.skel-a{height:340px;}
+
+/* Empty */
+.empty{text-align:center;padding:80px 20px;grid-column:1/-1;}
+.empty-icon{font-size:56px;margin-bottom:16px;}
+.empty h3{font-size:22px;font-weight:700;margin-bottom:8px;}
+.empty p{color:var(--muted);font-size:15px;}
+.empty-btn{margin-top:20px;padding:11px 24px;background:var(--teal);color:#fff;border:none;border-radius:var(--radius);font-size:14px;font-weight:700;cursor:pointer;}
+
+/* Pagination */
+.pagination{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:40px;}
+.page-btn{width:40px;height:40px;border:1.5px solid var(--border);border-radius:var(--radius);background:#fff;cursor:pointer;font-size:14px;font-weight:500;color:var(--text);transition:all .18s;display:flex;align-items:center;justify-content:center;}
+.page-btn:hover{border-color:var(--teal);color:var(--teal);}
+.page-btn.active{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:700;}
+.page-btn:disabled{opacity:0.35;cursor:not-allowed;}
+
+/* ── DETAIL OVERLAY ── */
+.detail-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(8px);z-index:2000;overflow-y:auto;}
+.detail-overlay.open{display:block;}
+.detail-modal{background:#fff;margin:0 auto;max-width:1060px;min-height:100vh;position:relative;}
+.detail-close{position:fixed;top:16px;right:16px;z-index:3000;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.95);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
+.detail-close:hover{background:#fff;box-shadow:var(--shadow-lg);}
+.detail-close svg{width:18px;height:18px;stroke:var(--text);fill:none;stroke-width:2.5;}
+
+/* Gallery */
+.gallery{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:220px 220px;gap:6px;position:relative;}
+.gallery-main{grid-row:1/3;overflow:hidden;}
+.gallery img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s;}
+.gallery img:hover{transform:scale(1.03);}
+.gallery-tr{overflow:hidden;border-radius:0 var(--radius) 0 0;}
+.gallery-br{overflow:hidden;border-radius:0 0 var(--radius) 0;}
+.gallery-tl{overflow:hidden;}
+.gallery-btn{position:absolute;bottom:14px;right:14px;background:rgba(255,255,255,0.92);border:1px solid var(--border);border-radius:var(--radius);padding:7px 13px;font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;}
+.gallery-btn svg{width:13px;height:13px;stroke:var(--text);fill:none;stroke-width:2;}
+
+/* Detail content */
+.detail-content{display:grid;grid-template-columns:1fr 360px;gap:36px;padding:32px 40px 60px;}
+.detail-left{}
+.detail-name{font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:12px;}
+.detail-meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
+.d-meta-item{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--muted);}
+.d-meta-item svg{width:14px;height:14px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;}
+.d-meta-item.highlight{color:var(--teal);font-weight:600;}
+.d-meta-item.highlight svg{stroke:var(--teal);}
+.d-divider{height:1px;background:var(--border);margin:20px 0;}
+
+/* Inclusions */
+.includes-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.include-item{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--text);}
+.include-item svg{width:16px;height:16px;stroke:#10B981;fill:none;stroke-width:2.5;flex-shrink:0;}
+.include-item.excluded{color:var(--muted);}
+.include-item.excluded svg{stroke:#EF4444;}
+
+/* Prestataire card */
+.host-card{display:flex;align-items:center;gap:14px;background:var(--bg);border-radius:var(--radius);padding:16px;margin-bottom:20px;}
+.host-avatar{width:50px;height:50px;border-radius:50%;background:var(--teal-m);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:var(--teal-d);flex-shrink:0;}
+.host-name{font-size:14.5px;font-weight:700;margin-bottom:2px;}
+.host-meta{font-size:12px;color:var(--muted);}
+.host-badge{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--teal);font-weight:600;margin-top:4px;}
+.host-badge svg{width:12px;height:12px;stroke:var(--teal);fill:none;stroke-width:2;}
+.host-contact{margin-left:auto;display:flex;flex-direction:column;gap:6px;}
+.host-contact-btn{padding:7px 14px;border-radius:var(--radius);font-size:12.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;border:1.5px solid var(--border);background:#fff;color:var(--text);transition:all .18s;}
+.host-contact-btn:hover{border-color:var(--teal);color:var(--teal);}
+.host-contact-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;}
+
+/* Reviews */
+.review-card{border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;}
+.review-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.review-avatar{width:36px;height:36px;border-radius:50%;background:var(--teal-l);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--teal-d);flex-shrink:0;}
+.review-name{font-size:13.5px;font-weight:700;}
+.review-date{font-size:11.5px;color:var(--muted);}
+.review-stars{color:var(--gold);font-size:11px;}
+.review-text{font-size:13px;color:#374151;line-height:1.7;}
+
+/* ── BOOKING CARD ── */
+.booking-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-lg);position:sticky;top:calc(var(--nav-h) + 24px);}
+.bk-price-row{display:flex;align-items:baseline;gap:6px;margin-bottom:4px;}
+.bk-price{font-size:24px;font-weight:800;color:var(--teal);}
+.bk-unit{font-size:13px;color:var(--muted);}
+.bk-rating{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--muted);margin-bottom:18px;}
+.bk-rating svg{width:12px;height:12px;fill:var(--gold);}
+
+/* Date & participants */
+.bk-fields{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+.bk-field{border:1.5px solid var(--border);border-radius:var(--radius);padding:11px 14px;transition:border-color .18s;}
+.bk-field:focus-within{border-color:var(--teal);}
+.bk-field label{display:block;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text);margin-bottom:4px;}
+.bk-field input,.bk-field select{width:100%;border:none;outline:none;font-family:var(--font);font-size:14px;color:var(--text);background:transparent;}
+
+/* Participants counter */
+.participants-row{display:flex;justify-content:space-between;align-items:center;}
+.participants-label strong{font-size:14px;}
+.participants-label span{font-size:12px;color:var(--muted);display:block;}
+.counter{display:flex;align-items:center;gap:10px;}
+.counter-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:#fff;cursor:pointer;font-size:16px;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.counter-btn:hover:not(:disabled){border-color:var(--teal);color:var(--teal);}
+.counter-btn:disabled{opacity:0.35;cursor:not-allowed;}
+.counter-n{font-size:15px;font-weight:600;min-width:22px;text-align:center;}
+
+/* Price breakdown */
+.bk-breakdown{background:var(--bg);border-radius:var(--radius);padding:14px;margin:14px 0;}
+.bk-row{display:flex;justify-content:space-between;font-size:13.5px;color:var(--text);margin-bottom:8px;}
+.bk-row:last-child{margin-bottom:0;padding-top:8px;border-top:1px solid var(--border);font-weight:700;font-size:14.5px;}
+.bk-row a{color:var(--teal);text-decoration:underline;cursor:pointer;}
+
+.bk-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--teal),var(--teal-d));color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:800;cursor:pointer;transition:all .2s;margin-bottom:10px;letter-spacing:-.01em;}
+.bk-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(26,122,122,0.35);}
+.bk-note{text-align:center;font-size:12px;color:var(--muted);margin-bottom:14px;}
+.bk-features{display:flex;flex-direction:column;gap:7px;}
+.bk-feature{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text);}
+.bk-feature svg{width:14px;height:14px;stroke:var(--teal);fill:none;stroke-width:2.5;flex-shrink:0;}
+
+/* ── CONTACT MODAL ── */
+.contact-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:4000;align-items:center;justify-content:center;padding:20px;}
+.contact-overlay.open{display:flex;}
+.contact-modal{background:#fff;border-radius:20px;width:100%;max-width:500px;overflow:hidden;animation:mIn .25s ease;}
+@keyframes mIn{from{opacity:0;transform:scale(.96);}to{opacity:1;transform:scale(1);}}
+.contact-header{background:linear-gradient(135deg,var(--teal-d),var(--teal));padding:22px 26px;color:#fff;}
+.contact-header h2{font-size:19px;font-weight:800;margin-bottom:3px;}
+.contact-header p{font-size:13px;opacity:.8;}
+.contact-body{padding:24px 26px 26px;}
+.c-field{margin-bottom:14px;}
+.c-label{display:block;font-size:12.5px;font-weight:700;margin-bottom:5px;color:var(--text);}
+.c-input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:14px;color:var(--text);outline:none;transition:border-color .2s;background:#fafafa;}
+.c-input:focus{border-color:var(--teal);background:#fff;}
+.c-textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:14px;color:var(--text);outline:none;resize:vertical;min-height:100px;transition:border-color .2s;background:#fafafa;font-family:var(--font);}
+.c-textarea:focus{border-color:var(--teal);background:#fff;}
+.c-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.c-whatsapp{width:100%;padding:12px;background:#25D366;color:#fff;border:none;border-radius:var(--radius);font-size:14.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;transition:background .2s;}
+.c-whatsapp:hover{background:#1EB857;}
+.c-whatsapp svg{width:18px;height:18px;fill:#fff;}
+.c-submit{width:100%;padding:12px;background:var(--teal);color:#fff;border:none;border-radius:var(--radius);font-size:14.5px;font-weight:700;cursor:pointer;transition:background .2s;}
+.c-submit:hover{background:var(--teal-d);}
+.c-cancel{width:100%;padding:10px;background:none;border:none;font-size:13px;color:var(--muted);cursor:pointer;margin-top:8px;}
+
+/* ── SUCCESS ── */
+.success-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:5000;align-items:center;justify-content:center;}
+.success-overlay.open{display:flex;}
+.success-card{background:#fff;border-radius:20px;padding:44px 36px;text-align:center;max-width:400px;width:90%;animation:mIn .3s ease;}
+.s-icon{width:68px;height:68px;border-radius:50%;background:#ECFDF5;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;}
+.s-icon svg{width:34px;height:34px;stroke:#10B981;fill:none;stroke-width:2.5;}
+.success-card h2{font-size:22px;font-weight:800;margin-bottom:8px;}
+.success-card p{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:20px;}
+.s-ref{background:var(--bg);border-radius:var(--radius);padding:10px 18px;font-size:13px;font-weight:600;margin-bottom:20px;}
+.s-btn{padding:12px 28px;background:var(--teal);color:#fff;border:none;border-radius:var(--radius);font-size:14px;font-weight:700;cursor:pointer;}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:#fff;border-radius:var(--radius);padding:13px 17px;box-shadow:var(--shadow-lg);border-left:4px solid var(--teal);transform:translateX(130%);transition:transform .3s;display:flex;align-items:center;gap:10px;max-width:300px;}
+.toast.show{transform:translateX(0);}
+.toast-icon{font-size:17px;}
+.toast-msg{font-size:13px;font-weight:500;color:var(--text);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){.detail-content{grid-template-columns:1fr;padding:20px;}.booking-card{position:static;}}
+@media(max-width:768px){.a-card.list-card{flex-direction:column;height:auto;}.a-card.list-card .a-card-img{width:100%;height:200px;}.gallery{grid-template-columns:1fr;grid-template-rows:250px;}.gallery>*:not(.gallery-main){display:none;}.gallery-main{grid-row:auto;}}
+@media(max-width:600px){.cards-grid{grid-template-columns:1fr;}.search-bar-inner{flex-direction:column;align-items:stretch;}.sb-field{min-width:0;}}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"><span class="toast-icon" id="t-icon">✓</span><span class="toast-msg" id="t-msg"></span></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">Otla<span>.ma</span></a>
+    <a class="nav-back" href="index.html">
+      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Accueil
+    </a>
+    <div class="nav-title">Activités au Maroc</div>
+    <div class="nav-right">
+      <button class="nav-btn" onclick="window.location.href='espace-pro.html'">Connexion</button>
+      <button class="nav-btn nav-btn-primary" onclick="window.location.href='espace-pro.html'">Espace Pro</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO MINI -->
+<div class="hero-mini">
+  <div class="hero-mini-inner">
+    <div class="hero-mini-tag"><span class="hero-mini-dot"></span><span>Activités & Expériences</span></div>
+    <h1>Les meilleures activités<br>au <em>Maroc</em></h1>
+    <p>Surf, quad, hammam, montgolfière, trekking, plongée... Des expériences authentiques avec des prestataires vérifiés.</p>
+  </div>
+</div>
+
+<!-- SEARCH BAR -->
+<div class="search-bar">
+  <div class="search-bar-inner">
+    <!-- Destination -->
+    <div class="sb-field" style="min-width:150px;">
+      <div class="sb-label">Destination</div>
+      <input class="sb-input" id="f-dest" type="text" placeholder="Ville, région...">
+    </div>
+    <div class="sb-divider"></div>
+    <!-- Nom -->
+    <div class="sb-field" style="min-width:160px;">
+      <div class="sb-label">Nom de l'activité</div>
+      <input class="sb-input" id="f-name" type="text" placeholder="Surf, hammam, quad...">
+    </div>
+    <div class="sb-divider"></div>
+    <!-- Date -->
+    <div class="sb-field">
+      <div class="sb-label">Date souhaitée</div>
+      <input class="sb-input" id="f-date" type="date">
+    </div>
+    <div class="sb-divider"></div>
+    <!-- Prix -->
+    <div class="sb-field">
+      <div class="sb-label">Prix / personne (MAD)</div>
+      <div style="display:flex;align-items:center;gap:5px;">
+        <input style="width:70px;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:13px;height:40px;outline:none;background:#fafafa;" id="f-pmin" type="number" placeholder="Min">
+        <span style="font-size:12px;color:var(--muted);">—</span>
+        <input style="width:70px;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:13px;height:40px;outline:none;background:#fafafa;" id="f-pmax" type="number" placeholder="Max">
+      </div>
+    </div>
+    <div class="sb-divider"></div>
+    <!-- Durée -->
+    <div class="sb-field">
+      <div class="sb-label">Durée max</div>
+      <select class="sb-select" id="f-duration">
+        <option value="">Toutes</option>
+        <option value="1">Moins d'1h</option>
+        <option value="2">1 à 2h</option>
+        <option value="4">2 à 4h</option>
+        <option value="8">Demi-journée</option>
+        <option value="24">Journée complète</option>
+      </select>
+    </div>
+    <button class="sb-search-btn" onclick="doSearch()">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+      Rechercher
+    </button>
+  </div>
+</div>
+
+<!-- CATEGORY TABS -->
+<div class="cat-tabs">
+  <div class="cat-tabs-inner">
+    <button class="cat-tab active" data-cat="all" onclick="setCat('all',this)">
+      <div class="cat-tab-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+      Toutes
+    </button>
+    <button class="cat-tab" data-cat="aventure" onclick="setCat('aventure',this)">
+      <div class="cat-tab-icon"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      Aventure
+    </button>
+    <button class="cat-tab" data-cat="water" onclick="setCat('water',this)">
+      <div class="cat-tab-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6 2 2 7 2 12s4 10 10 10 10-4.5 10-10S18 2 12 2"/><path d="M2 12s3-4 10-4 10 4 10 4"/></svg></div>
+      Mer & Eau
+    </button>
+    <button class="cat-tab" data-cat="wellness" onclick="setCat('wellness',this)">
+      <div class="cat-tab-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+      Bien-être
+    </button>
+    <button class="cat-tab" data-cat="culture" onclick="setCat('culture',this)">
+      <div class="cat-tab-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      Culture
+    </button>
+    <button class="cat-tab" data-cat="nature" onclick="setCat('nature',this)">
+      <div class="cat-tab-icon"><svg viewBox="0 0 24 24"><path d="M12 22V12M12 12C12 7 7 3 2 3c0 5 4 9 10 9zM12 12c0-5 5-9 10-9-0 5-4 9-10 9"/></svg></div>
+      Nature
+    </button>
+    <button class="cat-tab" data-cat="gastronomie" onclick="setCat('gastronomie',this)">
+      <div class="cat-tab-icon"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+      Gastronomie
+    </button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="results-header">
+    <div class="results-count"><strong id="res-count">—</strong> activités trouvées</div>
+    <div class="results-controls">
+      <select class="sort-select" id="sort-sel" onchange="doSearch()">
+        <option value="rating">Mieux notées</option>
+        <option value="price-asc">Prix croissant</option>
+        <option value="price-desc">Prix décroissant</option>
+        <option value="duration-asc">Durée croissante</option>
+      </select>
+      <div class="view-toggle">
+        <button class="view-btn active" id="grid-btn" onclick="setView('grid')" title="Grille">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </button>
+        <button class="view-btn" id="list-btn" onclick="setView('list')" title="Liste">
+          <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-grid" id="cards-grid">
+    <div class="skeleton skel-a"></div>
+    <div class="skeleton skel-a"></div>
+    <div class="skeleton skel-a"></div>
+    <div class="skeleton skel-a"></div>
+    <div class="skeleton skel-a"></div>
+    <div class="skeleton skel-a"></div>
+  </div>
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<!-- DETAIL OVERLAY -->
+<div class="detail-overlay" id="detail-overlay">
+  <button class="detail-close" onclick="closeDetail()">
+    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <div class="detail-modal">
+    <div style="position:relative;">
+      <div class="gallery" id="d-gallery"></div>
+      <button class="gallery-btn" onclick="showToast('Galerie complète bientôt','📷')">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Voir toutes les photos
+      </button>
+    </div>
+    <div class="detail-content">
+      <div class="detail-left" id="d-left"></div>
+      <div id="d-right"><div class="booking-card" id="d-booking"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT MODAL -->
+<div class="contact-overlay" id="contact-overlay" onclick="if(event.target===this)closeContact()">
+  <div class="contact-modal">
+    <div class="contact-header">
+      <h2>📩 Contacter le prestataire</h2>
+      <p>Demande de réservation pour cette activité</p>
+    </div>
+    <div class="contact-body">
+      <div class="c-row">
+        <div class="c-field"><label class="c-label">Prénom</label><input class="c-input" id="c-fn" type="text" placeholder="Mohammed"></div>
+        <div class="c-field"><label class="c-label">Nom</label><input class="c-input" id="c-ln" type="text" placeholder="Alaoui"></div>
+      </div>
+      <div class="c-field"><label class="c-label">Email</label><input class="c-input" id="c-email" type="email" placeholder="vous@exemple.com"></div>
+      <div class="c-field"><label class="c-label">Téléphone / WhatsApp</label><input class="c-input" id="c-phone" type="tel" placeholder="+212 6XX XXX XXX"></div>
+      <div class="c-field"><label class="c-label">Date souhaitée</label><input class="c-input" id="c-date" type="date"></div>
+      <div class="c-field"><label class="c-label">Message</label><textarea class="c-textarea" id="c-msg" placeholder="Bonjour, je souhaite réserver cette activité pour 2 personnes..."></textarea></div>
+      <button class="c-whatsapp" onclick="openWhatsApp()">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.118 1.528 5.856L.057 23.885l6.197-1.428A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.854 0-3.6-.504-5.093-1.383l-.365-.215-3.781.871.897-3.666-.238-.378A9.959 9.959 0 012 12c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10z" fill-rule="evenodd"/></svg>
+        Contacter via WhatsApp
+      </button>
+      <button class="c-submit" onclick="sendRequest()">Envoyer la demande</button>
+      <button class="c-cancel" onclick="closeContact()">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-card">
+    <div class="s-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <h2>Demande envoyée !</h2>
+    <p>Le prestataire vous contactera sous 24h pour confirmer votre réservation.</p>
+    <div class="s-ref" id="s-ref">Référence : OTL-ACT-XXXX</div>
+    <button class="s-btn" onclick="document.getElementById('success-overlay').classList.remove('open')">Continuer</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// OTLA.MA — Activités
+// ═══════════════════════════════════════════════
+
+const { createClient } = supabase;
+const sb = createClient(
+  'https://aclcwftbpemnflglocey.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFjbGN3ZnRicGVtbmZsZ2xvY2V5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3NTMxNzcsImV4cCI6MjA5MzMyOTE3N30.Pr2TouelsMJY_NRhSqwpkz72FYiPyXVkbTPDsQjd2Nc'
+);
+
+let allItems = [], currentItem = null;
+let viewMode = 'grid', currentCat = 'all';
+let currentPage = 1;
+const PER_PAGE = 9;
+let participants = 2;
+
+// Default date = tomorrow
+const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
+document.getElementById('f-date').value = tomorrow.toISOString().split('T')[0];
+
+// ── DEMO DATA ──────────────────────────────────
+function getDemoData() {
+  return [
+    {id:'a1',name:'Surf & Kitesurf Essaouira',cat:'water',city:'Essaouira',region:'Marrakech-Safi',price:250,duration:3,rating:4.9,reviews:312,image:'https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=700&q=80',images:['https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=700&q=80','https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=500&q=80'],desc:'Cours de surf ou kitesurf avec instructeur certifié sur la plage d\'Essaouira. Matériel fourni (planche, combinaison, leash). Convient aux débutants et confirmés.',includes:['Matériel complet','Instructeur certifié','Assurance','Photos/vidéos'],excludes:['Transport','Repas'],tags:['Surf','Kitesurf','Ocean'],difficulty:'moyen',max:10,badge:'Top Expérience',badgeClass:'badge-teal'},
+    {id:'a2',name:'Montgolfière au lever du soleil',cat:'aventure',city:'Marrakech',region:'Marrakech-Safi',price:1500,duration:1.5,rating:5.0,reviews:428,image:'https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=700&q=80',images:['https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=700&q=80'],desc:'Vol en montgolfière d\'1h30 au lever du soleil au-dessus de la plaine du Haouz et de l\'Atlas. Champagne au sol à l\'atterrissage. Inoubliable.',includes:['Vol 1h30','Champagne','Transfert hôtel','Certificat de vol'],excludes:['Assurance annulation'],tags:['Montgolfière','Lever soleil','Atlas'],difficulty:'facile',max:12,badge:'Coup de ♥',badgeClass:'badge-gold'},
+    {id:'a3',name:'Hammam & Spa traditionnel',cat:'wellness',city:'Fès',region:'Fès-Meknès',price:180,duration:2,rating:4.8,reviews:267,image:'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=700&q=80',images:['https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=700&q=80'],desc:'Session complète de 2h dans un hammam historique de la médina de Fès. Savon beldi, gommage kessa et masque à l\'argile, suivis d\'un massage à l\'huile d\'argan.',includes:['Hammam 2h','Savon beldi','Gommage kessa','Massage argan','Thé à la menthe'],excludes:[],tags:['Hammam','Spa','Argan','Relaxation'],difficulty:'facile',max:4,badge:'Vérifié',badgeClass:'badge-green'},
+    {id:'a4',name:'Quad & Buggy dans les dunes',cat:'aventure',city:'Merzouga',region:'Drâa-Tafilalet',price:350,duration:2,rating:4.7,reviews:189,image:'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=700&q=80',images:['https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=700&q=80'],desc:'Aventure en quad ou buggy au cœur des dunes d\'Erg Chebbi. Passage dans les villages berbères, arrêts photo et session de sandboard incluse.',includes:['Quad ou buggy','Casque','Lunettes','Guide','Sandboard'],excludes:['Transport depuis votre hôtel'],tags:['Quad','Dunes','Sahara','Adrénaline'],difficulty:'moyen',max:8,badge:'Adrénaline',badgeClass:'badge-red'},
+    {id:'a5',name:'Cours de cuisine marocaine',cat:'gastronomie',city:'Marrakech',region:'Marrakech-Safi',price:320,duration:4,rating:5.0,reviews:356,image:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&q=80',images:['https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&q=80'],desc:'Cours de 4h dans un riad. Visite du souk aux épices avec la cuisinière, apprentissage du tajine, du couscous et de la pastilla. Déjeuner de ce que vous avez cuisiné.',includes:['Visite du souk','Cours 4h','Déjeuner','Livre de recettes','Tablier souvenir'],excludes:[],tags:['Cuisine','Tajine','Couscous','Marché'],difficulty:'facile',max:6,badge:'Best Seller',badgeClass:'badge-purple'},
+    {id:'a6',name:'Randonnée Jebel Toubkal',cat:'nature',city:'Imlil',region:'Marrakech-Safi',price:650,duration:16,rating:4.9,reviews:143,image:'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=700&q=80',images:['https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=700&q=80'],desc:'Ascension guidée du plus haut sommet d\'Afrique du Nord (4167m). 2 jours avec nuit en refuge. Vue extraordinaire sur l\'Atlas. Guide certifié et équipement de sécurité.',includes:['Guide certifié','Refuge 1 nuit','Équipement sécurité','Repas refuge'],excludes:['Transport Marrakech-Imlil','Équipement personnel'],tags:['Trekking','Atlas','Sommet','2 jours'],difficulty:'difficile',max:8,badge:'Aventure',badgeClass:'badge-red'},
+    {id:'a7',name:'Plongée sous-marine Agadir',cat:'water',city:'Agadir',region:'Souss-Massa',price:420,duration:3,rating:4.7,reviews:98,image:'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=700&q=80',images:['https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=700&q=80'],desc:'Plongée avec bouteilles dans les fonds marins d\'Agadir avec un instructeur PADI. Découverte des épaves et de la faune marine atlantique. Débutants acceptés.',includes:['Équipement complet','Instructeur PADI','2 plongées','Photos sous-marines','Combinaison'],excludes:['Transport'],tags:['Plongée','PADI','Atlantique'],difficulty:'moyen',max:6,badge:'',badgeClass:''},
+    {id:'a8',name:'Visite guidée médina de Fès',cat:'culture',city:'Fès',region:'Fès-Meknès',price:180,duration:3,rating:5.0,reviews:524,image:'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=700&q=80',images:['https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=700&q=80'],desc:'Immersion de 3h dans la médina de Fès avec Hassan, guide officiel de 3ème génération. Fontleries médiévales, tanneries, medersa Bou Inania et souks secrets.',includes:['Guide officiel 3h','Visite tanneries','Dégustation épices','Plan médina'],excludes:[],tags:['Médina','Histoire','Architecture','Guide local'],difficulty:'facile',max:10,badge:'Top Guide',badgeClass:'badge-teal'},
+    {id:'a9',name:'Parapente Agadir - Atlantic',cat:'aventure',city:'Agadir',region:'Souss-Massa',price:550,duration:1,rating:4.8,reviews:76,image:'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=700&q=80',images:['https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=700&q=80'],desc:'Vol en parapente biplace au-dessus d\'Agadir et de l\'Atlantique avec un pilote breveté. Sensation de liberté absolue. Vidéo GoPro du vol incluse.',includes:['Vol biplace','Pilote breveté','Vidéo GoPro','Assurance','Transfert'],excludes:[],tags:['Parapente','Vol','Liberté'],difficulty:'facile',max:2,badge:'Sensations fortes',badgeClass:'badge-red'},
+    {id:'a10',name:'Atelier poterie Safi',cat:'culture',city:'Safi',region:'Marrakech-Safi',price:150,duration:2,rating:4.6,reviews:87,image:'https://images.unsplash.com/photo-1553913861-c0fddf2619ee?w=700&q=80',images:['https://images.unsplash.com/photo-1553913861-c0fddf2619ee?w=700&q=80'],desc:'Atelier de poterie avec un maître artisan dans la capitale nationale de la poterie. Apprenez à tourner, décorer et cuire votre propre création. Vous repartez avec votre œuvre.',includes:['Matériaux','Artisan maître','Cuisson','Emballage souvenir'],excludes:[],tags:['Artisanat','Poterie','Création'],difficulty:'facile',max:8,badge:'',badgeClass:''},
+    {id:'a11',name:'Snorkeling Chefchaouen',cat:'water',city:'Chefchaouen',region:'Tanger-Tétouan-Al Hoceïma',price:220,duration:2.5,rating:4.5,reviews:62,image:'https://images.unsplash.com/photo-1553179459-4514c0f52f40?w=700&q=80',images:['https://images.unsplash.com/photo-1553179459-4514c0f52f40?w=700&q=80'],desc:'Snorkeling dans les eaux cristallines de la côte méditerranéenne marocaine. Poissons multicolores, fond rocheux et grottes marines. Parfait pour famille.',includes:['Masque et tuba','Palmes','Guide aquatique','Gilet de sécurité'],excludes:['Transport'],tags:['Snorkeling','Méditerranée','Famille'],difficulty:'facile',max:12,badge:'Famille',badgeClass:'badge-green'},
+    {id:'a12',name:'Camel Ride & coucher soleil',cat:'nature',city:'Merzouga',region:'Drâa-Tafilalet',price:200,duration:2,rating:4.9,reviews:445,image:'https://images.unsplash.com/photo-1548013146-72479768bada?w=700&q=80',images:['https://images.unsplash.com/photo-1548013146-72479768bada?w=700&q=80'],desc:'Balade à dos de chameau au coucher du soleil dans les dunes d\'Erg Chebbi. Thé berbère dans les dunes, photos magiques et ambiance inoubliable.',includes:['Chameau','Guide berbère','Thé dans les dunes','Photos'],excludes:[],tags:['Chameau','Coucher soleil','Sahara','Romantique'],difficulty:'facile',max:6,badge:'Romantique',badgeClass:'badge-purple'},
+  ];
+}
+
+// ── LOAD ───────────────────────────────────────
+async function loadData() {
+  showSkeletons();
+  try {
+    const { data, error } = await sb.from('activites')
+      .select(`*, prestataires(business_name,city,region,is_verified,phone,email)`)
+      .eq('is_active', true).limit(50);
+
+    if (error || !data?.length) {
+      allItems = getDemoData();
+    } else {
+      allItems = data.map(a => ({
+        id: a.id, name: a.name, cat: mapCat(a.type),
+        city: a.city || a.prestataires?.city,
+        region: a.region || a.prestataires?.region,
+        price: a.price_per_person, duration: a.duration_hours,
+        rating: a.rating_avg || 4.5, reviews: a.rating_count || 0,
+        image: a.cover_image || 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=700&q=80',
+        images: a.images?.length ? a.images : [a.cover_image],
+        desc: a.description_fr || '',
+        includes: a.includes || [], excludes: a.excludes || [],
+        tags: a.tags || [], difficulty: a.difficulty || 'facile',
+        max: a.max_participants || 10, badge: '', badgeClass: '',
+      }));
+    }
+    applyFiltersAndRender();
+  } catch(e) {
+    allItems = getDemoData();
+    applyFiltersAndRender();
+  }
+}
+
+function mapCat(type) {
+  const m = {surf_kitesurf:'water',plongee:'water',jet_ski:'water',spa_hammam:'wellness',randonnee:'nature',camel_cheval:'nature',quad_buggy:'aventure',parapente:'aventure',montgolfiere:'aventure',workshop:'culture',visite:'culture',gastronomie:'gastronomie'};
+  return m[type] || 'aventure';
+}
+
+// ── FILTERS ────────────────────────────────────
+function applyFiltersAndRender() {
+  const dest = document.getElementById('f-dest').value.trim().toLowerCase();
+  const name = document.getElementById('f-name').value.trim().toLowerCase();
+  const pmin = parseFloat(document.getElementById('f-pmin').value) || 0;
+  const pmax = parseFloat(document.getElementById('f-pmax').value) || Infinity;
+  const dur  = parseFloat(document.getElementById('f-duration').value) || Infinity;
+  const sort = document.getElementById('sort-sel').value;
+
+  let filtered = allItems.filter(item => {
+    if (currentCat !== 'all' && item.cat !== currentCat) return false;
+    if (dest && !item.city?.toLowerCase().includes(dest) && !item.region?.toLowerCase().includes(dest)) return false;
+    if (name && !item.name?.toLowerCase().includes(name) && !item.tags?.some(t=>t.toLowerCase().includes(name))) return false;
+    if (item.price < pmin || item.price > pmax) return false;
+    if (dur < Infinity && item.duration > dur) return false;
+    return true;
+  });
+
+  if (sort==='price-asc') filtered.sort((a,b)=>a.price-b.price);
+  else if (sort==='price-desc') filtered.sort((a,b)=>b.price-a.price);
+  else if (sort==='rating') filtered.sort((a,b)=>b.rating-a.rating);
+  else if (sort==='duration-asc') filtered.sort((a,b)=>a.duration-b.duration);
+
+  document.getElementById('res-count').textContent = filtered.length;
+  currentPage = 1;
+  renderPage(filtered);
+}
+
+function renderPage(items) {
+  const grid = document.getElementById('cards-grid');
+  const start = (currentPage-1)*PER_PAGE;
+  const page = items.slice(start, start+PER_PAGE);
+
+  if (!items.length) {
+    grid.innerHTML = `<div class="empty"><div class="empty-icon">🏄</div><h3>Aucune activité trouvée</h3><p>Modifiez vos filtres pour voir plus de résultats</p><button class="empty-btn" onclick="resetFilters()">Réinitialiser</button></div>`;
+    document.getElementById('pagination').innerHTML=''; return;
+  }
+
+  grid.innerHTML = page.map(item => cardHTML(item)).join('');
+  renderPagination(items.length);
+}
+
+function cardHTML(item) {
+  const isList = viewMode === 'list';
+  const durLabel = item.duration < 1 ? Math.round(item.duration*60)+'min' : item.duration+'h';
+  const tagsHTML = (item.tags||[]).slice(0,3).map(t=>`<span class="a-tag">${t}</span>`).join('');
+  const diffColor = {facile:'#10B981',moyen:'#F59E0B',difficile:'#EF4444'}[item.difficulty]||'#6B7280';
+
+  return `
+  <div class="a-card${isList?' list-card':''}" onclick="openDetail('${item.id}')">
+    <div class="a-card-img-wrap">
+      <img class="a-card-img" src="${item.image}" loading="lazy" alt="${item.name}"
+           onerror="this.src='https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=600&q=80'">
+      <div class="a-badges">
+        ${item.badge?`<span class="a-badge ${item.badgeClass}">${item.badge}</span>`:''}
+      </div>
+      <button class="a-fav" onclick="event.stopPropagation();toggleFav(this,'${item.id}')">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      </button>
+      <div class="a-duration-badge">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        ${durLabel}
+      </div>
+    </div>
+    <div class="a-card-body">
+      <div class="a-card-top">
+        <div>
+          <div class="a-card-name">${item.name}</div>
+          <div class="a-card-loc">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            ${item.city}${item.region?' · '+item.region:''}
+          </div>
+        </div>
+        <div class="a-card-price-wrap">
+          <div class="a-card-price">${item.price}</div>
+          <div class="a-card-price-unit">MAD / pers.</div>
+        </div>
+      </div>
+      <div class="a-rating">
+        <span class="a-stars">${'★'.repeat(Math.round(item.rating))}</span>
+        <span class="a-rating-n">${item.rating.toFixed(1)}</span>
+        <span class="a-rating-c">(${item.reviews} avis)</span>
+      </div>
+      <div class="a-tags">${tagsHTML}<span style="display:flex;align-items:center;gap:3px;font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid ${diffColor};color:${diffColor};font-weight:600;">${item.difficulty}</span></div>
+      <p class="a-desc">${item.desc.slice(0,110)}${item.desc.length>110?'...':''}</p>
+      <div class="a-card-footer">
+        <div class="a-info">
+          <div class="a-info-item">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            Max ${item.max||10}
+          </div>
+        </div>
+        <button class="a-book-btn" onclick="event.stopPropagation();openDetail('${item.id}')">Voir & Réserver</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── DETAIL ─────────────────────────────────────
+function openDetail(id) {
+  const item = allItems.find(i=>i.id==id);
+  if (!item) return;
+  currentItem = item;
+
+  const imgs = item.images?.length>=4 ? item.images : [item.image,item.image,item.image,item.image];
+  document.getElementById('d-gallery').innerHTML = `
+    <div class="gallery-main"><img src="${imgs[0]}" alt="${item.name}"></div>
+    <div class="gallery-tr"><img src="${imgs[1]||imgs[0]}" alt=""></div>
+    <div class="gallery-tl"><img src="${imgs[2]||imgs[0]}" alt=""></div>
+    <div class="gallery-br"><img src="${imgs[3]||imgs[0]}" alt=""></div>`;
+
+  const durLabel = item.duration<1 ? Math.round(item.duration*60)+' minutes' : item.duration+'h';
+  const diffColor = {facile:'#10B981',moyen:'#F59E0B',difficile:'#EF4444'}[item.difficulty]||'#6B7280';
+  const incHTML = (item.includes||[]).map(i=>`<div class="include-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>${i}</div>`).join('');
+  const excHTML = (item.excludes||[]).map(i=>`<div class="include-item excluded"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>${i}</div>`).join('');
+  const tagsHTML = (item.tags||[]).map(t=>`<span class="a-tag">${t}</span>`).join('');
+  const reviews = [
+    {n:'Sophie M.',c:'France',d:'Avril 2025',r:5,t:'Expérience incroyable ! Le guide était passionné et très professionnel. Je recommande vivement à tous.'},
+    {n:'Ahmed B.',c:'Maroc',d:'Mars 2025',r:5,t:'Parfait du début à la fin. Organisation impeccable, matériel de qualité et souvenirs inoubliables.'},
+  ];
+
+  document.getElementById('d-left').innerHTML = `
+    <h1 class="detail-name">${item.name}</h1>
+    <div class="detail-meta">
+      <div class="d-meta-item">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        ${item.city}, ${item.region||'Maroc'}
+      </div>
+      <div class="d-meta-item highlight">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Durée : ${durLabel}
+      </div>
+      <div class="d-meta-item" style="color:${diffColor};font-weight:600;">
+        Niveau : ${item.difficulty}
+      </div>
+      <div class="d-meta-item">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        Max ${item.max} personnes
+      </div>
+    </div>
+    <div class="a-tags" style="margin-bottom:16px;">${tagsHTML}</div>
+    <div class="d-divider"></div>
+    <p class="detail-desc">${item.desc}</p>
+    <div class="d-divider"></div>
+    <h3 style="font-size:18px;font-weight:700;margin-bottom:14px;">Ce qui est inclus</h3>
+    <div class="includes-grid">
+      ${incHTML}
+      ${excHTML}
+    </div>
+    <div class="d-divider"></div>
+    <div class="host-card">
+      <div class="host-avatar">${item.name.charAt(0)}</div>
+      <div>
+        <div class="host-name">${item.name}</div>
+        <div class="host-meta">Prestataire certifié Otla.ma · ${item.city}</div>
+        <div class="host-badge"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Répond sous 2h</div>
+      </div>
+      <div class="host-contact">
+        <button class="host-contact-btn" onclick="openContact()">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          Message
+        </button>
+        <button class="host-contact-btn" onclick="openWhatsApp()" style="border-color:#25D366;color:#25D366;">
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          WhatsApp
+        </button>
+      </div>
+    </div>
+    <div class="d-divider"></div>
+    <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;">Avis (${item.reviews})</h3>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+      <div style="font-size:44px;font-weight:800;">${item.rating.toFixed(1)}</div>
+      <div>
+        <div style="color:var(--gold);font-size:18px;">${'★'.repeat(Math.round(item.rating))}</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px;">${item.reviews} avis vérifiés</div>
+      </div>
+    </div>
+    ${reviews.map(r=>`
+    <div class="review-card">
+      <div class="review-top">
+        <div class="review-avatar">${r.n.charAt(0)}</div>
+        <div>
+          <div class="review-name">${r.n} · ${r.c}</div>
+          <div class="review-date">${r.d}</div>
+          <div class="review-stars">${'★'.repeat(r.r)}</div>
+        </div>
+      </div>
+      <div class="review-text">${r.t}</div>
+    </div>`).join('')}
+  `;
+
+  renderBookingCard(item);
+  document.getElementById('detail-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function renderBookingCard(item) {
+  const durLabel = item.duration<1 ? Math.round(item.duration*60)+'min' : item.duration+'h';
+  const subtotal = item.price * participants;
+  const today = new Date().toISOString().split('T')[0];
+
+  document.getElementById('d-booking').innerHTML = `
+    <div class="bk-price-row">
+      <div class="bk-price">${item.price} MAD</div>
+      <div class="bk-unit">/ personne</div>
+    </div>
+    <div class="bk-rating">
+      <svg viewBox="0 0 24 24" width="12" height="12"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      ${item.rating.toFixed(1)} · ${item.reviews} avis · ${durLabel}
+    </div>
+    <div class="bk-fields">
+      <div class="bk-field">
+        <label>Date souhaitée</label>
+        <input type="date" id="bk-date" value="${today}" min="${today}" onchange="updateBkPrice()">
+      </div>
+      <div class="bk-field">
+        <div class="participants-row">
+          <div class="participants-label"><strong>Participants</strong><span>Max ${item.max} personnes</span></div>
+          <div class="counter">
+            <button class="counter-btn" onclick="changeP(-1)" id="p-minus" ${participants<=1?'disabled':''}>−</button>
+            <span class="counter-n" id="p-count">${participants}</span>
+            <button class="counter-btn" onclick="changeP(1)" ${participants>=item.max?'disabled':''}>+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bk-breakdown" id="bk-bd">
+      <div class="bk-row"><span>${item.price} MAD × ${participants} pers.</span><span>${subtotal} MAD</span></div>
+      <div class="bk-row"><span>Frais de service</span><span>Gratuit</span></div>
+      <div class="bk-row"><span>Total</span><span>${subtotal} MAD</span></div>
+    </div>
+    <button class="bk-btn" onclick="openContact()">Demander à réserver</button>
+    <div class="bk-note">Le prestataire confirmera sous 24h</div>
+    <div class="bk-features">
+      <div class="bk-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Annulation flexible</div>
+      <div class="bk-feature"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>Réponse sous 2h</div>
+      <div class="bk-feature"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Durée : ${durLabel}</div>
+    </div>`;
+}
+
+function changeP(delta) {
+  if (!currentItem) return;
+  participants = Math.max(1, Math.min(currentItem.max||10, participants+delta));
+  document.getElementById('p-count').textContent = participants;
+  document.getElementById('p-minus').disabled = participants<=1;
+  updateBkPrice();
+}
+function updateBkPrice() {
+  if (!currentItem) return;
+  const sub = currentItem.price * participants;
+  document.getElementById('bk-bd').innerHTML = `
+    <div class="bk-row"><span>${currentItem.price} MAD × ${participants} pers.</span><span>${sub} MAD</span></div>
+    <div class="bk-row"><span>Frais de service</span><span>Gratuit</span></div>
+    <div class="bk-row"><span>Total</span><span>${sub} MAD</span></div>`;
+}
+function closeDetail() {
+  document.getElementById('detail-overlay').classList.remove('open');
+  document.body.style.overflow='';
+  currentItem=null;
+}
+
+// ── CONTACT ────────────────────────────────────
+function openContact() {
+  if (!currentItem) return;
+  document.getElementById('c-date').value = document.getElementById('bk-date')?.value || '';
+  document.getElementById('c-msg').value = `Bonjour, je souhaite réserver "${currentItem.name}" pour ${participants} personne${participants>1?'s':''}.`;
+  document.getElementById('contact-overlay').classList.add('open');
+}
+function closeContact() {
+  document.getElementById('contact-overlay').classList.remove('open');
+}
+async function sendRequest() {
+  const fn = document.getElementById('c-fn').value.trim();
+  const em = document.getElementById('c-email').value.trim();
+  if (!fn || !em) { showToast('Remplissez prénom et email','⚠️'); return; }
+  const btn = document.querySelector('.c-submit');
+  btn.textContent='Envoi en cours...'; btn.disabled=true;
+  await new Promise(r=>setTimeout(r,1500));
+  closeContact();
+  const ref='OTL-ACT-'+Math.random().toString(36).substr(2,6).toUpperCase();
+  document.getElementById('s-ref').textContent='Référence : '+ref;
+  document.getElementById('success-overlay').classList.add('open');
+  btn.textContent='Envoyer la demande'; btn.disabled=false;
+}
+function openWhatsApp() {
+  if (!currentItem) return;
+  const msg=encodeURIComponent(`Bonjour, je suis intéressé(e) par "${currentItem.name}" sur Otla.ma. ${participants} personne(s).`);
+  window.open(`https://wa.me/+212600000000?text=${msg}`,'_blank');
+}
+
+// ── CONTROLS ───────────────────────────────────
+function doSearch(){ applyFiltersAndRender(); }
+function setCat(cat, btn) {
+  currentCat=cat;
+  document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFiltersAndRender();
+}
+function setView(mode) {
+  viewMode=mode;
+  document.getElementById('cards-grid').classList.toggle('list-view',mode==='list');
+  document.getElementById('grid-btn').classList.toggle('active',mode==='grid');
+  document.getElementById('list-btn').classList.toggle('active',mode==='list');
+  applyFiltersAndRender();
+}
+function resetFilters() {
+  document.getElementById('f-dest').value='';
+  document.getElementById('f-name').value='';
+  document.getElementById('f-pmin').value='';
+  document.getElementById('f-pmax').value='';
+  document.getElementById('f-duration').value='';
+  currentCat='all';
+  document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.cat-tab[data-cat="all"]').classList.add('active');
+  applyFiltersAndRender();
+}
+function toggleFav(btn,id){btn.classList.toggle('liked');showToast(btn.classList.contains('liked')?'Ajouté aux favoris':'Retiré des favoris','♥');}
+function showSkeletons(){document.getElementById('cards-grid').innerHTML=Array(6).fill('<div class="skeleton skel-a"></div>').join('');}
+function showToast(msg,icon='✓'){document.getElementById('t-msg').textContent=msg;document.getElementById('t-icon').textContent=icon;const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+function renderPagination(total){const pages=Math.ceil(total/PER_PAGE);const pag=document.getElementById('pagination');if(pages<=1){pag.innerHTML='';return;}let h=`<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;for(let i=1;i<=pages;i++){if(i===1||i===pages||Math.abs(i-currentPage)<=1)h+=`<button class="page-btn${i===currentPage?' active':''}" onclick="goPage(${i})">${i}</button>`;else if(Math.abs(i-currentPage)===2)h+=`<span style="padding:0 4px;color:var(--muted);">…</span>`;}h+=`<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===pages?'disabled':''}>›</button>`;pag.innerHTML=h;}
+function goPage(p){currentPage=p;applyFiltersAndRender();window.scrollTo({top:300,behavior:'smooth'});}
+
+// ── INIT ───────────────────────────────────────
+loadData();
+['f-dest','f-name'].forEach(id=>document.getElementById(id).addEventListener('keypress',e=>{if(e.key==='Enter')doSearch();}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDetail();closeContact();document.getElementById('success-overlay').classList.remove('open');}});
+
+// ── URL PARAMS ──────────────────────────────
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const dest = params.get('dest');
+  if (dest) {
+    const f = document.getElementById('f-dest') || document.getElementById('f-city') || document.getElementById('f-region');
+    if (f) { f.value = dest; setTimeout(() => { if(typeof doSearch === 'function') doSearch(); }, 300); }
+  }
+})();
+
+</script>
+</body>
+</html>

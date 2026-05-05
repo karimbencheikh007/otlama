@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Packs & Séjours au Maroc — Otla.ma</title>
+<meta name="description" content="Voyages organisés, circuits, séjours tout compris au Maroc. Trouvez votre pack idéal sur Otla.ma.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --teal:#1A7A7A;--teal-d:#0D5C5C;--teal-l:#E8F5F5;--teal-m:#B2DFDF;
+  --gold:#F5A623;--gold-d:#C4822A;
+  --text:#111827;--muted:#6B7280;--border:#E5E7EB;--bg:#F9FAFB;
+  --shadow:0 4px 16px rgba(0,0,0,0.08);--shadow-lg:0 12px 40px rgba(0,0,0,0.14);
+  --radius:12px;--radius-lg:16px;--nav-h:64px;
+  --font:'Plus Jakarta Sans',-apple-system,sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+.hide{display:none!important;}
+input,select,button,textarea{font-family:var(--font);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:var(--nav-h);background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-inner{max-width:1400px;margin:0 auto;padding:0 24px;height:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-logo{font-size:22px;font-weight:800;color:var(--teal);text-decoration:none;letter-spacing:-0.5px;}
+.nav-logo span{color:var(--gold);}
+.nav-back{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted);cursor:pointer;padding:7px 14px;border-radius:var(--radius);border:1px solid var(--border);text-decoration:none;transition:all .18s;}
+.nav-back:hover{border-color:var(--teal);color:var(--teal);}
+.nav-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+.nav-right{display:flex;gap:10px;}
+.nav-btn{padding:8px 16px;border-radius:var(--radius);font-size:13.5px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:none;color:var(--text);transition:all .18s;}
+.nav-btn:hover{border-color:var(--teal);color:var(--teal);}
+.nav-btn-teal{background:var(--teal);color:#fff;border-color:var(--teal);}
+.nav-btn-teal:hover{background:var(--teal-d);}
+
+/* HERO */
+.hero{margin-top:var(--nav-h);position:relative;min-height:420px;display:flex;align-items:flex-end;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1800&q=85') center/cover no-repeat;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(13,92,92,0.92) 0%,rgba(26,122,122,0.78) 50%,rgba(0,0,0,0.35) 100%);}
+.hero-inner{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:0 24px 44px;width:100%;display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;}
+.hero-left{}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:5px 14px;margin-bottom:16px;}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.hero-tag span{font-size:12px;color:rgba(255,255,255,.9);font-weight:600;}
+.hero h1{font-size:clamp(28px,4vw,52px);font-weight:800;color:#fff;letter-spacing:-.04em;line-height:1.1;margin-bottom:10px;}
+.hero h1 em{color:var(--gold);font-style:normal;}
+.hero p{font-size:15px;color:rgba(255,255,255,.78);max-width:540px;line-height:1.7;}
+.hero-stats{display:flex;gap:24px;flex-wrap:wrap;}
+.hs{text-align:center;}
+.hs-n{font-size:28px;font-weight:800;color:#fff;letter-spacing:-.5px;}
+.hs-l{font-size:11.5px;color:rgba(255,255,255,.65);margin-top:2px;font-weight:500;}
+
+/* SEARCH BAR */
+.search-bar{background:#fff;border-bottom:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.06);padding:12px 0;position:sticky;top:var(--nav-h);z-index:400;}
+.sb-inner{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.sf{display:flex;flex-direction:column;gap:3px;}
+.sf-label{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--teal);}
+.sf-input,.sf-select{padding:8px 12px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:13.5px;color:var(--text);outline:none;background:#fafafa;height:40px;transition:border-color .18s;}
+.sf-input:focus,.sf-select:focus{border-color:var(--teal);background:#fff;}
+.sf-input::placeholder{color:#bbb;}
+.sf-div{width:1px;height:32px;background:var(--border);flex-shrink:0;}
+.sf-btn{padding:0 20px;height:40px;background:var(--teal);color:#fff;border:none;border-radius:var(--radius);font-weight:700;font-size:13.5px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:background .2s;flex-shrink:0;}
+.sf-btn:hover{background:var(--teal-d);}
+.sf-btn svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;}
+
+/* CATEGORY TABS */
+.cat-tabs{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:calc(var(--nav-h) + 65px);z-index:399;overflow-x:auto;scrollbar-width:none;}
+.cat-tabs::-webkit-scrollbar{display:none;}
+.cat-tabs-inner{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;}
+.ctab{display:flex;align-items:center;gap:8px;padding:13px 18px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:none;border-bottom:2.5px solid transparent;transition:all .18s;white-space:nowrap;font-family:var(--font);}
+.ctab:hover{color:var(--text);}
+.ctab.active{color:var(--teal);border-bottom-color:var(--teal);}
+.ctab-emoji{font-size:16px;}
+
+/* MAIN */
+.main{max-width:1400px;margin:0 auto;padding:28px 24px 80px;}
+.res-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px;}
+.res-count{font-size:15px;color:var(--muted);}
+.res-count strong{color:var(--text);font-weight:700;}
+.res-controls{display:flex;gap:10px;align-items:center;}
+.sort-sel{padding:8px 14px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:13.5px;color:var(--text);background:#fff;outline:none;cursor:pointer;}
+.view-toggle{display:flex;border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff;}
+.vbtn{width:38px;height:36px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.vbtn svg{width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:1.8;}
+.vbtn.active{background:var(--teal);}
+.vbtn.active svg{stroke:#fff;}
+
+/* PACK CARDS */
+.packs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px;}
+.packs-grid.list-view{grid-template-columns:1fr;}
+
+.p-card{background:#fff;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);transition:transform .22s,box-shadow .22s;cursor:pointer;display:flex;flex-direction:column;}
+.p-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+.p-card.list-card{flex-direction:row;}
+
+.p-img-wrap{position:relative;overflow:hidden;flex-shrink:0;}
+.p-img{width:100%;height:210px;object-fit:cover;display:block;transition:transform .35s;}
+.p-card:hover .p-img{transform:scale(1.04);}
+.p-card.list-card .p-img{width:280px;height:100%;}
+.p-badges{position:absolute;top:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap;}
+.p-badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.badge-teal{background:var(--teal);color:#fff;}
+.badge-gold{background:var(--gold);color:#7A4A00;}
+.badge-green{background:#10B981;color:#fff;}
+.badge-red{background:#EF4444;color:#fff;}
+.badge-purple{background:#8B5CF6;color:#fff;}
+.p-fav{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.92);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .18s;}
+.p-fav:hover{background:#fff;transform:scale(1.1);}
+.p-fav svg{width:15px;height:15px;stroke:var(--teal);fill:none;stroke-width:2;}
+.p-fav.liked svg{fill:var(--teal);}
+.p-duration{position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,.55);color:#fff;font-size:11.5px;font-weight:700;border-radius:20px;padding:4px 11px;display:flex;align-items:center;gap:5px;}
+.p-duration svg{width:11px;height:11px;stroke:#fff;fill:none;stroke-width:2;}
+
+.p-body{padding:18px 20px 20px;display:flex;flex-direction:column;flex:1;}
+.p-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px;}
+.p-name{font-size:16px;font-weight:800;color:var(--text);letter-spacing:-.02em;line-height:1.3;}
+.p-price-wrap{text-align:right;flex-shrink:0;}
+.p-price{font-size:20px;font-weight:800;color:var(--teal);line-height:1;}
+.p-price-unit{font-size:11px;color:var(--muted);margin-top:2px;}
+.p-price-total{font-size:11px;color:var(--teal-d);font-weight:600;margin-top:1px;}
+.p-loc{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:4px;margin-bottom:8px;}
+.p-loc svg{width:12px;height:12px;stroke:var(--muted);fill:none;stroke-width:2;flex-shrink:0;}
+.p-rating{display:flex;align-items:center;gap:5px;margin-bottom:9px;}
+.p-stars{color:var(--gold);font-size:12px;}
+.p-rn{font-size:13px;font-weight:700;}
+.p-rc{font-size:12px;color:var(--muted);}
+.p-includes{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.p-include{display:flex;align-items:center;gap:4px;font-size:11.5px;color:var(--text);background:var(--bg);padding:3px 8px;border-radius:20px;}
+.p-include svg{width:10px;height:10px;stroke:var(--teal);fill:none;stroke-width:2.5;}
+.p-desc{font-size:13px;color:var(--muted);line-height:1.65;flex:1;margin-bottom:14px;}
+.p-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;}
+.p-agency{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px;}
+.p-agency svg{width:12px;height:12px;stroke:var(--teal);fill:none;stroke-width:2;}
+.p-btn{padding:10px 20px;background:var(--teal);color:#fff;border:none;border-radius:var(--radius);font-size:13.5px;font-weight:700;cursor:pointer;transition:background .2s;flex-shrink:0;}
+.p-btn:hover{background:var(--teal-d);}
+
+/* Skeleton */
+.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:var(--radius-lg);}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.skel-p{height:380px;}
+
+/* Empty */
+.empty{text-align:center;padding:80px 20px;grid-column:1/-1;}
+.empty-icon{font-size:56px;margin-bottom:16px;}
+.empty h3{font-size:22px;font-weight:700;margin-bottom:8px;}
+.empty p{color:var(--muted);font-size:15px;}
+.empty-btn{margin-top:20px;padding:11px 24px;background:var(--teal);color:#fff;border:none;border-radius:var(--radius);font-size:14px;font-weight:700;cursor:pointer;}
+
+/* Pagination */
+.pagination{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:40px;}
+.page-btn{width:40px;height:40px;border:1.5px solid var(--border);border-radius:var(--radius);background:#fff;cursor:pointer;font-size:14px;font-weight:500;color:var(--text);transition:all .18s;display:flex;align-items:center;justify-content:center;}
+.page-btn:hover{border-color:var(--teal);color:var(--teal);}
+.page-btn.active{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:700;}
+.page-btn:disabled{opacity:.35;cursor:not-allowed;}
+
+/* DETAIL OVERLAY */
+.detail-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);z-index:2000;overflow-y:auto;}
+.detail-overlay.open{display:block;}
+.detail-modal{background:#fff;margin:0 auto;max-width:1060px;min-height:100vh;}
+.d-close{position:fixed;top:16px;right:16px;z-index:3000;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.95);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s;}
+.d-close:hover{box-shadow:var(--shadow-lg);}
+.d-close svg{width:18px;height:18px;stroke:var(--text);fill:none;stroke-width:2.5;}
+
+/* Hero image detail */
+.d-hero{position:relative;height:360px;overflow:hidden;}
+.d-hero-img{width:100%;height:100%;object-fit:cover;}
+.d-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 55%);}
+.d-hero-content{position:absolute;bottom:0;left:0;right:0;padding:28px 40px;}
+.d-hero-badges{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.d-hero-title{font-size:32px;font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1.15;margin-bottom:8px;}
+.d-hero-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.d-hero-meta-item{display:flex;align-items:center;gap:5px;font-size:13px;color:rgba(255,255,255,.85);}
+.d-hero-meta-item svg{width:13px;height:13px;stroke:rgba(255,255,255,.85);fill:none;stroke-width:2;stroke-linecap:round;}
+
+/* Detail content */
+.d-content{display:grid;grid-template-columns:1fr 360px;gap:36px;padding:32px 40px 60px;align-items:start;}
+.d-left{}
+.d-sec{margin-bottom:28px;}
+.d-sec h3{font-size:18px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.d-sec h3 svg{width:18px;height:18px;stroke:var(--teal);fill:none;stroke-width:2;}
+.d-divider{height:1px;background:var(--border);margin:24px 0;}
+.d-desc{font-size:15px;color:#374151;line-height:1.85;}
+
+/* Itinerary */
+.itinerary{display:flex;flex-direction:column;gap:0;}
+.itin-day{display:flex;gap:16px;padding-bottom:20px;position:relative;}
+.itin-day:not(:last-child)::before{content:'';position:absolute;left:15px;top:32px;bottom:0;width:2px;background:var(--teal-m);}
+.itin-num{width:32px;height:32px;border-radius:50%;background:var(--teal);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1;}
+.itin-body{flex:1;padding-top:4px;}
+.itin-day-label{font-size:12px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
+.itin-title{font-size:15px;font-weight:700;margin-bottom:4px;}
+.itin-desc{font-size:13px;color:var(--muted);line-height:1.6;}
+.itin-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
+.itin-tag{font-size:11px;padding:2px 8px;border-radius:20px;background:var(--teal-l);color:var(--teal);font-weight:600;}
+
+/* Includes/Excludes */
+.inc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.inc-item{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--text);}
+.inc-item.exc{color:var(--muted);}
+.inc-item svg{width:15px;height:15px;fill:none;stroke-width:2.5;flex-shrink:0;}
+.inc-item svg.ok{stroke:#10B981;}
+.inc-item svg.no{stroke:#EF4444;}
+
+/* Reviews */
+.rv-card{border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;}
+.rv-top{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.rv-avatar{width:38px;height:38px;border-radius:50%;background:var(--teal-l);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--teal-d);flex-shrink:0;}
+.rv-name{font-size:14px;font-weight:700;}
+.rv-info{font-size:12px;color:var(--muted);margin-top:1px;}
+.rv-stars{color:var(--gold);font-size:12px;margin-top:2px;}
+.rv-text{font-size:13.5px;color:#374151;line-height:1.7;}
+
+/* BOOKING CARD */
+.bk-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);position:sticky;top:calc(var(--nav-h) + 24px);}
+.bk-header{background:linear-gradient(135deg,var(--teal-d),var(--teal));padding:20px 22px;}
+.bk-header h3{font-size:16px;font-weight:800;color:#fff;margin-bottom:3px;}
+.bk-header p{font-size:12.5px;color:rgba(255,255,255,.75);}
+.bk-body{padding:20px 22px;}
+.bk-price-row{display:flex;align-items:baseline;gap:6px;margin-bottom:4px;}
+.bk-price{font-size:26px;font-weight:800;color:var(--teal);}
+.bk-unit{font-size:13px;color:var(--muted);}
+.bk-rating{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--muted);margin-bottom:16px;}
+.bk-rating svg{width:12px;height:12px;fill:var(--gold);stroke:none;}
+.bk-field{margin-bottom:12px;}
+.bk-field label{display:block;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text);margin-bottom:5px;}
+.bk-field input,.bk-field select,.bk-field textarea{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--radius);font-family:var(--font);font-size:14px;color:var(--text);outline:none;transition:border-color .2s;background:#fafafa;}
+.bk-field input:focus,.bk-field select:focus,.bk-field textarea:focus{border-color:var(--teal);background:#fff;}
+.bk-field textarea{resize:vertical;min-height:80px;}
+.bk-breakdown{background:var(--bg);border-radius:var(--radius);padding:13px;margin:12px 0;}
+.bk-row{display:flex;justify-content:space-between;font-size:13.5px;color:var(--text);margin-bottom:7px;}
+.bk-row:last-child{margin-bottom:0;padding-top:8px;border-top:1px solid var(--border);font-weight:800;font-size:15px;}
+.bk-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--teal),var(--teal-d));color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:800;cursor:pointer;transition:all .2s;margin-bottom:10px;}
+.bk-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(26,122,122,.35);}
+.bk-note{text-align:center;font-size:12px;color:var(--muted);margin-bottom:14px;}
+.bk-features{display:flex;flex-direction:column;gap:7px;}
+.bk-feature{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text);}
+.bk-feature svg{width:14px;height:14px;stroke:var(--teal);fill:none;stroke-width:2.5;flex-shrink:0;}
+
+/* SUCCESS */
+.s-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:5000;align-items:center;justify-content:center;}
+.s-overlay.open{display:flex;}
+.s-card{background:#fff;border-radius:20px;padding:44px 36px;text-align:center;max-width:400px;width:90%;animation:mIn .3s ease;}
+@keyframes mIn{from{opacity:0;transform:scale(.96);}to{opacity:1;transform:scale(1);}}
+.s-icon{width:68px;height:68px;border-radius:50%;background:#ECFDF5;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;}
+.s-icon svg{width:34px;height:34px;stroke:#10B981;fill:none;stroke-width:2.5;}
+.s-card h2{font-size:22px;font-weight:800;margin-bottom:8px;}
+.s-card p{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:20px;}
+.s-ref{background:var(--bg);border-radius:var(--radius);padding:10px 18px;font-size:13px;font-weight:600;margin-bottom:20px;}
+.s-btn{padding:12px 28px;background:var(--teal);color:#fff;border:none;border-radius:var(--radius);font-size:14px;font-weight:700;cursor:pointer;}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:#fff;border-radius:var(--radius);padding:13px 17px;box-shadow:var(--shadow-lg);border-left:4px solid var(--teal);transform:translateX(130%);transition:transform .3s;display:flex;align-items:center;gap:10px;max-width:300px;}
+.toast.show{transform:translateX(0);}
+
+/* RESPONSIVE */
+@media(max-width:900px){.d-content{grid-template-columns:1fr;padding:20px;}.bk-card{position:static;}}
+@media(max-width:768px){.p-card.list-card{flex-direction:column;}.p-card.list-card .p-img{width:100%;height:210px;}.d-hero-content{padding:20px;}.d-hero-title{font-size:22px;}}
+@media(max-width:600px){.packs-grid{grid-template-columns:1fr;}.sb-inner{flex-direction:column;align-items:stretch;}.sf{min-width:0;}.hero{min-height:320px;}}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"><span id="t-icon" style="font-size:17px;">✓</span><span id="t-msg" style="font-size:13px;font-weight:500;color:var(--text);"></span></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">Otla<span>.ma</span></a>
+    <a class="nav-back" href="index.html"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>Accueil</a>
+    <div style="font-size:16px;font-weight:700;">Packs & Séjours</div>
+    <div class="nav-right">
+      <button class="nav-btn" onclick="window.location.href='espace-pro.html'">Connexion</button>
+      <button class="nav-btn nav-btn-teal" onclick="window.location.href='espace-pro.html'">Espace Pro</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-tag"><span class="hero-dot"></span><span>Voyages organisés & circuits</span></div>
+      <h1>Partez au <em>Maroc</em><br>l'esprit libre</h1>
+      <p>Des packs soigneusement conçus par des experts locaux. Tout inclus : hébergement, transport, guide et expériences authentiques.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-n">80+</div><div class="hs-l">Packs disponibles</div></div>
+      <div class="hs"><div class="hs-n">48h</div><div class="hs-l">Confirmation garantie</div></div>
+      <div class="hs"><div class="hs-n">4.9★</div><div class="hs-l">Satisfaction client</div></div>
+      <div class="hs"><div class="hs-n">100%</div><div class="hs-l">Agences vérifiées</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH BAR -->
+<div class="search-bar">
+  <div class="sb-inner">
+    <div class="sf" style="min-width:150px;">
+      <div class="sf-label">Destination</div>
+      <input class="sf-input" id="f-dest" type="text" placeholder="Marrakech, Sahara...">
+    </div>
+    <div class="sf-div"></div>
+    <div class="sf" style="min-width:160px;">
+      <div class="sf-label">Nom du pack</div>
+      <input class="sf-input" id="f-name" type="text" placeholder="Sahara, Imperial...">
+    </div>
+    <div class="sf-div"></div>
+    <div class="sf">
+      <div class="sf-label">Durée</div>
+      <select class="sf-select" id="f-dur">
+        <option value="">Toutes</option>
+        <option value="1-3">1 à 3 jours</option>
+        <option value="4-6">4 à 6 jours</option>
+        <option value="7-10">7 à 10 jours</option>
+        <option value="11+">11 jours et plus</option>
+      </select>
+    </div>
+    <div class="sf-div"></div>
+    <div class="sf">
+      <div class="sf-label">Budget / pers. (MAD)</div>
+      <div style="display:flex;align-items:center;gap:5px;">
+        <input style="width:72px;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:13px;height:40px;outline:none;background:#fafafa;" id="f-pmin" type="number" placeholder="Min">
+        <span style="font-size:12px;color:var(--muted);">—</span>
+        <input style="width:72px;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:13px;height:40px;outline:none;background:#fafafa;" id="f-pmax" type="number" placeholder="Max">
+      </div>
+    </div>
+    <div class="sf-div"></div>
+    <div class="sf">
+      <div class="sf-label">Participants</div>
+      <select class="sf-select" id="f-group">
+        <option value="">Tous</option>
+        <option value="solo">Solo</option>
+        <option value="couple">Couple</option>
+        <option value="famille">Famille</option>
+        <option value="groupe">Groupe</option>
+      </select>
+    </div>
+    <button class="sf-btn" onclick="doSearch()">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+      Rechercher
+    </button>
+  </div>
+</div>
+
+<!-- CATEGORY TABS -->
+<div class="cat-tabs">
+  <div class="cat-tabs-inner">
+    <button class="ctab active" data-cat="all" onclick="setCat('all',this)"><span class="ctab-emoji">🗺️</span>Tous les packs</button>
+    <button class="ctab" data-cat="aventure" onclick="setCat('aventure',this)"><span class="ctab-emoji">🏔️</span>Aventure</button>
+    <button class="ctab" data-cat="culturel" onclick="setCat('culturel',this)"><span class="ctab-emoji">🕌</span>Culturel</button>
+    <button class="ctab" data-cat="wellness" onclick="setCat('wellness',this)"><span class="ctab-emoji">🧘</span>Bien-être</button>
+    <button class="ctab" data-cat="gastronomie" onclick="setCat('gastronomie',this)"><span class="ctab-emoji">🍽️</span>Gastronomie</button>
+    <button class="ctab" data-cat="famille" onclick="setCat('famille',this)"><span class="ctab-emoji">👨‍👩‍👧</span>Famille</button>
+    <button class="ctab" data-cat="romantique" onclick="setCat('romantique',this)"><span class="ctab-emoji">💑</span>Romantique</button>
+    <button class="ctab" data-cat="sahara" onclick="setCat('sahara',this)"><span class="ctab-emoji">🏜️</span>Sahara</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="res-header">
+    <div class="res-count"><strong id="res-count">—</strong> packs trouvés</div>
+    <div class="res-controls">
+      <select class="sort-sel" id="sort-sel" onchange="doSearch()">
+        <option value="rating">Mieux notés</option>
+        <option value="price-asc">Prix croissant</option>
+        <option value="price-desc">Prix décroissant</option>
+        <option value="duration-asc">Durée croissante</option>
+        <option value="duration-desc">Durée décroissante</option>
+      </select>
+      <div class="view-toggle">
+        <button class="vbtn active" id="grid-btn" onclick="setView('grid')" title="Grille">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </button>
+        <button class="vbtn" id="list-btn" onclick="setView('list')" title="Liste">
+          <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="packs-grid" id="packs-grid">
+    <div class="skeleton skel-p"></div>
+    <div class="skeleton skel-p"></div>
+    <div class="skeleton skel-p"></div>
+    <div class="skeleton skel-p"></div>
+    <div class="skeleton skel-p"></div>
+    <div class="skeleton skel-p"></div>
+  </div>
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<!-- DETAIL OVERLAY -->
+<div class="detail-overlay" id="detail-overlay">
+  <button class="d-close" onclick="closeDetail()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  <div class="detail-modal">
+    <div id="d-hero-wrap"></div>
+    <div class="d-content">
+      <div id="d-left"></div>
+      <div id="d-right"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div class="s-overlay" id="s-overlay">
+  <div class="s-card">
+    <div class="s-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <h2>Demande envoyée !</h2>
+    <p>L'agence vous contactera sous 48h avec un devis personnalisé et les détails de votre séjour.</p>
+    <div class="s-ref" id="s-ref">Référence : OTL-PACK-XXXX</div>
+    <button class="s-btn" onclick="document.getElementById('s-overlay').classList.remove('open')">Parfait !</button>
+  </div>
+</div>
+
+<script>
+const { createClient } = supabase;
+const sb = createClient(
+  'https://aclcwftbpemnflglocey.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFjbGN3ZnRicGVtbmZsZ2xvY2V5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3NTMxNzcsImV4cCI6MjA5MzMyOTE3N30.Pr2TouelsMJY_NRhSqwpkz72FYiPyXVkbTPDsQjd2Nc'
+);
+
+let allPacks=[], currentPack=null, viewMode='grid', currentCat='all';
+let currentPage=1; const PER_PAGE=9;
+
+function getDemoData(){return[
+  {id:'p1',name:'Sahara 3 Jours — Erg Chebbi',cat:'sahara',type:'aventure',destinations:['Merzouga','Erg Chebbi'],duration:3,price:3200,rating:4.9,reviews:428,agency:'Morocco Desert Tours',image:'https://images.unsplash.com/photo-1548013146-72479768bada?w=700&q=80',desc:'Le circuit sahara incontournable. Départ de Marrakech, traversée du désert, nuit en camp de luxe, lever de soleil sur les dunes et retour. Une expérience qui change la vie.',badge:'Best Seller',badgeClass:'badge-teal',includes:['Transport A/R Marrakech','Hébergement 2 nuits','Pension complète','Guide francophone','Dromadaire inclus','Activité sandboard'],excludes:['Vols','Boissons alcoolisées'],group:'couple',itinerary:[{day:1,title:'Marrakech → Ouarzazate → Dades',desc:'Départ tôt de Marrakech. Route des kasbahs, gorges du Dadès, nuit à Dades.',tags:['Kasbahs','Route']},{day:2,title:'Dades → Merzouga → Camp',desc:'Arrivée à Merzouga. Montée sur dromadaire au coucher du soleil, nuit en camp berbère de luxe avec musique et ciel étoilé.',tags:['Dromadaire','Camp','Étoiles']},{day:3,title:'Lever de soleil → Retour Marrakech',desc:'Lever de soleil depuis le sommet des dunes. Retour via Ouarzazate et Aït Benhaddou.',tags:['Lever soleil','UNESCO']}]},
+  {id:'p2',name:'Circuit Villes Impériales 7J',cat:'culturel',type:'culturel',destinations:['Rabat','Meknès','Fès','Marrakech'],duration:7,price:7500,rating:5.0,reviews:312,agency:'Imperial Morocco',image:'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=700&q=80',desc:'Le grand circuit classique du Maroc. Les 4 villes impériales en 7 jours avec un guide historien. Mosquées, médinas, souks et palais. La quintessence du Maroc.',badge:'Top Rated',badgeClass:'badge-gold',includes:['Transport privé','6 nuits hôtel 4★','Petit-déjeuner','Guide historien','Entrées monuments'],excludes:['Vols','Déjeuners','Dîners'],group:'groupe',itinerary:[{day:1,title:'Arrivée Rabat',desc:'Accueil et installation. Visite de la Kasbah des Oudayas et de la Tour Hassan.',tags:['Rabat','Tour Hassan']},{day:2,title:'Rabat → Meknès → Volubilis',desc:'Site romain de Volubilis, Meknès, mausolée Moulay Ismail.',tags:['Romain','Meknès']},{day:3,title:'Meknès → Fès',desc:'Arrivée à Fès. Première découverte de la médina.',tags:['Fès','Médina']},{day:4,title:'Fès — Médina',desc:'Journée complète dans la médina de Fès. Tanneries, Medersa Bou Inania, souks.',tags:['Tanneries','Artisans']},{day:5,title:'Fès → Marrakech via Atlas',desc:'Traversée du col du Tichka, panoramas sur le Haut Atlas.',tags:['Atlas','Tichka']},{day:6,title:'Marrakech — Médina',desc:'Jemaa el-Fna, souks, jardins Majorelle, musée Yves Saint Laurent.',tags:['Majorelle','Souks']},{day:7,title:'Départ',desc:'Petit-déjeuner, transfert aéroport.',tags:['Fin circuit']}]},
+  {id:'p3',name:'Wellness Retreat Marrakech 5J',cat:'wellness',type:'wellness',destinations:['Marrakech','Palmeraie'],duration:5,price:5800,rating:4.9,reviews:187,agency:'Zen Maroc Spa',image:'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=700&q=80',desc:'5 jours de régénération absolue dans la Palmeraie de Marrakech. Yoga, hammam royal, massages argan, alimentation bio et méditation au coucher du soleil.',badge:'Wellness',badgeClass:'badge-purple',includes:['Riad luxe 5 nuits','Pension complète bio','Yoga quotidien','Hammam & massages','Méditation','Cours cuisine saine'],excludes:['Vols','Transferts','Activités optionnelles'],group:'couple',itinerary:[{day:1,title:'Arrivée & Orientation',desc:'Accueil, yoga d\'ouverture, dîner bienvenue à base de produits locaux.',tags:['Yoga','Bio']},{day:2,title:'Hammam Royal & Soins',desc:'Hammam traditionnel complet, gommage argan, massage huile de figue de barbarie.',tags:['Hammam','Argan']},{day:3,title:'Méditation & Marché Bio',desc:'Méditation au lever du soleil, visite du marché bio de la Palmeraie, atelier cuisine.',tags:['Méditation','Cuisine']},{day:4,title:'Yoga & Nature',desc:'Randonnée douce dans les jardins, yoga restaurateur, soins du soir.',tags:['Nature','Restauration']},{day:5,title:'Clôture & Départ',desc:'Yoga d\'intégration, bilan bien-être, cadeaux naturels marocains.',tags:['Bilan','Cadeaux']}]},
+  {id:'p4',name:'Aventure Atlas & Toubkal 4J',cat:'aventure',type:'aventure',destinations:['Imlil','Toubkal','Atlas'],duration:4,price:4200,rating:4.8,reviews:156,agency:'Atlas Adventure',image:'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=700&q=80',desc:'Ascension du Toubkal (4167m), plus haut sommet d\'Afrique du Nord. Trek dans les villages berbères, nuit en refuge et panoramas extraordinaires.',badge:'Aventure',badgeClass:'badge-red',includes:['Transport Marrakech-Imlil','Guide montagne certifié','Refuge 2 nuits','Riad 1 nuit','Pension complète','Équipement sécurité'],excludes:['Vols','Équipement personnel','Pourboires'],group:'groupe',itinerary:[{day:1,title:'Marrakech → Imlil',desc:'Arrivée à Imlil (1740m), briefing guide, nuit en riad de montagne.',tags:['Imlil','Altitude']},{day:2,title:'Ascension Toubkal',desc:'Départ 6h du matin. Montée vers le refuge Neltner (3207m). Pause déjeuner panoramique.',tags:['Montée','Refuge']},{day:3,title:'Sommet & Descente',desc:'Départ 5h. Sommet Toubkal (4167m). Descente vers Imlil. Célébration.',tags:['Sommet','4167m']},{day:4,title:'Villages Berbères → Marrakech',desc:'Visite d\'Aremd, déjeuner berbère, retour Marrakech.',tags:['Berbère','Tradition']}]},
+  {id:'p5',name:'Tour Gastronomique Maroc 6J',cat:'gastronomie',type:'gastronomie',destinations:['Marrakech','Fès','Essaouira'],duration:6,price:6800,rating:5.0,reviews:203,agency:'Morocco Food Tours',image:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&q=80',desc:'6 jours de découverte culinaire à travers le Maroc. Marchés, cours de cuisine, restaurants étoilés, coopératives d\'argan et vignobles marocains.',badge:'Gastronomy',badgeClass:'badge-gold',includes:['Transport privé','5 nuits riad 4★','Petits-déjeuners','3 cours cuisine','Dégustations','Guide gastronomique'],excludes:['Vols','Certains dîners'],group:'groupe',itinerary:[{day:1,title:'Marrakech — Marchés & Épices',desc:'Tour des souks alimentaires, dégustation street food Jemaa el-Fna.',tags:['Souk','Street food']},{day:2,title:'Cours Cuisine Marrakech',desc:'Marché + cours de cuisine tajine, couscous et pastilla avec chef étoilé.',tags:['Tajine','Couscous']},{day:3,title:'Essaouira — Fruits de Mer',desc:'Port de pêche, huîtres, poissons grillés, coopérative argan.',tags:['Fruits de mer','Argan']},{day:4,title:'Fès — Médina Gastronomique',desc:'Souk al-Attarine, bastilla au pigeon, café maure.',tags:['Bastilla','Épices']},{day:5,title:'Cours Cuisine Fès',desc:'Marché au viande halal, cours de cuisine fassi traditionnelle.',tags:['Fassi','Tradition']},{day:6,title:'Vignoble Meknès → Départ',desc:'Visite cave vinification marocaine, dégustation, retour Casablanca.',tags:['Vin Maroc','Meknès']}]},
+  {id:'p6',name:'Pack Famille Agadir & Atlas 7J',cat:'famille',type:'famille',destinations:['Agadir','Atlas','Taroudant'],duration:7,price:5500,rating:4.7,reviews:234,agency:'Family Morocco',image:'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=700&q=80',desc:'7 jours spécialement conçus pour les familles. Plage, activités enfants, excursions légères, chameau et cuisine participative. Zéro stress, 100% souvenirs.',badge:'Famille',badgeClass:'badge-green',includes:['Hôtel 4★ family room','Pension complète','Transport','Activités enfants','Guide bilingue','Entrées parcs'],excludes:['Vols','Dépenses personnelles'],group:'famille',itinerary:[{day:1,title:'Arrivée Agadir',desc:'Accueil en famille, installation, plage de la Corniche.',tags:['Plage','Arrivée']},{day:2,title:'Plage & Activités Nautiques',desc:'Beach volley, jet ski (ados), jeux de plage, crème solaire.',tags:['Nautique','Fun']},{day:3,title:'Parc Souss-Massa',desc:'Observation flamants roses, oiseaux migrateurs, pique-nique en nature.',tags:['Nature','Oiseaux']},{day:4,title:'Taroudant — Ville Berbère',desc:'Remparts, souks, atelier poterie pour enfants, tajine déjeuner.',tags:['Artisanat','Histoire']},{day:5,title:'Excursion Imouzzer',desc:'Cascade, trek facile, déjeuner berbère chez l\'habitant.',tags:['Cascade','Trek facile']},{day:6,title:'Soirée Traditionnelle',desc:'Dîner riad, spectacle fantasia, henné.',tags:['Spectacle','Fantasia']},{day:7,title:'Détente & Départ',desc:'Dernier bain de mer, shopping souvenirs, transfert aéroport.',tags:['Souvenirs']}]},
+  {id:'p7',name:'Lune de Miel Maroc 8J',cat:'romantique',type:'romantique',destinations:['Marrakech','Sahara','Essaouira'],duration:8,price:12000,rating:5.0,reviews:167,agency:'Romantic Morocco',image:'https://images.unsplash.com/photo-1539278670307-a69d04dc8a75?w=700&q=80',desc:'8 jours de magie romantique. Riad luxe avec jacuzzi privatif, nuit en camp privatif dans le Sahara, hammam duo, dîners aux chandelles et couchers de soleil inoubliables.',badge:'Romantique',badgeClass:'badge-purple',includes:['Riad luxe & camp privatif','Pension complète','Champagne à l\'arrivée','Hammam duo quotidien','Dîners romantiques','Transport 4x4 privatif','Guide personnel'],excludes:['Vols internationaux'],group:'couple',itinerary:[{day:1,title:'Marrakech — Arrivée Romantique',desc:'Accueil avec pétales de roses, riad luxe, dîner aux chandelles sur rooftop.',tags:['Roses','Luxe']},{day:2,title:'Marrakech — Journée Privée',desc:'Hammam duo, massage duo argan, déjeuner secret, shopping VIP souks.',tags:['Hammam duo','VIP']},{day:3,title:'Marrakech → Ouarzazate',desc:'Route des kasbahs en 4x4 privatif, plateau du cinéma d\'Ouarzazate.',tags:['Cinéma','Kasbah']},{day:4,title:'Désert — Arrivée en Camp Privatif',desc:'Chameau au coucher du soleil, camp privatif avec bain à ciel ouvert.',tags:['Privatif','Étoiles']},{day:5,title:'Désert — Lever de Soleil & SPA',desc:'Lever de soleil depuis la dune, petit-déjeuner berbère, relaxation.',tags:['Lever soleil','Spa']},{day:6,title:'Essaouira — Côte Romantique',desc:'Remparts au coucher du soleil, musique gnawa, cœur dessiné dans le sable.',tags:['Ocean','Gnawa']},{day:7,title:'Essaouira — Farniente',desc:'Spa face à l\'Atlantique, déjeuner fruits de mer, apéritif coucher soleil.',tags:['Atlantique','Farniente']},{day:8,title:'Retour & Souvenirs',desc:'Dernier hammam, shopping bijoux berbères, transfert.',tags:['Bijoux','Souvenir']}]},
+  {id:'p8',name:'Marrakech Escapade 3J',cat:'culturel',type:'culturel',destinations:['Marrakech'],duration:3,price:2800,rating:4.8,reviews:389,agency:'Marrakech Experts',image:'https://images.unsplash.com/photo-1489493887464-892be6d1daae?w=700&q=80',desc:'Le mini-séjour idéal pour découvrir Marrakech en 3 jours. Médina, souks, hammam, Jardins Majorelle et le meilleur de la gastronomie locale.',badge:'Week-end',badgeClass:'badge-teal',includes:['Riad 4★ 2 nuits','Petits-déjeuners','Guide 1 jour','Hammam','Entrée Majorelle','Dîner gala'],excludes:['Vols','Déjeuners','Activités optionnelles'],group:'couple',itinerary:[{day:1,title:'Arrivée & Médina',desc:'Accueil riad, découverte Jemaa el-Fna, dîner panoramique.',tags:['Médina','Jemaa el-Fna']},{day:2,title:'Souks, Jardin & Hammam',desc:'Souks avec guide local, Jardins Majorelle, hammam traditionnel.',tags:['Majorelle','Hammam']},{day:3,title:'Marché & Départ',desc:'Marché alimentaire, shopping, transfert.',tags:['Shopping','Départ']}]},
+  {id:'p9',name:'Grand Tour Maroc 14J',cat:'culturel',type:'culturel',destinations:['Casablanca','Rabat','Fès','Merzouga','Marrakech','Essaouira'],duration:14,price:14500,rating:5.0,reviews:98,agency:'Morocco Grand Tours',image:'https://images.unsplash.com/photo-1553179459-4514c0f52f40?w=700&q=80',desc:'Le grand tour complet du Maroc de l\'Atlantique au Sahara. 14 jours pour découvrir la diversité extraordinaire du Royaume : villes impériales, désert, côte atlantique et montagne.',badge:'Grand Tour',badgeClass:'badge-gold',includes:['13 nuits hôtels 4-5★','Pension complète','Transport luxe','Guide expert 14j','Toutes entrées','Chameau & camp sahara','Vols intérieurs inclus'],excludes:['Vols internationaux','Dépenses personnelles'],group:'groupe',itinerary:[{day:1,title:'Casablanca',desc:'Mosquée Hassan II, Art Déco, Corniche.',tags:['Hassan II','Art Déco']},{day:2,title:'Rabat',desc:'Kasbah des Oudayas, Chellah, Tour Hassan.',tags:['Rabat','Patrimoine']},{day:3,title:'Meknès & Volubilis',desc:'Site romain de Volubilis, Meknès impériale.',tags:['Romain']},{day:4,title:'Fès — Médina',desc:'Médina millénaire, tanneries, artisans.',tags:['Fès']},{day:5,title:'Fès → Ifrane → Azrou',desc:'Cèdres d\'Azrou, singes magots, route du Moyen Atlas.',tags:['Cèdres','Singes']},{day:6,title:'Azrou → Merzouga',desc:'Traversée de l\'Erg Chebbi, arrivée au Sahara.',tags:['Sahara']},{day:7,title:'Sahara',desc:'Dromadaire, camp de luxe, astronomie.',tags:['Dromadaire','Étoiles']},{day:8,title:'Sahara → Dades',desc:'Gorges du Dadès, kasbahs de la vallée.',tags:['Gorges','Kasbahs']},{day:9,title:'Dades → Ouarzazate',desc:'Aït Benhaddou UNESCO, studios de cinéma.',tags:['UNESCO','Cinéma']},{day:10,title:'Ouarzazate → Marrakech',desc:'Col du Tichka, premières vues sur Marrakech.',tags:['Tichka']},{day:11,title:'Marrakech',desc:'Médina, souks, Palais Bahia.',tags:['Bahia','Souks']},{day:12,title:'Marrakech — Jardins & Gastronomie',desc:'Majorelle, déjeuner riad, hammam.',tags:['Majorelle','Hammam']},{day:13,title:'Essaouira',desc:'Médina UNESCO, remparts, musique gnawa.',tags:['Essaouira']},{day:14,title:'Retour',desc:'Transfert Marrakech aéroport.',tags:['Fin']}]},
+  {id:'p10',name:'Surf & Liberté Côte Atlantique 6J',cat:'aventure',type:'aventure',destinations:['Taghazout','Essaouira','Agadir'],duration:6,price:4800,rating:4.8,reviews:143,agency:'Surf Morocco',image:'https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=700&q=80',desc:'6 jours de surf sur les meilleures vagues de la côte atlantique marocaine. Taghazout, Essaouira et Agadir pour tous niveaux, avec instructeurs certifiés ISA.',badge:'Surf',badgeClass:'badge-teal',includes:['Surf camp 5 nuits','Pension complète','Cours quotidiens','Matériel surf','Guide surf ISA','Transferts'],excludes:['Vols','Équipement perso'],group:'groupe',itinerary:[{day:1,title:'Arrivée Taghazout',desc:'Accueil surf camp, évaluation niveau, session découverte.',tags:['Taghazout','Découverte']},{day:2,title:'Anchor Point — Taghazout',desc:'Meilleure vague du Maroc pour intermédiaires. Leçon 3h.',tags:['Anchor Point']},{day:3,title:'Hash Point & Théorie',desc:'Session matin, théorie houle & météo, session soir.',tags:['Houle','Théorie']},{day:4,title:'Road Trip Essaouira',desc:'Vagues d\'Essaouira, kitesurf observation, médina.',tags:['Essaouira','Kite']},{day:5,title:'Agadir — Plage & Progression',desc:'Session longue plage Agadir, vidéo analyse.',tags:['Progression','Vidéo']},{day:6,title:'Session Finale & Départ',desc:'Dernière session, certificat ISA, soirée adieu.',tags:['Certificat ISA']}]},
+  {id:'p11',name:'Chefchaouen & Rif Secrets 4J',cat:'culturel',type:'culturel',destinations:['Chefchaouen','Rif','Tétouan'],duration:4,price:3600,rating:4.9,reviews:221,agency:'Blue City Tours',image:'https://images.unsplash.com/photo-1553179459-4514c0f52f40?w=700&q=80',desc:'4 jours dans le joyau bleu du Maroc. Ruelles azurées, randonnées dans le Rif, cascades secrètes, artisanat berbère et couchers de soleil violets inoubliables.',badge:'Secret',badgeClass:'badge-purple',includes:['Riad bleu 3 nuits','Petit-déjeuner','Guide local','Randonnée Rif','Visite Tétouan','Transport'],excludes:['Vols','Déjeuners'],group:'groupe',itinerary:[{day:1,title:'Arrivée Chefchaouen',desc:'Découverte des ruelles bleues, coucher de soleil sur la place Uta el-Hammam.',tags:['Bleu','Médina']},{day:2,title:'Randonnée Rif',desc:'Trek 3h vers les cascades d\'Akchour, pique-nique montagne.',tags:['Cascade','Trek']},{day:3,title:'Artisans & Marchés',desc:'Coopérative textile, atelier poterie berbère, souk traditionnel.',tags:['Artisanat','Souk']},{day:4,title:'Tétouan UNESCO & Retour',desc:'Médina de Tétouan, musée marocain, retour.',tags:['UNESCO','Tétouan']}]},
+  {id:'p12',name:'Éco-Trek Vallée Draa 5J',cat:'aventure',type:'aventure',destinations:['Draa Valley','Zagora','Oasis'],duration:5,price:4100,rating:4.7,reviews:89,agency:'Green Morocco',image:'https://images.unsplash.com/photo-1444201983204-c43cbd584d93?w=700&q=80',desc:'5 jours d\'éco-tourisme responsable dans la magnifique Vallée du Draa. Palmiers à perte de vue, oasis secrètes, nuits chez l\'habitant et zéro plastique.',badge:'Éco',badgeClass:'badge-green',includes:['Hébergement écoresponsable','Pension complète bio','Guide certifié écotourisme','Vélos pour exploration','Plantation d\'arbre incluse'],excludes:['Vols','Transport Marrakech-Draa'],group:'groupe',itinerary:[{day:1,title:'Arrivée Zagora',desc:'Accueil éco-lodge, orientation, balade à vélo au coucher du soleil.',tags:['Zagora','Vélo']},{day:2,title:'Palmeraie & Oasis',desc:'Trek 15km dans la palmeraie, oasis secrète, déjeuner chez berbère.',tags:['Palmeraie','Trek']},{day:3,title:'Ksar Tissergate',desc:'Village de potiers, musée de l\'oasis, atelier plantation.',tags:['Village','Plantation']},{day:4,title:'Draa Profond',desc:'Bivouac écoresponsable, astronomie sans lumière artificielle.',tags:['Bivouac','Étoiles']},{day:5,title:'Retour & Bilan',desc:'Visite coopérative de femmes, départ avec souvenirs artisanaux.',tags:['Coopérative','Souvenir']}]},
+];}
+
+async function loadData(){
+  showSkeletons();
+  try{
+    const{data,error}=await sb.from('packs').select(`*,prestataires(business_name,city,region,is_verified,phone,email)`).eq('is_active',true).limit(50);
+    if(error||!data?.length){allPacks=getDemoData();}
+    else{allPacks=data.map(p=>({id:p.id,name:p.name,cat:p.type||'culturel',type:p.type,destinations:p.destinations||[p.prestataires?.city||'Maroc'],duration:p.duration_days,price:p.price_per_person,rating:p.rating_avg||4.7,reviews:p.rating_count||0,agency:p.prestataires?.business_name||'Agence Otla.ma',image:p.cover_image||'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=700&q=80',desc:p.description_fr||'',badge:'',badgeClass:'',includes:p.includes||[],excludes:p.excludes||[],group:'groupe',itinerary:p.itinerary||[]}));}
+    applyFilters();
+  }catch(e){allPacks=getDemoData();applyFilters();}
+}
+
+function applyFilters(){
+  const dest=document.getElementById('f-dest').value.trim().toLowerCase();
+  const name=document.getElementById('f-name').value.trim().toLowerCase();
+  const dur=document.getElementById('f-dur').value;
+  const pmin=parseFloat(document.getElementById('f-pmin').value)||0;
+  const pmax=parseFloat(document.getElementById('f-pmax').value)||Infinity;
+  const group=document.getElementById('f-group').value;
+  const sort=document.getElementById('sort-sel').value;
+
+  let f=allPacks.filter(p=>{
+    if(currentCat!=='all'&&p.cat!==currentCat)return false;
+    if(dest&&!p.destinations?.some(d=>d.toLowerCase().includes(dest))&&!p.name.toLowerCase().includes(dest))return false;
+    if(name&&!p.name.toLowerCase().includes(name))return false;
+    if(dur){
+      const[a,b]=dur.split('-').map(x=>x==='+'?999:parseInt(x));
+      if(p.duration<a||p.duration>(b||a))return false;
+    }
+    if(p.price<pmin||p.price>pmax)return false;
+    if(group&&p.group&&p.group!==group&&!(group==='couple'&&p.group==='romantique'))return false;
+    return true;
+  });
+
+  if(sort==='price-asc')f.sort((a,b)=>a.price-b.price);
+  else if(sort==='price-desc')f.sort((a,b)=>b.price-a.price);
+  else if(sort==='rating')f.sort((a,b)=>b.rating-a.rating);
+  else if(sort==='duration-asc')f.sort((a,b)=>a.duration-b.duration);
+  else if(sort==='duration-desc')f.sort((a,b)=>b.duration-a.duration);
+
+  document.getElementById('res-count').textContent=f.length;
+  currentPage=1;
+  renderPage(f);
+}
+
+function renderPage(packs){
+  const grid=document.getElementById('packs-grid');
+  const start=(currentPage-1)*PER_PAGE;
+  const page=packs.slice(start,start+PER_PAGE);
+  if(!packs.length){
+    grid.innerHTML=`<div class="empty"><div class="empty-icon">🎒</div><h3>Aucun pack trouvé</h3><p>Modifiez vos filtres pour voir plus de résultats</p><button class="empty-btn" onclick="resetFilters()">Réinitialiser</button></div>`;
+    document.getElementById('pagination').innerHTML='';return;
+  }
+  grid.innerHTML=page.map(p=>cardHTML(p)).join('');
+  renderPagination(packs.length);
+}
+
+function cardHTML(p){
+  const isList=viewMode==='list';
+  const destStr=p.destinations?.slice(0,3).join(' · ')||'Maroc';
+  const incShort=(p.includes||[]).slice(0,3).map(i=>`<div class="p-include"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>${i.split(' ').slice(0,3).join(' ')}</div>`).join('');
+  return`
+  <div class="p-card${isList?' list-card':''}" onclick="openDetail('${p.id}')">
+    <div class="p-img-wrap">
+      <img class="p-img" src="${p.image}" loading="lazy" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&q=80'">
+      <div class="p-badges">${p.badge?`<span class="p-badge ${p.badgeClass}">${p.badge}</span>`:''}</div>
+      <button class="p-fav" onclick="event.stopPropagation();toggleFav(this,'${p.id}')"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+      <div class="p-duration"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${p.duration} jour${p.duration>1?'s':''}</div>
+    </div>
+    <div class="p-body">
+      <div class="p-top">
+        <div>
+          <div class="p-name">${p.name}</div>
+          <div class="p-loc"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>${destStr}</div>
+        </div>
+        <div class="p-price-wrap">
+          <div class="p-price">${p.price.toLocaleString()}</div>
+          <div class="p-price-unit">MAD / pers.</div>
+          <div class="p-price-total">${(p.price*2).toLocaleString()} MAD × 2</div>
+        </div>
+      </div>
+      <div class="p-rating">
+        <span class="p-stars">${'★'.repeat(Math.round(p.rating))}</span>
+        <span class="p-rn">${p.rating.toFixed(1)}</span>
+        <span class="p-rc">(${p.reviews} avis)</span>
+      </div>
+      <div class="p-includes">${incShort}</div>
+      <p class="p-desc">${p.desc.slice(0,120)}${p.desc.length>120?'...':''}</p>
+      <div class="p-footer">
+        <div class="p-agency"><svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>${p.agency}</div>
+        <button class="p-btn" onclick="event.stopPropagation();openDetail('${p.id}')">Voir le pack</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function openDetail(id){
+  const p=allPacks.find(x=>x.id==id);
+  if(!p)return;
+  currentPack=p;
+  const destStr=p.destinations?.join(' · ')||'Maroc';
+
+  // Hero
+  document.getElementById('d-hero-wrap').innerHTML=`
+  <div class="d-hero">
+    <img class="d-hero-img" src="${p.image}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&q=80'">
+    <div class="d-hero-overlay"></div>
+    <div class="d-hero-content">
+      <div class="d-hero-badges">
+        ${p.badge?`<span class="p-badge ${p.badgeClass}">${p.badge}</span>`:''}
+        <span class="p-badge badge-teal">🏢 ${p.agency}</span>
+      </div>
+      <div class="d-hero-title">${p.name}</div>
+      <div class="d-hero-meta">
+        <div class="d-hero-meta-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${p.duration} jours / ${p.duration-1} nuits</div>
+        <div class="d-hero-meta-item"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>${destStr}</div>
+        <div class="d-hero-meta-item" style="color:var(--gold);">★ ${p.rating.toFixed(1)} (${p.reviews} avis)</div>
+      </div>
+    </div>
+  </div>`;
+
+  // Itinerary HTML
+  const itinHTML=(p.itinerary||[]).map(d=>`
+  <div class="itin-day">
+    <div class="itin-num">${d.day}</div>
+    <div class="itin-body">
+      <div class="itin-day-label">Jour ${d.day}</div>
+      <div class="itin-title">${d.title}</div>
+      <div class="itin-desc">${d.desc}</div>
+      <div class="itin-tags">${(d.tags||[]).map(t=>`<span class="itin-tag">${t}</span>`).join('')}</div>
+    </div>
+  </div>`).join('');
+
+  // Includes
+  const incHTML=(p.includes||[]).map(i=>`<div class="inc-item"><svg class="ok" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>${i}</div>`).join('');
+  const excHTML=(p.excludes||[]).map(i=>`<div class="inc-item exc"><svg class="no" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>${i}</div>`).join('');
+
+  const reviews=[
+    {n:'Sophie L.',c:'France 🇫🇷',d:'Avril 2025',r:5,t:'Circuit absolument parfait ! Organisation irréprochable, guide passionné et hébergements de qualité. Je recommande les yeux fermés à tous mes amis.'},
+    {n:'Ahmed K.',c:'Belgique 🇧🇪',d:'Mars 2025',r:5,t:'La meilleure décision de vacances de notre vie. Tout était prévu, aucun stress, que du bonheur. Merci Otla.ma !'},
+  ];
+
+  document.getElementById('d-left').innerHTML=`
+  <div class="d-sec">
+    <h3><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Description</h3>
+    <p class="d-desc">${p.desc}</p>
+  </div>
+  <div class="d-divider"></div>
+  ${itinHTML?`
+  <div class="d-sec">
+    <h3><svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>Programme détaillé</h3>
+    <div class="itinerary">${itinHTML}</div>
+  </div>
+  <div class="d-divider"></div>`:''}
+  <div class="d-sec">
+    <h3><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Inclus & Non inclus</h3>
+    <div class="inc-grid">${incHTML}${excHTML}</div>
+  </div>
+  <div class="d-divider"></div>
+  <div class="d-sec">
+    <h3><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Avis voyageurs (${p.reviews})</h3>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;padding:14px;background:var(--bg);border-radius:var(--radius);">
+      <div style="font-size:48px;font-weight:800;line-height:1;">${p.rating.toFixed(1)}</div>
+      <div><div style="color:var(--gold);font-size:20px;">${'★'.repeat(Math.round(p.rating))}</div><div style="font-size:13px;color:var(--muted);margin-top:3px;">${p.reviews} avis vérifiés</div></div>
+    </div>
+    ${reviews.map(r=>`
+    <div class="rv-card">
+      <div class="rv-top">
+        <div class="rv-avatar">${r.n.charAt(0)}</div>
+        <div><div class="rv-name">${r.n} · ${r.c}</div><div class="rv-info">${r.d}</div><div class="rv-stars">${'★'.repeat(r.r)}</div></div>
+      </div>
+      <div class="rv-text">${r.t}</div>
+    </div>`).join('')}
+  </div>`;
+
+  // Booking card
+  const today=new Date().toISOString().split('T')[0];
+  document.getElementById('d-right').innerHTML=`
+  <div class="bk-card">
+    <div class="bk-header"><h3>Demander ce pack</h3><p>Devis gratuit sous 48h</p></div>
+    <div class="bk-body">
+      <div class="bk-price-row"><div class="bk-price">${p.price.toLocaleString()} MAD</div><div class="bk-unit">/ pers.</div></div>
+      <div class="bk-rating"><svg viewBox="0 0 24 24" width="12" height="12"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${p.rating.toFixed(1)} · ${p.reviews} avis · ${p.duration} jours</div>
+      <div class="bk-field"><label>Date de départ souhaitée</label><input type="date" id="bk-date" min="${today}"></div>
+      <div class="bk-field"><label>Nombre de participants</label>
+        <select id="bk-pax" onchange="updateTotal()">
+          <option value="1">1 personne</option>
+          <option value="2" selected>2 personnes</option>
+          <option value="3">3 personnes</option>
+          <option value="4">4 personnes</option>
+          <option value="5">5 personnes</option>
+          <option value="6">6 personnes</option>
+          <option value="7">7 personnes</option>
+          <option value="8">8+ personnes</option>
+        </select>
+      </div>
+      <div class="bk-breakdown" id="bk-bd">
+        <div class="bk-row"><span>${p.price.toLocaleString()} MAD × 2 pers.</span><span>${(p.price*2).toLocaleString()} MAD</span></div>
+        <div class="bk-row"><span>Frais de dossier</span><span>Gratuit</span></div>
+        <div class="bk-row"><span>Total estimé</span><span>${(p.price*2).toLocaleString()} MAD</span></div>
+      </div>
+      <div class="bk-field"><label>Prénom & Nom</label><input type="text" id="bk-name" placeholder="Mohammed Alaoui"></div>
+      <div class="bk-field"><label>Email</label><input type="email" id="bk-email" placeholder="vous@exemple.com"></div>
+      <div class="bk-field"><label>Téléphone</label><input type="tel" id="bk-phone" placeholder="+212 6XX XXX XXX"></div>
+      <div class="bk-field"><label>Demandes spéciales</label><textarea id="bk-msg" placeholder="Allergies alimentaires, besoins particuliers, questions..."></textarea></div>
+      <button class="bk-btn" onclick="sendRequest()">Demander un devis gratuit</button>
+      <div class="bk-note">Sans engagement · L'agence vous répond sous 48h</div>
+      <div class="bk-features">
+        <div class="bk-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Agence vérifiée Otla.ma</div>
+        <div class="bk-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Devis personnalisé gratuit</div>
+        <div class="bk-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Annulation flexible possible</div>
+        <div class="bk-feature"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Support Otla.ma 7j/7</div>
+      </div>
+    </div>
+  </div>`;
+
+  document.getElementById('detail-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function updateTotal(){
+  if(!currentPack)return;
+  const pax=parseInt(document.getElementById('bk-pax')?.value)||2;
+  const total=(currentPack.price*pax).toLocaleString();
+  const bd=document.getElementById('bk-bd');
+  if(bd)bd.innerHTML=`
+    <div class="bk-row"><span>${currentPack.price.toLocaleString()} MAD × ${pax} pers.</span><span>${total} MAD</span></div>
+    <div class="bk-row"><span>Frais de dossier</span><span>Gratuit</span></div>
+    <div class="bk-row"><span>Total estimé</span><span>${total} MAD</span></div>`;
+}
+
+async function sendRequest(){
+  const name=document.getElementById('bk-name')?.value.trim();
+  const email=document.getElementById('bk-email')?.value.trim();
+  if(!name||!email){showToast('Remplissez nom et email','⚠️');return;}
+  const btn=document.querySelector('.bk-btn');
+  btn.textContent='Envoi en cours...';btn.disabled=true;
+  await new Promise(r=>setTimeout(r,1500));
+  try{
+    const pax=parseInt(document.getElementById('bk-pax')?.value)||2;
+    await sb.from('reservations').insert({
+      type:'pack',status:'pending',payment_status:'pending',
+      guest_name:name,guest_email:email,
+      guest_phone:document.getElementById('bk-phone')?.value||'',
+      check_in:document.getElementById('bk-date')?.value||null,
+      guests_adults:pax,
+      total_price:currentPack?.price*pax,currency:'MAD',
+      special_requests:document.getElementById('bk-msg')?.value||''
+    });
+  }catch(e){console.log(e);}
+  closeDetail();
+  const ref='OTL-PACK-'+Math.random().toString(36).substr(2,6).toUpperCase();
+  document.getElementById('s-ref').textContent='Référence : '+ref;
+  document.getElementById('s-overlay').classList.add('open');
+  btn.textContent='Demander un devis gratuit';btn.disabled=false;
+}
+
+function closeDetail(){document.getElementById('detail-overlay').classList.remove('open');document.body.style.overflow='';currentPack=null;}
+function doSearch(){applyFilters();}
+function setCat(cat,btn){currentCat=cat;document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');applyFilters();}
+function setView(mode){viewMode=mode;document.getElementById('packs-grid').classList.toggle('list-view',mode==='list');document.getElementById('grid-btn').classList.toggle('active',mode==='grid');document.getElementById('list-btn').classList.toggle('active',mode==='list');applyFilters();}
+function resetFilters(){['f-dest','f-name','f-pmin','f-pmax'].forEach(id=>document.getElementById(id).value='');document.getElementById('f-dur').value='';document.getElementById('f-group').value='';currentCat='all';document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('active'));document.querySelector('.ctab[data-cat="all"]').classList.add('active');applyFilters();}
+function toggleFav(btn,id){btn.classList.toggle('liked');showToast(btn.classList.contains('liked')?'Ajouté aux favoris':'Retiré des favoris','♥');}
+function showSkeletons(){document.getElementById('packs-grid').innerHTML=Array(6).fill('<div class="skeleton skel-p"></div>').join('');}
+function showToast(msg,icon='✓'){document.getElementById('t-msg').textContent=msg;document.getElementById('t-icon').textContent=icon;const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+function renderPagination(total){const pages=Math.ceil(total/PER_PAGE);const pag=document.getElementById('pagination');if(pages<=1){pag.innerHTML='';return;}let h=`<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;for(let i=1;i<=pages;i++){if(i===1||i===pages||Math.abs(i-currentPage)<=1)h+=`<button class="page-btn${i===currentPage?' active':''}" onclick="goPage(${i})">${i}</button>`;else if(Math.abs(i-currentPage)===2)h+=`<span style="padding:0 4px;color:var(--muted);">…</span>`;}h+=`<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===pages?'disabled':''}>›</button>`;pag.innerHTML=h;}
+function goPage(p){currentPage=p;applyFilters();window.scrollTo({top:300,behavior:'smooth'});}
+
+loadData();
+['f-dest','f-name'].forEach(id=>document.getElementById(id).addEventListener('keypress',e=>{if(e.key==='Enter')doSearch();}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDetail();document.getElementById('s-overlay').classList.remove('open');}});
+
+// ── URL PARAMS ──────────────────────────────
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const dest = params.get('dest');
+  if (dest) {
+    const f = document.getElementById('f-dest') || document.getElementById('f-city') || document.getElementById('f-region');
+    if (f) { f.value = dest; setTimeout(() => { if(typeof doSearch === 'function') doSearch(); }, 300); }
+  }
+})();
+
+</script>
+</body>
+</html>
